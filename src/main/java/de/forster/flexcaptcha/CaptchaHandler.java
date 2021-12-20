@@ -1,6 +1,10 @@
-package de.forster.flexcaptcha.core;
+package de.forster.flexcaptcha;
 
 import java.io.Serializable;
+
+import de.forster.flexcaptcha.enums.Case;
+import de.forster.flexcaptcha.rendering.CaptchaImageRenderer;
+import de.forster.flexcaptcha.textgen.impl.CaptchaTextGenerator;
 
 /**
  * Interface for the various ways in which a captcha could potentially be
@@ -10,24 +14,6 @@ import java.io.Serializable;
  *
  */
 public interface CaptchaHandler {
-
-	/**
-	 * Generates a captcha of a given character length and salts the hashed solution
-	 * with the given object for checking authenticity during verification. Uses the
-	 * library default character base for randomizing the captcha string with mixed
-	 * case.
-	 * 
-	 * @param length     specifies the length
-	 * @param saltSource Object used during creation of the captcha token to ensure
-	 *                   authenticity
-	 * @return Captcha object containing the image data of the visual captcha and
-	 *         the token containing the hashed and salted solution
-	 */
-	default public Captcha generate(int length, Serializable saltSource, CaptchaImageRenderer renderer, int height, int width) {
-		CaptchaTextGenerator generator = new CaptchaTextGenerator();
-		String defaultCharBase = generator.getDEFAULT_CHARACTER_BASE();
-		return generate(length, defaultCharBase, saltSource, renderer, height, width);
-	}
 
 	/**
 	 * Generates a captcha of a given character length and salts the hashed solution
@@ -43,8 +29,8 @@ public interface CaptchaHandler {
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */
-	default public Captcha generate(int length, String characterSource, Serializable saltSource, CaptchaImageRenderer renderer, int height, int width) {
-		return generate(length, characterSource, Case.MIXEDCASE, saltSource, renderer, height, width);
+	default public Captcha generate(int length, Serializable saltSource, CaptchaTextGenerator textgenerator, CaptchaImageRenderer renderer, int height, int width) {
+		return generate(length,  saltSource, textgenerator, Case.MIXEDCASE, renderer, height, width);
 	}
 
 	/**
@@ -63,7 +49,7 @@ public interface CaptchaHandler {
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */
-	public Captcha generate(int length, String characterSource, Case charCase, Serializable saltSource, CaptchaImageRenderer renderer, int height, int width);
+	public Captcha generate(int length,  Serializable saltSource, CaptchaTextGenerator textgenerator, Case charCase, CaptchaImageRenderer renderer, int height, int width);
 
 	/**
 	 * Generates a captcha from a given string and salt object

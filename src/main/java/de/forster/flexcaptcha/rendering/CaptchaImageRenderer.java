@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.core;
+package de.forster.flexcaptcha.rendering;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;

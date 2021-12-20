@@ -1,9 +1,13 @@
-package de.forster.flexcaptcha.core;
+package de.forster.flexcaptcha.textgen.impl;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
+
+import de.forster.flexcaptcha.enums.Case;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author Yannick Forster
@@ -12,48 +16,9 @@ import org.apache.commons.lang3.StringUtils;
  * accept a String representing the image content and the solution for
  * the Captcha for further processing
  */
-public class CaptchaTextGenerator {
-	
-	private final String DEFAULT_CHARACTER_BASE = "abcdefghjkmpqrstuvwxy2345689";
-
-	/**
-	 * Generates a new randomized String of mixed case letters and numbers of the
-	 * given length
-	 * 
-	 * @param length the generated string is supposed to have
-	 * @return randomized String of mixed case letters and numbers of the
-	 * given length
-	 */
-	public String getCaptchaString(int length) {
-		return getCaptchaString(length, DEFAULT_CHARACTER_BASE, Case.MIXEDCASE);
-	}
-	
-	/**
-	 * Generates a new randomized String of the specified length consisting of a
-	 * randomly selected set of characters from the given string
-	 * 
-	 * @param length        the generated string is supposed to have
-	 * @param characterbase String consisting of the set of letters from which the
-	 *                      method will randomly pick characters
-	 * @return randomized String of the specified length consisting of a
-	 * randomly selected set of characters from the given string
-	 */
-	public String getCaptchaString(int length, String characterbase) {
-		return getCaptchaString(length, characterbase, Case.MIXEDCASE);
-	}
-	
-	/**
-	 * Generates a new randomized String of letters and numbers of the given length
-	 * and specified case
-	 * 
-	 * @param length   the generated string is supposed to have
-	 * @param charCase Case enum with either lower-, upper-, or mixed case.
-	 * @return randomized String of letters and numbers of the given length and
-	 *         specified case
-	 */
-	public String getCaptchaString(int length, Case charCase) {
-		return getCaptchaString(length, DEFAULT_CHARACTER_BASE, charCase);
-	}
+@Getter
+@Setter
+public class SimpleCaptchaTextGenerator implements CaptchaTextGenerator {
 
 	/**
 	 * Generates a new randomized String of the specified length consisting of a
@@ -67,7 +32,8 @@ public class CaptchaTextGenerator {
 	 * @return randomized String of the specified length consisting of a randomly
 	 *         selected set of characters from the given string
 	 */
-	public String getCaptchaString(int length, String characterbase, Case charCase) {
+	@Override
+	public String generate(int length, String characterbase, Case charCase) {
 		if(StringUtils.isEmpty(characterbase)) {
 			throw new IllegalArgumentException("the specified character base from which to draw the captcha characters is empty.");
 		}
@@ -91,7 +57,7 @@ public class CaptchaTextGenerator {
 	private String getRandomLetters(int length, String characterbase, Case charCase) {
 		StringBuffer charbuf = new StringBuffer();
 		IntStream.range(0, length).forEach(i -> {
-			char c = getRandomChar(characterbase);
+			char c = pickRandomChar(characterbase);
 			c = setCase(charCase, c);
 			charbuf.append(c);
 		});
@@ -131,14 +97,10 @@ public class CaptchaTextGenerator {
 	 * @param src source String from which the character is randomly pulled
 	 * @return character pulled from the String at random point
 	 */
-	private char getRandomChar(String src) {
+	private char pickRandomChar(String src) {
 		ThreadLocalRandom random = ThreadLocalRandom.current();
 		int index = random.nextInt(src.length());
 		return src.charAt(index);
-	}
-	
-	public String getDEFAULT_CHARACTER_BASE() {
-		return DEFAULT_CHARACTER_BASE;
 	}
 
 }

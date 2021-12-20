@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.core;
+package de.forster.flexcaptcha;
 
 import java.util.Base64;
 

@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import de.forster.flexcaptcha.Captcha;
+
 public class CaptchaTest {
 
 	@Test

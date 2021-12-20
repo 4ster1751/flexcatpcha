@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.core;
+package de.forster.flexcaptcha;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -13,6 +13,10 @@ import javax.imageio.ImageIO;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import de.forster.flexcaptcha.enums.Case;
+import de.forster.flexcaptcha.rendering.CaptchaImageRenderer;
+import de.forster.flexcaptcha.textgen.impl.CaptchaTextGenerator;
 
 /**
  * Provides basic Captcha handling in regards to generating a simplistic visual
@@ -32,9 +36,12 @@ public class SimpleCaptchaHandler implements CaptchaHandler {
 	 * Generates a Captcha object containing the token and the images.
 	 */
 	@Override
-	public Captcha generate(int length, String characterSource, Case charCase, Serializable saltSource, CaptchaImageRenderer renderer, int height, int width) {
+	public Captcha generate(int length, Serializable saltSource, CaptchaTextGenerator textgenerator, Case charCase, CaptchaImageRenderer renderer, int height, int width) {
 		if(renderer==null) {
-			throw new IllegalArgumentException("A renderer cannot be null.");
+			throw new IllegalArgumentException("The renderer cannot be null.");
+		}
+		if(textgenerator==null) {
+			throw new IllegalArgumentException("The text generator cannot be null.");
 		}
 		if(length<=0) {
 			throw new IllegalArgumentException("The length must be an integer larger than 0.");
@@ -45,7 +52,7 @@ public class SimpleCaptchaHandler implements CaptchaHandler {
 		if(width<=0) {
 			throw new IllegalArgumentException("The width must be an integer larger than 0.");
 		}
-		String captchaText = new CaptchaTextGenerator().getCaptchaString(length, characterSource, charCase);
+		String captchaText = textgenerator.generate(length, textgenerator.generate(length, charCase), charCase);
 		return makeCaptcha(saltSource, renderer, height, width, captchaText);
 	}
 

@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 
 import org.junit.Test;
 
+import de.forster.flexcaptcha.rendering.impl.SimpleCaptchaImageRenderer;
+
 public class SimpleImageRendererTest {
 	
 	SimpleCaptchaImageRenderer renderer = new SimpleCaptchaImageRenderer();
