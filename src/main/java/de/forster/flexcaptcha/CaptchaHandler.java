@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import de.forster.flexcaptcha.enums.Case;
 import de.forster.flexcaptcha.rendering.CaptchaImageRenderer;
-import de.forster.flexcaptcha.textgen.impl.CaptchaTextGenerator;
+import de.forster.flexcaptcha.textgen.CaptchaTextGenerator;
 
 /**
  * Interface for the various ways in which a captcha could potentially be

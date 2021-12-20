@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.textgen.impl;
+package de.forster.flexcaptcha.textgen;
 
 import de.forster.flexcaptcha.enums.Case;
 

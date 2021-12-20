@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 import org.apache.commons.lang3.StringUtils;
 
 import de.forster.flexcaptcha.enums.Case;
+import de.forster.flexcaptcha.textgen.CaptchaTextGenerator;
 import lombok.Getter;
 import lombok.Setter;
 

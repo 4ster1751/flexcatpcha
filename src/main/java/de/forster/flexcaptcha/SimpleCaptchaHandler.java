@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import de.forster.flexcaptcha.enums.Case;
 import de.forster.flexcaptcha.rendering.CaptchaImageRenderer;
-import de.forster.flexcaptcha.textgen.impl.CaptchaTextGenerator;
+import de.forster.flexcaptcha.textgen.CaptchaTextGenerator;
 
 /**
  * Provides basic Captcha handling in regards to generating a simplistic visual
