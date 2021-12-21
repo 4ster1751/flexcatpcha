@@ -1,6 +1,7 @@
 package de.forster.flexcaptcha;
 
 import java.io.Serializable;
+import java.util.Base64;
 
 import de.forster.flexcaptcha.enums.Case;
 import de.forster.flexcaptcha.rendering.CaptchaImageRenderer;
@@ -14,6 +15,9 @@ import de.forster.flexcaptcha.textgen.CaptchaTextGenerator;
  *
  */
 public interface CaptchaHandler {
+
+	String DELIMITER = "_";
+	String password =  "ThisIsMyPassword";
 
 	/**
 	 * Generates a captcha of a given character length and salts the hashed solution
@@ -31,6 +35,28 @@ public interface CaptchaHandler {
 	 */
 	default public Captcha generate(int length, Serializable saltSource, CaptchaTextGenerator textgenerator, CaptchaImageRenderer renderer, int height, int width) {
 		return generate(length,  saltSource, textgenerator, Case.MIXEDCASE, renderer, height, width);
+	}
+	
+	/**
+	 * Appends a given token with an encrypted self reference used for validation at
+	 * a later point. This is required because each handler implementation allows
+	 * for a customized validation and token generation logic, and validation of a
+	 * token can not be done reliably without knowing the implementation that
+	 * created it. This method encrypts the fully qualified name of the
+	 * implementation and appends it to the token. The {@link Validator} class can
+	 * be used to decrypt the token, instantiate the CaptchaHandler implementation
+	 * and run its validation.
+	 * 
+	 * @param token token to be appended
+	 * @param saltSource the salt source used for the encryption.
+	 * @return appended token string
+	 */
+	default String addSelfReference(String token, Serializable saltSource) {
+		CipherHandler ch = new CipherHandler();
+		byte[] ivBytes = ch.generateIV().getIV();
+		byte[] encryptedBytes = ch.encryptString(this.getClass().getName().getBytes(), password, saltSource, ivBytes);
+		String base64 = Base64.getEncoder().encodeToString(encryptedBytes);
+		return token+DELIMITER+base64;
 	}
 
 	/**

@@ -21,32 +21,28 @@ public class SimpleCaptchaHandlerTest {
 	@Test
 	public void testGenerategGeneric() {
 		Captcha captcha = handler.generate(10, "ABC", generator,renderer, 60, 300);
-		assertTrue(captcha.getToken().length()==24);
-		assertTrue(captcha.getToken().endsWith("=="));
+		assertTrue(captcha.getToken().length()==44);
 		assertTrue(captcha.getImgData()!=null);
 	}
 	
 	@Test
 	public void testGenerategGenericEmptySalt() {
 		Captcha captcha = handler.generate(10, "", generator,renderer, 60, 300);
-		assertTrue(captcha.getToken().length()==24);
-		assertTrue(captcha.getToken().endsWith("=="));
+		assertTrue(captcha.getToken().length()==44);
 		assertTrue(captcha.getImgData()!=null);
 	}
 	
 	@Test
 	public void testGenerategGenericNullSalt() {
 		Captcha captcha = handler.generate(10, null, generator,renderer, 60, 300);
-		assertTrue(captcha.getToken().length()==24);
-		assertTrue(captcha.getToken().endsWith("=="));
+		assertTrue(captcha.getToken().length()==44);
 		assertTrue(captcha.getImgData()!=null);
 	}
 	
 	@Test
 	public void testGenerategGenericAllPixelMinimum() {
 		Captcha captcha = handler.generate(1, "", generator,renderer, 3, 1);
-		assertTrue(captcha.getToken().length()==24);
-		assertTrue(captcha.getToken().endsWith("=="));
+		assertTrue(captcha.getToken().length()==44);
 		assertTrue(captcha.getImgData()!=null);
 	}
 	
@@ -102,16 +98,14 @@ public class SimpleCaptchaHandlerTest {
 	@Test
 	public void testGenerategGenericShort() {
 		Captcha captcha = handler.generate(5, "ABC", generator, renderer, 60, 300);
-		assertTrue(captcha.getToken().length()==24);
-		assertTrue(captcha.getToken().endsWith("=="));
+		assertTrue(captcha.getToken().length()==44);
 		assertTrue(captcha.getImgData()!=null);
 	}
 	
 	@Test
 	public void testGenerategGenericWithDummyObj() {
 		Captcha captcha = handler.generate(5, dummyObject, generator, renderer, 60, 300);
-		assertTrue(captcha.getToken().length()==24);
-		assertTrue(captcha.getToken().endsWith("=="));
+		assertTrue(captcha.getToken().length()==44);
 		assertTrue(captcha.getImgData()!=null);
 	}
 	
@@ -125,8 +119,7 @@ public class SimpleCaptchaHandlerTest {
 	@Test
 	public void testToCaptchaAndValidate() {
 		Captcha captcha = handler.toCaptcha("TESTSTRING", dummyObject, new SimpleCaptchaImageRenderer(), 60, 300);
-		assertTrue(captcha.getToken().length()==24);
-		assertTrue(captcha.getToken().endsWith("=="));
+		assertTrue(captcha.getToken().length()==44);
 		assertTrue(captcha.getImgData()!=null);
 		assertTrue(handler.validate("TESTSTRING", captcha.getToken(), dummyObject));
 	}

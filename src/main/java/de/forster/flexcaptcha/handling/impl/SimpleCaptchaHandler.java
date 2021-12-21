@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha;
+package de.forster.flexcaptcha.handling.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -14,6 +14,8 @@ import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.forster.flexcaptcha.Captcha;
+import de.forster.flexcaptcha.CaptchaHandler;
 import de.forster.flexcaptcha.enums.Case;
 import de.forster.flexcaptcha.rendering.CaptchaImageRenderer;
 import de.forster.flexcaptcha.textgen.CaptchaTextGenerator;
@@ -29,7 +31,7 @@ import de.forster.flexcaptcha.textgen.CaptchaTextGenerator;
 public class SimpleCaptchaHandler implements CaptchaHandler {
 
 	private static final String IMG_FORMAT = "JPEG";
-	private static final String ALGORITHM_NAME = "SHA-256";
+	private static final String ALGORITHM_NAME = "MD5";
 	Logger log = LogManager.getLogger(SimpleCaptchaHandler.class);
 
 	/**
@@ -93,6 +95,7 @@ public class SimpleCaptchaHandler implements CaptchaHandler {
 	 * @param height      pixel height of the captcha image
 	 * @param width       pixel width of the catpcha image
 	 * @param captchaText text the catpcha should display
+	 * @param iv 
 	 * @return Captcha object containing
 	 */
 	private Captcha makeCaptcha(Serializable saltSource, CaptchaImageRenderer renderer, int height, int width, String captchaText) {
@@ -101,6 +104,7 @@ public class SimpleCaptchaHandler implements CaptchaHandler {
 			byte[] imgData = convertImageToString(image);
 			if (imgData!=null) {
 				String token = makeToken(captchaText, saltSource);
+				token = addSelfReference(token, saltSource);
 				Captcha captcha = new Captcha(imgData, token);
 				return captcha;
 			}

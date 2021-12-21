@@ -4,8 +4,8 @@
 	<artifactId>flexcaptcha</artifactId>
 	<groupId>de.forster</groupId>
 	<name>Flexible Captcha</name>
-	<description>Simple Captcha generation and validatio</description>
-	<version>0.0.1-SNAPSHOT</version>
+	<description>Simple Captcha generation and validation</description>
+	<version>0.0.2-SNAPSHOT</version>
 	<url>http://projects.spring.io/spring-boot/</url>
 	<organization>
 		<name>Pivotal Software, Inc.</name>
@@ -17,11 +17,6 @@
     	<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 	<dependencies>
-		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-api</artifactId>
-		    <version>2.17.0</version>
-		</dependency>
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-core</artifactId>
