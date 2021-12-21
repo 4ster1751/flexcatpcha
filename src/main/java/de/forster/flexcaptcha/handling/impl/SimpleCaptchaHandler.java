@@ -31,7 +31,7 @@ import de.forster.flexcaptcha.textgen.CaptchaTextGenerator;
 public class SimpleCaptchaHandler implements CaptchaHandler {
 
 	private static final String IMG_FORMAT = "JPEG";
-	private static final String ALGORITHM_NAME = "MD5";
+	private static final String ALGORITHM_NAME = "SHA-256";
 	Logger log = LogManager.getLogger(SimpleCaptchaHandler.class);
 
 	/**
@@ -65,7 +65,7 @@ public class SimpleCaptchaHandler implements CaptchaHandler {
 	 */
 	@Override
 	public boolean validate(String answer, String token, Serializable saltSource) {
-		return token.equals( makeToken(answer, saltSource));
+		return token.split(DELIMITER)[0].equals( makeToken(answer, saltSource));
 	}
 
 	/**
