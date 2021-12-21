@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
 import de.forster.flexcaptcha.enums.Case;
+import de.forster.flexcaptcha.handling.CaptchaHandler;
 import de.forster.flexcaptcha.handling.impl.SimpleCaptchaHandler;
 import de.forster.flexcaptcha.rendering.impl.SimpleCaptchaImageRenderer;
 import de.forster.flexcaptcha.rendering.impl.TwirledCaptchaImageRenderer;

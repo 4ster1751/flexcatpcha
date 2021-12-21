@@ -15,8 +15,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.forster.flexcaptcha.Captcha;
-import de.forster.flexcaptcha.CaptchaHandler;
 import de.forster.flexcaptcha.enums.Case;
+import de.forster.flexcaptcha.handling.CaptchaHandler;
 import de.forster.flexcaptcha.rendering.CaptchaImageRenderer;
 import de.forster.flexcaptcha.textgen.CaptchaTextGenerator;
 

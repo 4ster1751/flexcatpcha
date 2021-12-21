@@ -1,8 +1,11 @@
-package de.forster.flexcaptcha;
+package de.forster.flexcaptcha.handling;
 
 import java.io.Serializable;
 import java.util.Base64;
 
+import de.forster.flexcaptcha.Captcha;
+import de.forster.flexcaptcha.CipherHandler;
+import de.forster.flexcaptcha.Validator;
 import de.forster.flexcaptcha.enums.Case;
 import de.forster.flexcaptcha.rendering.CaptchaImageRenderer;
 import de.forster.flexcaptcha.textgen.CaptchaTextGenerator;

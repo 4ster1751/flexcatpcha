@@ -8,6 +8,8 @@ import java.util.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.forster.flexcaptcha.handling.CaptchaHandler;
+
 public class Validator {
 	Logger log = LogManager.getLogger(Validator.class);
 	
