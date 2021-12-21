@@ -6,11 +6,7 @@
 	<name>Flexible Captcha</name>
 	<description>Simple Captcha generation and validation</description>
 	<version>0.0.2-SNAPSHOT</version>
-	<url>http://projects.spring.io/spring-boot/</url>
-	<organization>
-		<name>Pivotal Software, Inc.</name>
-		<url>http://www.spring.io</url>
-	</organization>
+	<url>https://github.com/4ster1751/flexcatpcha</url>
 	<properties>
 		<main.basedir>${basedir}/../..</main.basedir>
    		<maven.compiler.source>17</maven.compiler.source>
