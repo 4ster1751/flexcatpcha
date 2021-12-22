@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import de.forster.flexcaptcha.Captcha;
 import de.forster.flexcaptcha.enums.Case;
 import de.forster.flexcaptcha.handling.CaptchaHandler;
-import de.forster.flexcaptcha.rendering.CaptchaImageRenderer;
+import de.forster.flexcaptcha.rendering.ImageRenderer;
 import de.forster.flexcaptcha.textgen.CaptchaTextGenerator;
 
 /**
@@ -38,7 +38,7 @@ public class SimpleCaptchaHandler implements CaptchaHandler {
 	 * Generates a Captcha object containing the token and the images.
 	 */
 	@Override
-	public Captcha generate(int length, Serializable saltSource, CaptchaTextGenerator textgenerator, Case charCase, CaptchaImageRenderer renderer, int height, int width) {
+	public Captcha generate(int length, Serializable saltSource, CaptchaTextGenerator textgenerator, Case charCase, ImageRenderer renderer, int height, int width) {
 		if(renderer==null) {
 			throw new IllegalArgumentException("The renderer cannot be null.");
 		}
@@ -77,7 +77,7 @@ public class SimpleCaptchaHandler implements CaptchaHandler {
 	 * 
 	 */
 	@Override
-	public Captcha toCaptcha(String captchaText, Serializable saltSource, CaptchaImageRenderer renderer, int height, int width) {
+	public Captcha toCaptcha(String captchaText, Serializable saltSource, ImageRenderer renderer, int height, int width) {
 		return makeCaptcha(saltSource, renderer, height, width, captchaText);
 	}
 
@@ -98,7 +98,7 @@ public class SimpleCaptchaHandler implements CaptchaHandler {
 	 * @param iv 
 	 * @return Captcha object containing
 	 */
-	private Captcha makeCaptcha(Serializable saltSource, CaptchaImageRenderer renderer, int height, int width, String captchaText) {
+	private Captcha makeCaptcha(Serializable saltSource, ImageRenderer renderer, int height, int width, String captchaText) {
 		BufferedImage image = renderer.render(captchaText, height, width);
 		try {
 			byte[] imgData = convertImageToString(image);

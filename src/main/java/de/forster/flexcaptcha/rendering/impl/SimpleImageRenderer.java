@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.forster.flexcaptcha.rendering.CaptchaImageRenderer;
+import de.forster.flexcaptcha.rendering.ImageRenderer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,16 +28,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SimpleCaptchaImageRenderer implements CaptchaImageRenderer {
+public class SimpleImageRenderer implements ImageRenderer {
 
 	/**
 	 * Color of the Captcha Background
 	 */
 	Color backgrndCol = Color.white;
-	/**
-	 * Color of the image border
-	 */
-	Color borderCol = Color.blue;
 	/**
 	 * Set of possible colors of the letters in the captcha image
 	 */
@@ -70,8 +66,6 @@ public class SimpleCaptchaImageRenderer implements CaptchaImageRenderer {
 		graphic.fillRect(0, 0, width, height);
 		drawDistortions(height, width, graphic);
 		drawText(captchaTextInput, height, width, graphic);
-		graphic.setColor(borderCol);
-		graphic.drawRect(0, 0, width - 1, height - 1);
 		graphic.dispose();
 		return image;
 	}

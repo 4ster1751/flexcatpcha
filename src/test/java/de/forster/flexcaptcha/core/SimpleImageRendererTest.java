@@ -6,11 +6,11 @@ import java.awt.image.BufferedImage;
 
 import org.junit.Test;
 
-import de.forster.flexcaptcha.rendering.impl.SimpleCaptchaImageRenderer;
+import de.forster.flexcaptcha.rendering.impl.SimpleImageRenderer;
 
 public class SimpleImageRendererTest {
 	
-	SimpleCaptchaImageRenderer renderer = new SimpleCaptchaImageRenderer();
+	SimpleImageRenderer renderer = new SimpleImageRenderer();
 
 	@Test
 	public void testRender() {

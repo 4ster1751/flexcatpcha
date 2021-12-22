@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.jhlabs.image.TwirlFilter;
 
-import de.forster.flexcaptcha.rendering.CaptchaImageRenderer;
+import de.forster.flexcaptcha.rendering.ImageRenderer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TwirledCaptchaImageRenderer implements CaptchaImageRenderer{
+public class TwirledImageRenderer implements ImageRenderer{
 	
 	/**
 	 * Set of possible colors of the letters in the captcha image
@@ -29,9 +29,8 @@ public class TwirledCaptchaImageRenderer implements CaptchaImageRenderer{
 
 	@Override
 	public BufferedImage render(final String captchaTextInput, int height, int width) {
-		SimpleCaptchaImageRenderer simpleRenderer = new SimpleCaptchaImageRenderer();
+		SimpleImageRenderer simpleRenderer = new SimpleImageRenderer();
 		simpleRenderer.setTextCols(textCols);
-		simpleRenderer.setBorderCol(Color.white);
 		BufferedImage image = simpleRenderer.render(captchaTextInput, height, width);
 		return applytwirl(image);
 	}

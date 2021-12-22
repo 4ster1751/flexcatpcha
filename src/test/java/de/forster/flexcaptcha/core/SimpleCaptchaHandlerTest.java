@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import de.forster.flexcaptcha.Captcha;
 import de.forster.flexcaptcha.handling.impl.SimpleCaptchaHandler;
-import de.forster.flexcaptcha.rendering.impl.SimpleCaptchaImageRenderer;
+import de.forster.flexcaptcha.rendering.impl.SimpleImageRenderer;
 import de.forster.flexcaptcha.textgen.impl.SimpleCaptchaTextGenerator;
 
 public class SimpleCaptchaHandlerTest {
@@ -17,7 +17,7 @@ public class SimpleCaptchaHandlerTest {
 	private static final int TOKENLENGTH = 153;
 	SimpleCaptchaHandler handler = new SimpleCaptchaHandler();
 	SimpleCaptchaTextGenerator generator = new SimpleCaptchaTextGenerator();
-	SimpleCaptchaImageRenderer renderer = new SimpleCaptchaImageRenderer();
+	SimpleImageRenderer renderer = new SimpleImageRenderer();
 	Button dummyObject = new Button();
 	
 	@Test
@@ -114,13 +114,13 @@ public class SimpleCaptchaHandlerTest {
 	@Test
 	public void testValidateEmptyString() {
 		assertThrows(IllegalArgumentException.class, ()->{
-			handler.toCaptcha("", dummyObject, new SimpleCaptchaImageRenderer(), 60, 300);
+			handler.toCaptcha("", dummyObject, new SimpleImageRenderer(), 60, 300);
 		});
 	}
 
 	@Test
 	public void testToCaptchaAndValidate() {
-		Captcha captcha = handler.toCaptcha("TESTSTRING", dummyObject, new SimpleCaptchaImageRenderer(), 60, 300);
+		Captcha captcha = handler.toCaptcha("TESTSTRING", dummyObject, new SimpleImageRenderer(), 60, 300);
 		assertTrue(captcha.getToken().length()==TOKENLENGTH);
 		assertTrue(captcha.getImgData()!=null);
 		assertTrue(handler.validate("TESTSTRING", captcha.getToken(), dummyObject));

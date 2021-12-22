@@ -1,11 +1,13 @@
 package de.forster.flexcaptcha;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -14,11 +16,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
+import com.jhlabs.image.AbstractBufferedImageOp;
+import com.jhlabs.image.DitherFilter;
+import com.jhlabs.image.MarbleFilter;
+import com.jhlabs.image.RippleFilter;
+import com.jhlabs.image.TwirlFilter;
+
 import de.forster.flexcaptcha.enums.Case;
 import de.forster.flexcaptcha.handling.CaptchaHandler;
 import de.forster.flexcaptcha.handling.impl.SimpleCaptchaHandler;
-import de.forster.flexcaptcha.rendering.impl.SimpleCaptchaImageRenderer;
-import de.forster.flexcaptcha.rendering.impl.TwirledCaptchaImageRenderer;
+import de.forster.flexcaptcha.rendering.impl.EffectChainRenderer;
+import de.forster.flexcaptcha.rendering.impl.SimpleImageRenderer;
+import de.forster.flexcaptcha.rendering.impl.TwirledImageRenderer;
 import de.forster.flexcaptcha.textgen.impl.SimpleCaptchaTextGenerator;
 
 public class Demo {
@@ -29,6 +38,7 @@ public class Demo {
 	    for (int i=1; i<=n; i++) {
 			generateSimpleCaptcha(scanner);
 			generateDistortedCaptcha(scanner);
+			generateChainedEffectCaptcha(scanner);
 		}
 		scanner.close();
 	}
@@ -39,10 +49,8 @@ public class Demo {
 			String s = generator.generate(10, Case.UPPERCASE);
 			CaptchaHandler handler = new SimpleCaptchaHandler();
 			String saltSource = "Hello World!";
-			Captcha captcha = handler.toCaptcha(s, saltSource, new SimpleCaptchaImageRenderer(), 100, 300);
-			System.out.println("Lösung eingeben:");
-			JFrame frame = renderToFrame(captcha);
-			getUserInput(saltSource, captcha, scanner, frame);
+			Captcha captcha = handler.toCaptcha(s, saltSource, new SimpleImageRenderer(), 100, 300);
+			display(scanner, saltSource, captcha);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -51,16 +59,48 @@ public class Demo {
 	private static void generateDistortedCaptcha(Scanner scanner) {
 		try {
 			SimpleCaptchaTextGenerator generator = new SimpleCaptchaTextGenerator();
-			String s = generator.generate(10, Case.MIXEDCASE);
+			String s = generator.generate(10, Case.LOWERCASE);
 			CaptchaHandler handler = new SimpleCaptchaHandler();
 			String saltSource = "Hello World!";
-			Captcha captcha = handler.toCaptcha(s, saltSource, new TwirledCaptchaImageRenderer(), 100, 300);
-			System.out.println("Lösung eingeben:");
-			JFrame frame = renderToFrame(captcha);
-			getUserInput(saltSource, captcha, scanner, frame);
+			Captcha captcha = handler.toCaptcha(s, saltSource, new TwirledImageRenderer(), 100, 300);
+			display(scanner, saltSource, captcha);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private static void generateChainedEffectCaptcha(Scanner scanner) {
+		try {
+			SimpleCaptchaTextGenerator generator = new SimpleCaptchaTextGenerator();
+			String s = generator.generate(10, Case.UPPERCASE);
+			CaptchaHandler handler = new SimpleCaptchaHandler();
+			String saltSource = "Hello World!";
+			EffectChainRenderer renderer = new EffectChainRenderer();
+			ArrayList<AbstractBufferedImageOp> filters = new ArrayList<AbstractBufferedImageOp>();
+			Color[] textCols = new Color[] {Color.blue, Color.darkGray, Color.black};
+			renderer.setBufferedOps(filters);
+			renderer.setTextCols(textCols);
+			filters.add(new TwirlFilter());
+			filters.add(new RippleFilter());
+			filters.add(new DitherFilter());
+			MarbleFilter marbleFilter = new MarbleFilter();
+			marbleFilter.setXScale(2f);
+			marbleFilter.setYScale(2f);
+			filters.add(marbleFilter);
+			Captcha captcha = handler.toCaptcha(s, saltSource, renderer, 100, 300);
+			display(scanner, saltSource, captcha);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+
+	private static void display(Scanner scanner, String saltSource, Captcha captcha) throws IOException {
+		System.out.println("Lösung eingeben:");
+		JFrame frame = renderToFrame(captcha);
+		getUserInput(saltSource, captcha, scanner, frame);
 	}
 	
 	private static JFrame renderToFrame(Captcha captcha) throws IOException {

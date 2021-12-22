@@ -7,7 +7,7 @@ import de.forster.flexcaptcha.Captcha;
 import de.forster.flexcaptcha.CipherHandler;
 import de.forster.flexcaptcha.Validator;
 import de.forster.flexcaptcha.enums.Case;
-import de.forster.flexcaptcha.rendering.CaptchaImageRenderer;
+import de.forster.flexcaptcha.rendering.ImageRenderer;
 import de.forster.flexcaptcha.textgen.CaptchaTextGenerator;
 
 /**
@@ -36,7 +36,7 @@ public interface CaptchaHandler {
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */
-	default public Captcha generate(int length, Serializable saltSource, CaptchaTextGenerator textgenerator, CaptchaImageRenderer renderer, int height, int width) {
+	default public Captcha generate(int length, Serializable saltSource, CaptchaTextGenerator textgenerator, ImageRenderer renderer, int height, int width) {
 		return generate(length,  saltSource, textgenerator, Case.MIXEDCASE, renderer, height, width);
 	}
 	
@@ -78,7 +78,7 @@ public interface CaptchaHandler {
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */
-	public Captcha generate(int length,  Serializable saltSource, CaptchaTextGenerator textgenerator, Case charCase, CaptchaImageRenderer renderer, int height, int width);
+	public Captcha generate(int length,  Serializable saltSource, CaptchaTextGenerator textgenerator, Case charCase, ImageRenderer renderer, int height, int width);
 
 	/**
 	 * Generates a captcha from a given string and salt object
@@ -88,7 +88,7 @@ public interface CaptchaHandler {
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */
-	public Captcha toCaptcha(String captchaText, Serializable saltSource, CaptchaImageRenderer renderer, int height, int width);
+	public Captcha toCaptcha(String captchaText, Serializable saltSource, ImageRenderer renderer, int height, int width);
 
 	/**
 	 * Validates the answer to the captcha based on the token and the salt object.
