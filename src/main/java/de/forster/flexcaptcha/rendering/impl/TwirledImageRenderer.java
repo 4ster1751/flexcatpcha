@@ -34,7 +34,6 @@ public class TwirledImageRenderer implements ImageRenderer{
 		BufferedImage image = simpleRenderer.render(captchaTextInput, height, width);
 		return applytwirl(image);
 	}
-		
 
 	/**
 	 * Applies a twisting effect of the entire graphic originating in the center of
