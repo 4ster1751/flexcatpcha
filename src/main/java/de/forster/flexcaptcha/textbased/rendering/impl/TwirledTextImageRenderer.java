@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.rendering.impl;
+package de.forster.flexcaptcha.textbased.rendering.impl;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -6,17 +6,19 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.jhlabs.image.TwirlFilter;
 
-import de.forster.flexcaptcha.rendering.ImageRenderer;
+import de.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TwirledImageRenderer implements ImageRenderer{
+@Accessors(chain=true)
+public class TwirledTextImageRenderer implements TextImageRenderer{
 	
 	/**
 	 * Set of possible colors of the letters in the captcha image
@@ -29,7 +31,7 @@ public class TwirledImageRenderer implements ImageRenderer{
 
 	@Override
 	public BufferedImage render(final String captchaTextInput, int height, int width) {
-		SimpleImageRenderer simpleRenderer = new SimpleImageRenderer();
+		SimpleTextImageRenderer simpleRenderer = new SimpleTextImageRenderer();
 		simpleRenderer.setTextCols(textCols);
 		BufferedImage image = simpleRenderer.render(captchaTextInput, height, width);
 		return applytwirl(image);

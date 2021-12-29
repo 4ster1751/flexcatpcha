@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.rendering.impl;
+package de.forster.flexcaptcha.textbased.rendering.impl;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -7,17 +7,19 @@ import java.util.List;
 
 import com.jhlabs.image.AbstractBufferedImageOp;
 
-import de.forster.flexcaptcha.rendering.ImageRenderer;
+import de.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EffectChainRenderer implements ImageRenderer {
+@Accessors(chain=true)
+public class EffectChainTextImageRenderer implements TextImageRenderer {
 	
 	/**
 	 * Set of possible colors of the letters in the captcha image
@@ -31,7 +33,7 @@ public class EffectChainRenderer implements ImageRenderer {
 	
 	@Override
 	public BufferedImage render(final String captchaTextInput, int height, int width) {
-		BufferedImage image = new SimpleImageRenderer().render(captchaTextInput, height, width);
+		BufferedImage image = new SimpleTextImageRenderer().render(captchaTextInput, height, width);
 		if(!bufferedOps.isEmpty()) {
 			image = applyFilters(image);
 		}

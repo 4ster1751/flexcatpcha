@@ -10,8 +10,8 @@ import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.forster.flexcaptcha.enums.Case;
-import de.forster.flexcaptcha.textgen.impl.SimpleCaptchaTextGenerator;
+import de.forster.flexcaptcha.textbased.enums.Case;
+import de.forster.flexcaptcha.textbased.textgen.impl.SimpleCaptchaTextGenerator;
 
 /**
  * @author Yannick Forster

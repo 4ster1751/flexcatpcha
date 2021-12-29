@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.rendering;
+package de.forster.flexcaptcha.textbased.rendering;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -10,7 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Yannick Forster
  *
  */
-public interface ImageRenderer {
+public interface TextImageRenderer {
+	
 	BufferedImage render(final String captchaTextInput, int height, int width);
 	
 	/**
