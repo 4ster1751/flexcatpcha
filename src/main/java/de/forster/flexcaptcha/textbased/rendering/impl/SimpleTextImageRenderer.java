@@ -1,25 +1,36 @@
-package de.forster.flexcaptcha.rendering.impl;
+package de.forster.flexcaptcha.textbased.rendering.impl;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.forster.flexcaptcha.rendering.ImageRenderer;
+import de.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
+/**
+ * Implements a rendering logic taking in an input string to generate a
+ * visualization of said string and return it in an base64 string representation
+ * for easier transportation
+ * 
+ * @author Yannick Forster
+ *
+ */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CleanImageRenderer implements ImageRenderer {
+@Accessors(chain=true)
+public class SimpleTextImageRenderer implements TextImageRenderer {
 
 	/**
 	 * Color of the Captcha Background
@@ -29,7 +40,18 @@ public class CleanImageRenderer implements ImageRenderer {
 	 * Set of possible colors of the letters in the captcha image
 	 */
 	Color[] textCols = new Color[] { Color.blue };
-
+	/**
+	 * Color of distortions in the image
+	 */
+	Color distortCol = Color.white;
+	/**
+	 * Defines the maximum angle that can be used to rotate a single character in
+	 * the captcha
+	 */
+	double maxrotateAngle = 0.45;
+	/**
+	 * String name of the font to be used when writing characters to the image
+	 */
 	String fontName = "Verdana";
 
 	/**
@@ -44,9 +66,30 @@ public class CleanImageRenderer implements ImageRenderer {
 		Graphics2D graphic = image.createGraphics();
 		graphic.setColor(backgrndCol);
 		graphic.fillRect(0, 0, width, height);
-		image = drawText(captchaTextInput, image);
+		drawDistortions(height, width, graphic);
+		drawText(captchaTextInput, image);
 		graphic.dispose();
 		return image;
+	}
+
+	/**
+	 * Draws distortions onto the given Graphics2D object in the shape of randomly
+	 * generated rectangles to help obscure the text in the captcha image
+	 * 
+	 * @param height  pixel height of the image inside the graphics object
+	 * @param width   pixel width of the image inside the graphics object
+	 * @param graphic the Graphics2D object onto which the distortions are to be
+	 *                drawn
+	 */
+	private Graphics2D drawDistortions(int height, int width, Graphics2D graphic) {
+		graphic.setColor(distortCol);
+		for (int i = 0; i < width / 6; i++) {
+			int L = (int) (Math.random() * height / 2.0);
+			int X = (int) (Math.random() * width - L);
+			int Y = (int) (Math.random() * height - L);
+			graphic.draw3DRect(X, Y, L * 2, L * 2, true);
+		}
+		return graphic;
 	}
 
 	/**
@@ -54,10 +97,13 @@ public class CleanImageRenderer implements ImageRenderer {
 	 * object
 	 * 
 	 * @param captchaTextInput string containing the text to write
-	 * @param image            the image on which to draw
-	 * @return the {@link BufferedImage} image written to
+	 * @param height           pixel count of the height of the graphic
+	 * @param width            pixel count of the width of the graphic
+	 * @param graphic          the Graphics2D object containing the graphic in which
+	 *                         the image is constructed
+	 * @return
 	 */
-	private BufferedImage drawText(String captchaTextInput, BufferedImage image) {
+	private Graphics2D drawText(String captchaTextInput, BufferedImage image) {
 		Graphics2D graphic = image.createGraphics();
 		Font textFont = new Font(fontName, Font.BOLD, (int) (image.getHeight() / 2.5));
 		graphic.setColor(pickRandomColor(textCols));
@@ -71,7 +117,7 @@ public class CleanImageRenderer implements ImageRenderer {
 			char charToDraw = captchaTextInput.charAt(i);
 			drawCharacter(image, textFont, fontMetrics, margin, spacePerChar, i, charToDraw);
 		});
-		return image;
+		return graphic;
 	}
 
 	/**
@@ -84,22 +130,29 @@ public class CleanImageRenderer implements ImageRenderer {
 	 *                     are to be drawn
 	 * @param fontMetrics  fontmetrics object used to measure the characters in the
 	 *                     string
+	 * @param height       pixel count of the height of the graphic
+	 * @param maxAdvance   measured approximate maxAdvance width
+	 * @param fontHeight   measured standard height of the font
 	 * @param margin       calculated based on the width to define an approximate
 	 *                     margin between each letter
 	 * @param spacePerChar the space that the entire string will approximately
 	 *                     require
 	 * @param index        running index of the character in the source string
-	 * @param charToDraw   the character to draw
-	 * @return the {@link BufferedImage} image written to
+	 * @param sourceString the source string
 	 */
-	private BufferedImage drawCharacter(BufferedImage image, Font textFont, FontMetrics fontMetrics, int margin,
+	private void drawCharacter(BufferedImage image, Font textFont, FontMetrics fontMetrics, int margin,
 			float spacePerChar, Integer index, char charToDraw) {
 		int maxAdvance = fontMetrics.getMaxAdvance();
 		int fontHeight = fontMetrics.getHeight();
 		int charWidth = fontMetrics.charWidth(charToDraw);
 		int charDim = Math.max(maxAdvance, fontHeight);
+		int halfCharDim = (int) (charDim / 2);
 		BufferedImage charImage = new BufferedImage(charDim, charDim, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D charGraphics = charImage.createGraphics();
+		charGraphics.translate(halfCharDim, halfCharDim);
+		double angle = (Math.random() - 0.5) * maxrotateAngle;
+		charGraphics.transform(AffineTransform.getRotateInstance(angle));
+		charGraphics.translate(-halfCharDim, -halfCharDim);
 		charGraphics.setColor(pickRandomColor(textCols));
 		charGraphics.setFont(textFont);
 		int charX = (int) (0.5 * charDim - 0.5 * charWidth);
@@ -109,6 +162,6 @@ public class CleanImageRenderer implements ImageRenderer {
 		int y = (int) ((image.getHeight() - charDim) / 2);
 		image.createGraphics().drawImage(charImage, (int) x, y, charDim, charDim, null, null);
 		charGraphics.dispose();
-		return image;
 	}
+
 }

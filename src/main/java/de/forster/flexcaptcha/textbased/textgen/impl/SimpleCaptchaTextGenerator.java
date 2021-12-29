@@ -1,12 +1,12 @@
-package de.forster.flexcaptcha.textgen.impl;
+package de.forster.flexcaptcha.textbased.textgen.impl;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.forster.flexcaptcha.enums.Case;
-import de.forster.flexcaptcha.textgen.CaptchaTextGenerator;
+import de.forster.flexcaptcha.textbased.enums.Case;
+import de.forster.flexcaptcha.textbased.textgen.CaptchaTextGenerator;
 import lombok.Getter;
 import lombok.Setter;
 
