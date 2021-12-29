@@ -17,6 +17,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.forster.flexcaptcha.CipherHandler;
 import de.forster.flexcaptcha.imgbased.ImageCaptcha;
 import de.forster.flexcaptcha.imgbased.handling.ImageCaptchaHandler;
 
@@ -28,6 +29,7 @@ import de.forster.flexcaptcha.imgbased.handling.ImageCaptchaHandler;
  * @author Yannick Forster
  *
  */
+
 public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 
 	Logger log = LogManager.getLogger(SimpleImageCaptchaHandler.class);
@@ -37,17 +39,26 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	 * Generates the image captcha. Randomizes a grid layout with the images taken
 	 * from solutionImages and otherImages
 	 */
-	public ImageCaptcha generate(int gridWidth, Serializable saltSource, String password,
-			BufferedImage[] solutionImages, BufferedImage[] otherImages, int height, int width) {
+	public ImageCaptcha generate(int gridWidth, CipherHandler cipherHandler, Serializable saltSource, String password,
+			BufferedImage[] solutionImages, BufferedImage[] fillImages, int height, int width) {
+		if(gridWidth<=1) {
+			throw new IllegalArgumentException("The gridWidth must be larger than 1.");
+		}
+		if (height <= 0) {
+			throw new IllegalArgumentException("The height must be an integer larger than 0.");
+		}
+		if (width <= 0) {
+			throw new IllegalArgumentException("The width must be an integer larger than 0.");
+		}
 		solutionImages = resizeImages(solutionImages, height, width);
-		otherImages = resizeImages(otherImages, height, width);
+		fillImages = resizeImages(fillImages, height, width);
 		byte[][] gridData = new byte[gridWidth * gridWidth][];
 		int halfGrid = Double.valueOf(Math.ceil(gridData.length / 2)).intValue();
 		int[] gridIndices = IntStream.range(0, gridData.length).boxed().mapToInt(i -> i).toArray();
 		ArrayUtils.shuffle(gridIndices);
 		int[] solutionIndices = Arrays.copyOfRange(gridIndices, 0, halfGrid);
 		int[] fillIndices = ArrayUtils.removeElements(gridIndices, solutionIndices);
-		return makeImageCaptcha(saltSource, password, solutionImages, otherImages, gridData, solutionIndices,
+		return makeImageCaptcha(saltSource, cipherHandler, password, solutionImages, fillImages, gridData, solutionIndices,
 				fillIndices);
 	}
 
@@ -55,8 +66,8 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	 * Checks if the given answer is correct
 	 */
 	@Override
-	public boolean validate(String answer, String token, Serializable saltSource) {
-		return token.split(DELIMITER)[0].equals(makeToken(answer, saltSource));
+	public boolean validate(CipherHandler cipherHandler,String answer, String token, Serializable saltSource) {
+		return token.split(DELIMITER)[0].equals(makeToken(cipherHandler, answer, saltSource));
 	}
 
 	/**
@@ -91,7 +102,7 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	 *                        reference
 	 * @param solutionImages  the "correct" images that the user is supposed to
 	 *                        select
-	 * @param otherImages     all images that are not the solution
+	 * @param fillImages     all images that are not the solution
 	 * @param gridData        Array of byte arrays which is filled with the images
 	 *                        or null if one of the images could not be loaded into
 	 *                        the grid.
@@ -99,14 +110,14 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	 * @param fillIndices     the indices to fill with filler images
 	 * @return {@link ImageCaptcha} containing the finalized captcha
 	 */
-	private ImageCaptcha makeImageCaptcha(Serializable saltSource, String password, BufferedImage[] solutionImages,
-			BufferedImage[] otherImages, byte[][] gridData, int[] solutionIndices, int[] fillIndices) {
+	private ImageCaptcha makeImageCaptcha(Serializable saltSource, CipherHandler cipherHandler, String password, BufferedImage[] solutionImages,
+			BufferedImage[] fillImages, byte[][] gridData, int[] solutionIndices, int[] fillIndices) {
 		gridData = fillGridWithImages(gridData, solutionImages, solutionIndices);
-		gridData = fillGridWithImages(gridData, otherImages, fillIndices);
+		gridData = fillGridWithImages(gridData, fillImages, fillIndices);
 		if (gridData == null || Stream.of(gridData).anyMatch(data -> data == null)) {
 			return null;
 		}
-		String token = generateToken(saltSource, password, solutionIndices);
+		String token = generateToken(cipherHandler, saltSource, password, solutionIndices);
 		return new ImageCaptcha(gridData, token);
 	}
 
@@ -151,11 +162,11 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	 * @param solutionIndices the correct indices in the captcha
 	 * @return String of the token
 	 */
-	private String generateToken(Serializable saltSource, String password, int[] solutionIndices) {
+	private String generateToken(CipherHandler cipherHandler, Serializable saltSource, String password, int[] solutionIndices) {
 		Arrays.sort(solutionIndices);
 		String solution = Arrays.toString(solutionIndices).replaceAll("\\s+", "");
-		String token = makeToken(solution, saltSource);
-		token = addSelfReference(token, saltSource, password);
+		String token = makeToken(cipherHandler, solution, saltSource);
+		token = addSelfReference(cipherHandler, token, saltSource, password);
 		return token;
 	}
 

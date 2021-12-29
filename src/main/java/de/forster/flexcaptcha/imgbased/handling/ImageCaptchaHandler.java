@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.forster.flexcaptcha.CaptchaHandler;
+import de.forster.flexcaptcha.CipherHandler;
 import de.forster.flexcaptcha.imgbased.ImageCaptcha;
 
 public interface ImageCaptchaHandler extends CaptchaHandler {
@@ -34,18 +35,24 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	 * @param password the password used to encrypt the implementation reference
 	 * @param solutionImages Array of {@link BufferedImage}s used as the correct
 	 *                       images in the grid
-	 * @param otherImages    Array of {@link BufferedImage}s used as the wrong
+	 * @param fillImages    Array of {@link BufferedImage}s used as the wrong
 	 *                       images in the grid, filling the grid at every position
 	 *                       not containing an image from the solutionImages array.
 	 * @return {@link ImageCaptcha} object containing the hashed solution and the
 	 *         grid as array of byte arrays.
 	 */
-	default public ImageCaptcha generate(int gridWidth, Serializable saltSource, String password, BufferedImage[] solutionImages,
-			BufferedImage[] otherImages) {
-		BufferedImage[] allImages = ArrayUtils.addAll(solutionImages, otherImages);
+	default public ImageCaptcha generate(int gridWidth, CipherHandler cipherHandler, Serializable saltSource, String password, BufferedImage[] solutionImages,
+			BufferedImage[] fillImages) {
+		BufferedImage[] allImages = ArrayUtils.addAll(solutionImages, fillImages);
+		if(solutionImages==null || solutionImages.length==0) {
+			throw new IllegalArgumentException("solutionImages can not be empty or null.");
+		}
+		if(fillImages==null || fillImages.length==0) {
+			throw new IllegalArgumentException("fillImages can not be empty or null.");
+		}
 		int largestHeight = getLargestHeight(allImages);
 		int largestwidth = getLargestWidth(allImages);
-		return generate(gridWidth, saltSource, password, solutionImages, otherImages, largestHeight, largestwidth);
+		return generate(gridWidth, cipherHandler, saltSource, password, solutionImages, fillImages, largestHeight, largestwidth);
 	}
 
 	/**
@@ -58,11 +65,12 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	 * @param gridWidth      The width of the grid of images. The grid is square
 	 *                       shaped, so a size of 3 will result in 9 cells making up
 	 *                       a grid of 3x3.
+	 * @param cipherHandler 
 	 * @param saltSource     A {@link Serializable} used to salt the token.
 	 * @param password the password used to encrypt the implementation reference
 	 * @param solutionImages Array of {@link BufferedImage}s used as the correct
 	 *                       images in the grid
-	 * @param otherImages    Array of {@link BufferedImage}s used as the wrong
+	 * @param fillImages    Array of {@link BufferedImage}s used as the wrong
 	 *                       images in the grid, filling the grid at every position
 	 *                       not containing an image from the solutionImages array.
 	 * @param imageHeight    the height to which every image is resized to fit the
@@ -72,8 +80,8 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	 * @return {@link ImageCaptcha} object containing the hashed solution and the
 	 *         grid as array of byte arrays.
 	 */
-	public ImageCaptcha generate(int gridWidth, Serializable saltSource, String password, BufferedImage[] solutionImages,
-			BufferedImage[] otherImages, int imageHeight, int imageWidth);
+	public ImageCaptcha generate(int gridWidth, CipherHandler cipherHandler, Serializable saltSource, String password, BufferedImage[] solutionImages,
+			BufferedImage[] fillImages, int imageHeight, int imageWidth);
 
 	/**
 	 * Gets the largest height out of all the {@link BufferedImage}s
@@ -81,7 +89,7 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	 * @param allImages array of {@link BufferedImage}s to check
 	 * @return int the height of the image with the largest height
 	 */
-	default int getLargestHeight(BufferedImage[] allImages) {
+	private int getLargestHeight(BufferedImage[] allImages) {
 		Optional<BufferedImage> greatestHeight = Stream.of(allImages)
 				.max(Comparator.comparing(BufferedImage::getHeight));
 		if (greatestHeight.isPresent()) {
@@ -97,7 +105,7 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	 * @param allImages array of {@link BufferedImage}s to check
 	 * @return int the width of the image with the largest width
 	 */
-	default int getLargestWidth(BufferedImage[] allImages) {
+	private int getLargestWidth(BufferedImage[] allImages) {
 		Optional<BufferedImage> greatestWidth = Stream.of(allImages).max(Comparator.comparing(BufferedImage::getWidth));
 		if (greatestWidth.isPresent()) {
 			return greatestWidth.get().getWidth();

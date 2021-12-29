@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.forster.flexcaptcha.CipherHandler;
 import de.forster.flexcaptcha.textbased.TextCaptcha;
 import de.forster.flexcaptcha.textbased.enums.Case;
 import de.forster.flexcaptcha.textbased.handling.TextCaptchaHandler;
@@ -34,7 +35,7 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	 * Generates a TextCaptcha object containing the token and the images.
 	 */
 	@Override
-	public TextCaptcha generate(int length, Serializable saltSource, String password,
+	public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource, String password,
 			CaptchaTextGenerator textgenerator, Case charCase, TextImageRenderer renderer, int height, int width) {
 		if (renderer == null) {
 			throw new IllegalArgumentException("The renderer cannot be null.");
@@ -52,7 +53,7 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 			throw new IllegalArgumentException("The width must be an integer larger than 0.");
 		}
 		String captchaText = textgenerator.generate(length, textgenerator.generate(length, charCase), charCase);
-		return makeTextCaptcha(saltSource, password, renderer, height, width, captchaText);
+		return makeTextCaptcha(saltSource, cipherHandler, password, renderer, height, width, captchaText);
 	}
 
 	/**
@@ -61,8 +62,8 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	 * token
 	 */
 	@Override
-	public boolean validate(String answer, String token, Serializable saltSource) {
-		return token.split(DELIMITER)[0].equals(makeToken(answer, saltSource));
+	public boolean validate(CipherHandler cipherHandler, String answer, String token, Serializable saltSource) {
+		return token.split(DELIMITER)[0].equals(makeToken(cipherHandler, answer, saltSource));
 	}
 
 	/**
@@ -74,9 +75,9 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	 * 
 	 */
 	@Override
-	public TextCaptcha toCaptcha(String captchaText, Serializable saltSource, String password,
+	public TextCaptcha toCaptcha(String captchaText, CipherHandler cipherHandler, Serializable saltSource, String password,
 			TextImageRenderer renderer, int height, int width) {
-		return makeTextCaptcha(saltSource, password, renderer, height, width, captchaText);
+		return makeTextCaptcha(saltSource, cipherHandler, password, renderer, height, width, captchaText);
 	}
 
 	/**
@@ -96,14 +97,15 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	 * @param captchaText text the catpcha should display
 	 * @return {@link TextCaptcha} containing the finalized captcha
 	 */
-	private TextCaptcha makeTextCaptcha(Serializable saltSource, String password, TextImageRenderer renderer,
+	private TextCaptcha makeTextCaptcha(Serializable saltSource, CipherHandler cipherHandler, String password, TextImageRenderer renderer,
 			int height, int width, String captchaText) {
 		BufferedImage image = renderer.render(captchaText, height, width);
 		try {
 			byte[] imgData = convertImageToString(image);
 			if (imgData != null) {
-				String token = makeToken(captchaText, saltSource);
-				token = addSelfReference(token, saltSource, password);
+				CipherHandler ch = new CipherHandler();
+				String token = makeToken(cipherHandler, captchaText, saltSource);
+				token = addSelfReference(ch, token, saltSource, password);
 				TextCaptcha captcha = new TextCaptcha(imgData, token);
 				return captcha;
 			}

@@ -3,6 +3,7 @@ package de.forster.flexcaptcha.textbased.handling;
 import java.io.Serializable;
 
 import de.forster.flexcaptcha.CaptchaHandler;
+import de.forster.flexcaptcha.CipherHandler;
 import de.forster.flexcaptcha.textbased.TextCaptcha;
 import de.forster.flexcaptcha.textbased.enums.Case;
 import de.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
@@ -33,9 +34,9 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */
-	default public TextCaptcha generate(int length, Serializable saltSource, String password,
+	default public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource, String password,
 			CaptchaTextGenerator textgenerator, TextImageRenderer renderer, int height, int width) {
-		return generate(length, saltSource, password, textgenerator, Case.MIXEDCASE, renderer, height, width);
+		return generate(length, cipherHandler, saltSource, password, textgenerator, Case.MIXEDCASE, renderer, height, width);
 	}
 
 	/**
@@ -56,7 +57,7 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */
-	public TextCaptcha generate(int length, Serializable saltSource, String password,
+	public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource, String password,
 			CaptchaTextGenerator textgenerator, Case charCase, TextImageRenderer renderer, int height, int width);
 
 	/**
@@ -70,7 +71,7 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */
-	public TextCaptcha toCaptcha(String captchaText, Serializable saltSource, String password,
+	public TextCaptcha toCaptcha(String captchaText, CipherHandler cipherHandler, Serializable saltSource, String password,
 			TextImageRenderer renderer, int height, int width);
 
 }

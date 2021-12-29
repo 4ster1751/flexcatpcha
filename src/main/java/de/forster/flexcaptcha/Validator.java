@@ -25,7 +25,7 @@ public class Validator {
 	 * @return {@link Boolean} of the validation result. null if the validation
 	 *         encountered a problem.
 	 */
-	public Boolean validateInput(String input, String token, Serializable saltSource, String password, CipherHandler cipherHandler) {
+	public Boolean validateInput(String input, CipherHandler cipherHandler, String token, Serializable saltSource, String password) {
 			try {
 				System.out.println(token);
 				String splitString = token.split(CaptchaHandler.DELIMITER)[1];
@@ -34,7 +34,7 @@ public class Validator {
 				Class<?> handler = Class.forName(decryptedName);
 				Constructor<?> constructor = handler.getConstructor();
 				CaptchaHandler instanceOfMyClass = (CaptchaHandler) constructor.newInstance(new Object[]{});
-				return instanceOfMyClass.validate(input, token.split(CaptchaHandler.DELIMITER)[0], saltSource);
+				return instanceOfMyClass.validate(cipherHandler, input, token.split(CaptchaHandler.DELIMITER)[0], saltSource);
 			}
 			catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
 					| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

@@ -1,7 +1,4 @@
-/**
- * 
- */
-package de.forster.flexcaptcha.core;
+package de.forster.flexcaptcha.textbased.textgen.impl;
 
 import static org.junit.Assert.*;
 
@@ -11,13 +8,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.forster.flexcaptcha.textbased.enums.Case;
-import de.forster.flexcaptcha.textbased.textgen.impl.SimpleCaptchaTextGenerator;
 
 /**
+ * Tests {@link SimpleCaptchaTextGenerator}
+ * 
  * @author Yannick Forster
  *
  */
-public class CaptchaTextGeneratorTest {
+public class SimpleCaptchaTextGeneratorTest {
 	SimpleCaptchaTextGenerator generator;
 	static final int TESTSTRINGLENGTH10 = 10;
 	static final int TESTSTRINGLENGTH5 = 5;
