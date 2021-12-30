@@ -62,8 +62,8 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	 * token
 	 */
 	@Override
-	public boolean validate(CipherHandler cipherHandler, String answer, String token, Serializable saltSource) {
-		return token.split(DELIMITER)[0].equals(makeToken(cipherHandler, answer, saltSource));
+	public boolean validate(String answer, String token, Serializable saltSource) {
+		return token.split(DELIMITER)[0].equals(makeToken(answer, saltSource));
 	}
 
 	/**
@@ -103,9 +103,8 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 		try {
 			byte[] imgData = convertImageToString(image);
 			if (imgData != null) {
-				CipherHandler ch = new CipherHandler();
-				String token = makeToken(cipherHandler, captchaText, saltSource);
-				token = addSelfReference(ch, token, saltSource, password);
+				String token = makeToken(captchaText, saltSource);
+				token = addSelfReference(cipherHandler, token, saltSource, password);
 				TextCaptcha captcha = new TextCaptcha(imgData, token);
 				return captcha;
 			}

@@ -51,7 +51,7 @@ public interface CaptchaHandler {
 	 *                   answer
 	 * @return boolean whether or not the captcha is valid
 	 */
-	boolean validate(CipherHandler cipherHandler, String answer, String token, Serializable saltSource);
+	boolean validate(String answer, String token, Serializable saltSource);
 	
  	/**
 	 * Creates the token based on the captcha solution and the object to be used for
@@ -63,7 +63,7 @@ public interface CaptchaHandler {
 	 *                    answer
 	 * @return String of the token
 	 */
-	default String makeToken(CipherHandler cipherHandler, String sourceString, Serializable saltSource) {
+	default String makeToken(String sourceString, Serializable saltSource) {
 		byte[] captchaTextBytes = sourceString.getBytes();
 		byte[] saltObjectBytes = getSaltObjectBytes(saltSource);
 		try {

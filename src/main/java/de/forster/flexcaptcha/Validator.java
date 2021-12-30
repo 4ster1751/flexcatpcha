@@ -34,7 +34,7 @@ public class Validator {
 				Class<?> handler = Class.forName(decryptedName);
 				Constructor<?> constructor = handler.getConstructor();
 				CaptchaHandler instanceOfMyClass = (CaptchaHandler) constructor.newInstance(new Object[]{});
-				return instanceOfMyClass.validate(cipherHandler, input, token.split(CaptchaHandler.DELIMITER)[0], saltSource);
+				return instanceOfMyClass.validate(input, token.split(CaptchaHandler.DELIMITER)[0], saltSource);
 			}
 			catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
 					| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

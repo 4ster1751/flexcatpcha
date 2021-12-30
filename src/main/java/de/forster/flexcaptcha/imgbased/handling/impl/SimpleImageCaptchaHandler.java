@@ -66,8 +66,8 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	 * Checks if the given answer is correct
 	 */
 	@Override
-	public boolean validate(CipherHandler cipherHandler,String answer, String token, Serializable saltSource) {
-		return token.split(DELIMITER)[0].equals(makeToken(cipherHandler, answer, saltSource));
+	public boolean validate(String answer, String token, Serializable saltSource) {
+		return token.split(DELIMITER)[0].equals(makeToken(answer, saltSource));
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	private String generateToken(CipherHandler cipherHandler, Serializable saltSource, String password, int[] solutionIndices) {
 		Arrays.sort(solutionIndices);
 		String solution = Arrays.toString(solutionIndices).replaceAll("\\s+", "");
-		String token = makeToken(cipherHandler, solution, saltSource);
+		String token = makeToken(solution, saltSource);
 		token = addSelfReference(cipherHandler, token, saltSource, password);
 		return token;
 	}
