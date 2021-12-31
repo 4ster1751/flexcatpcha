@@ -41,6 +41,12 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	 */
 	public ImageCaptcha generate(int gridWidth, CipherHandler cipherHandler, Serializable saltSource, String password,
 			BufferedImage[] solutionImages, BufferedImage[] fillImages, int height, int width) {
+		if(solutionImages==null || solutionImages.length==0) {
+			throw new IllegalArgumentException("solutionImages can not be empty or null.");
+		}
+		if(fillImages==null || fillImages.length==0) {
+			throw new IllegalArgumentException("fillImages can not be empty or null.");
+		}
 		if(gridWidth<=1) {
 			throw new IllegalArgumentException("The gridWidth must be larger than 1.");
 		}

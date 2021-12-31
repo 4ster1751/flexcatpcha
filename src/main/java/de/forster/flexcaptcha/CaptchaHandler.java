@@ -77,8 +77,6 @@ public interface CaptchaHandler {
 			return null;
 		}
 	}
-	
-
 
 	/**
 	 * Converts the given object to a byte array
