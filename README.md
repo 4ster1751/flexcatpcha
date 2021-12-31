@@ -6,7 +6,7 @@ A minimalistic CAPTCHA generator and validator, with customizable rendering opti
 
 ```java
     SimpleCaptchaTextGenerator generator = new SimpleCaptchaTextGenerator(); //Can generate randomized strings from a pool of allowed characters
-    String s = generator.generate(10, Case.UPPERCASE);
+    String s = generator.generate(10, Case.UPPERCASE); //Here is my random string. I want all letters to be uppercase. lowercase and mixed-case is supported, too. Or you supply your own string.
     String pw = "ThisIsMyPassword"; //Supply a password for encryption
     
     SimpleTextImageRenderer renderer = new SimpleTextImageRenderer(); //pick a renderer controlling the image generation (and distortion)
