@@ -1,8 +1,8 @@
-#flexcaptcha
+# flexcaptcha
 A minimalistic CAPTCHA generator and validator, with customizable rendering options ready for both web and desktop applications. The image manipulation is done through [https://github.com/ajmas/JH-Labs-Java-Image-Filters](https://github.com/ajmas/JH-Labs-Java-Image-Filters).
 
-##Usage
-###text-based CAPTCHA:
+## Usage
+### text-based CAPTCHA:
 
 ```java
     SimpleCaptchaTextGenerator generator = new SimpleCaptchaTextGenerator();
@@ -17,7 +17,7 @@ A minimalistic CAPTCHA generator and validator, with customizable rendering opti
     TextCaptcha captcha = handler.toCaptcha(s, ch, saltSource, pw, renderer , 100, 300);
 ```
 
-###image-based CAPTCHA:
+### image-based CAPTCHA:
 
 ```java
     ImageCaptchaHandler handler = new SimpleImageCaptchaHandler();
@@ -31,5 +31,5 @@ A minimalistic CAPTCHA generator and validator, with customizable rendering opti
     int gridWidth = 3;
     ImageCaptcha captcha = handler.generate(gridWidth, ch, saltSource, password, solutionImages, fillImages);
 ```
-##Dependency
+## Dependency
 Coming soon
