@@ -5,16 +5,16 @@ A minimalistic CAPTCHA generator and validator, with customizable rendering opti
 ### text-based CAPTCHA:
 
 ```java
-    SimpleCaptchaTextGenerator generator = new SimpleCaptchaTextGenerator();
+    SimpleCaptchaTextGenerator generator = new SimpleCaptchaTextGenerator(); //Can generate randomized strings from a pool of allowed characters
     String s = generator.generate(10, Case.UPPERCASE);
-    String pw = "ThisIsMyPassword";
+    String pw = "ThisIsMyPassword"; //Supply a password for encryption
     
-    SimpleTextImageRenderer renderer = new SimpleTextImageRenderer();
-    CipherHandler ch = new CipherHandler();
+    SimpleTextImageRenderer renderer = new SimpleTextImageRenderer(); //pick a renderer controlling the image generation (and distortion)
+    CipherHandler ch = new CipherHandler(); //Cipherhandler for implementing the encryption and decryption
     
     TextCaptchaHandler handler = new SimpleTextCaptchaHandler();
-    String saltSource = "Hello World!";
-    TextCaptcha captcha = handler.toCaptcha(s, ch, saltSource, pw, renderer , 100, 300);
+    String saltSource = "Hello World!"; //A salt source for salting the hashes and encryption
+    TextCaptcha captcha = handler.toCaptcha(s, ch, saltSource, pw, renderer , 100, 300); //putting it all together
 ```
 
 ### image-based CAPTCHA:
