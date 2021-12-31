@@ -34,91 +34,91 @@ public class SimpleTextCaptchaHandlerTest {
 	String password = "ThisIsMyPassword!";
 
 	@Test
-	public void testGenerategGeneric() {
+	public void testGenerateGeneric() {
 		TextCaptcha captcha = handler.generate(10, cipherHandler, "ABC", password, generator, renderer, 60, 300);
 		assertTrue(captcha.getToken().length()>0);
 		assertTrue(captcha.getImgData() != null);
 	}
 
 	@Test
-	public void testGenerategGenericEmptySalt() {
+	public void testGenerateGenericEmptySalt() {
 		TextCaptcha captcha = handler.generate(10, cipherHandler, "", password, generator, renderer, 60, 300);
 		assertTrue(captcha.getToken().length()>0);
 		assertTrue(captcha.getImgData() != null);
 	}
 
 	@Test
-	public void testGenerategGenericNullSalt() {
+	public void testGenerateGenericNullSalt() {
 		TextCaptcha captcha = handler.generate(10, cipherHandler, null, password, generator, renderer, 60, 300);
 		assertTrue(captcha.getToken().length()>0);
 		assertTrue(captcha.getImgData() != null);
 	}
 
 	@Test
-	public void testGenerategGenericAllPixelMinimum() {
+	public void testGenerateGenericAllPixelMinimum() {
 		TextCaptcha captcha = handler.generate(1, cipherHandler, "", password, generator, renderer, 3, 1);
 		assertTrue(captcha.getToken().length()>0);
 		assertTrue(captcha.getImgData() != null);
 	}
 
 	@Test
-	public void testGenerategGenericLengthZero() {
+	public void testGenerateGenericLengthZero() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			handler.generate(0, cipherHandler,"", password, generator, renderer, 1, 1);
 		});
 	}
 
 	@Test
-	public void testGenerategGenericLengthNegative() {
+	public void testGenerateGenericLengthNegative() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			handler.generate(-1, cipherHandler,"", password, generator, renderer, 1, 1);
 		});
 	}
 
 	@Test
-	public void testGenerategGenericIllegalHeight() {
+	public void testGenerateGenericIllegalHeight() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			handler.generate(1, cipherHandler,"", password, generator, renderer, 1, 1);
 		});
 	}
 
 	@Test
-	public void testGenerategGenericNegativeHeight() {
+	public void testGenerateGenericNegativeHeight() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			handler.generate(1, cipherHandler,"", password, generator, renderer, -3, 1);
 		});
 	}
 
 	@Test
-	public void testGenerategGenericIllegalWidth() {
+	public void testGenerateGenericIllegalWidth() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			handler.generate(1, cipherHandler,"", password, generator, renderer, 3, 0);
 		});
 	}
 
 	@Test
-	public void testGenerategGenericNegativeWidth() {
+	public void testGenerateGenericNegativeWidth() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			handler.generate(1, cipherHandler,"", password, generator, renderer, 3, -1);
 		});
 	}
 
 	@Test
-	public void testGenerategGenericNull() {
+	public void testGenerateGenericNull() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			handler.generate(10, cipherHandler,null, password, null, null, 60, 300);
 		});
 	}
 
 	@Test
-	public void testGenerategGenericShort() {
+	public void testGenerateGenericShort() {
 		TextCaptcha captcha = handler.generate(5, cipherHandler,"ABC", password, generator, renderer, 60, 300);
 		assertTrue(captcha.getToken().length()>0);
 		assertTrue(captcha.getImgData() != null);
 	}
 
 	@Test
-	public void testGenerategGenericWithDummyObj() {
+	public void testGenerateGenericWithDummyObj() {
 		TextCaptcha captcha = handler.generate(5, cipherHandler,dummySerializable, password, generator, renderer, 60, 300);
 		assertTrue(captcha.getToken().length()>0);
 		assertTrue(captcha.getImgData() != null);

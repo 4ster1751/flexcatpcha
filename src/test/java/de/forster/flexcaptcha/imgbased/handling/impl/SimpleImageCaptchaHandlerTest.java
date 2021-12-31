@@ -38,7 +38,7 @@ public class SimpleImageCaptchaHandlerTest{
 
 	@Test
 	public void testAllNull() {
-		assertThrows("gridWidth must be larger than 1.", IllegalArgumentException.class, () -> {
+		assertThrows(IllegalArgumentException.class, () -> {
 			handler.generate(0, cipherHandler, null, null, null, null, 0, 0);
 		});
 	}

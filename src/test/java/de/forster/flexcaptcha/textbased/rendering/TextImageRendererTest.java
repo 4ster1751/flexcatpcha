@@ -7,12 +7,15 @@ import java.awt.image.BufferedImage;
 import org.junit.Before;
 import org.junit.Test;
 
+import lombok.Getter;
+
 /**
  * Tests {@link TextImageRenderer} interface
  * 
  * @author Yannick Forster
  *
  */
+@Getter
 public abstract class TextImageRendererTest<T extends TextImageRenderer> {
 	
 	private T renderer;
