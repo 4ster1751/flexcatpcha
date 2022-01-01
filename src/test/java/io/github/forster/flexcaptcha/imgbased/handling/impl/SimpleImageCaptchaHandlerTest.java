@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.imgbased.handling.impl;
+package io.github.forster.flexcaptcha.imgbased.handling.impl;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -17,9 +17,9 @@ import javax.imageio.ImageIO;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import de.forster.flexcaptcha.CipherHandler;
-import de.forster.flexcaptcha.imgbased.ImageCaptcha;
-import de.forster.flexcaptcha.imgbased.handling.ImageCaptchaHandler;
+import io.github.forster.flexcaptcha.CipherHandler;
+import io.github.forster.flexcaptcha.imgbased.ImageCaptcha;
+import io.github.forster.flexcaptcha.imgbased.handling.ImageCaptchaHandler;
 
 /**
  * Tests {@link SimpleImageCaptchaHandler}

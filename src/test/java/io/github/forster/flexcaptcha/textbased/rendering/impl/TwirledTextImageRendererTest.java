@@ -1,8 +1,8 @@
-package de.forster.flexcaptcha.textbased.rendering.impl;
+package io.github.forster.flexcaptcha.textbased.rendering.impl;
 
 import org.junit.Test;
 
-import de.forster.flexcaptcha.textbased.rendering.TextImageRendererTest;
+import io.github.forster.flexcaptcha.textbased.rendering.TextImageRendererTest;
 
 public class TwirledTextImageRendererTest extends TextImageRendererTest<TwirledTextImageRenderer>{
 

@@ -1,13 +1,13 @@
-package de.forster.flexcaptcha.textbased.handling;
+package io.github.forster.flexcaptcha.textbased.handling;
 
 import java.io.Serializable;
 
-import de.forster.flexcaptcha.CaptchaHandler;
-import de.forster.flexcaptcha.CipherHandler;
-import de.forster.flexcaptcha.textbased.TextCaptcha;
-import de.forster.flexcaptcha.textbased.enums.Case;
-import de.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
-import de.forster.flexcaptcha.textbased.textgen.CaptchaTextGenerator;
+import io.github.forster.flexcaptcha.CaptchaHandler;
+import io.github.forster.flexcaptcha.CipherHandler;
+import io.github.forster.flexcaptcha.textbased.TextCaptcha;
+import io.github.forster.flexcaptcha.textbased.enums.Case;
+import io.github.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
+import io.github.forster.flexcaptcha.textbased.textgen.CaptchaTextGenerator;
 
 /**
  * Interface for the various ways in which a captcha could potentially be

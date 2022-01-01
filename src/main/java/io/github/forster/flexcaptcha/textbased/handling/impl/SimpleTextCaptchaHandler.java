@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.textbased.handling.impl;
+package io.github.forster.flexcaptcha.textbased.handling.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -10,12 +10,12 @@ import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.forster.flexcaptcha.CipherHandler;
-import de.forster.flexcaptcha.textbased.TextCaptcha;
-import de.forster.flexcaptcha.textbased.enums.Case;
-import de.forster.flexcaptcha.textbased.handling.TextCaptchaHandler;
-import de.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
-import de.forster.flexcaptcha.textbased.textgen.CaptchaTextGenerator;
+import io.github.forster.flexcaptcha.CipherHandler;
+import io.github.forster.flexcaptcha.textbased.TextCaptcha;
+import io.github.forster.flexcaptcha.textbased.enums.Case;
+import io.github.forster.flexcaptcha.textbased.handling.TextCaptchaHandler;
+import io.github.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
+import io.github.forster.flexcaptcha.textbased.textgen.CaptchaTextGenerator;
 
 /**
  * Provides basic captcha handling in regards to generating a simplistic visual

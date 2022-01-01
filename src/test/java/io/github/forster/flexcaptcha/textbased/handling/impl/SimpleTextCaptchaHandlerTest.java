@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.textbased.handling.impl;
+package io.github.forster.flexcaptcha.textbased.handling.impl;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -12,10 +12,10 @@ import javax.crypto.spec.IvParameterSpec;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import de.forster.flexcaptcha.CipherHandler;
-import de.forster.flexcaptcha.textbased.TextCaptcha;
-import de.forster.flexcaptcha.textbased.rendering.impl.SimpleTextImageRenderer;
-import de.forster.flexcaptcha.textbased.textgen.impl.SimpleCaptchaTextGenerator;
+import io.github.forster.flexcaptcha.CipherHandler;
+import io.github.forster.flexcaptcha.textbased.TextCaptcha;
+import io.github.forster.flexcaptcha.textbased.rendering.impl.SimpleTextImageRenderer;
+import io.github.forster.flexcaptcha.textbased.textgen.impl.SimpleCaptchaTextGenerator;
 
 /**
  * Tests {@link SimpleTextCaptchaHandler}

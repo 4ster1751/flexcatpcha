@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha;
+package io.github.forster.flexcaptcha;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

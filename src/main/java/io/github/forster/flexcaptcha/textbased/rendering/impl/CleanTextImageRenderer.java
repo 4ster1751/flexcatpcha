@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.textbased.rendering.impl;
+package io.github.forster.flexcaptcha.textbased.rendering.impl;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
+import io.github.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
-package de.forster.flexcaptcha.textbased.textgen;
+package io.github.forster.flexcaptcha.textbased.textgen;
 
-import de.forster.flexcaptcha.textbased.enums.Case;
+import io.github.forster.flexcaptcha.textbased.enums.Case;
 
 public interface CaptchaTextGenerator {
 

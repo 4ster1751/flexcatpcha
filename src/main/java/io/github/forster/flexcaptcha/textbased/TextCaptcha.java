@@ -1,8 +1,8 @@
-package de.forster.flexcaptcha.textbased;
+package io.github.forster.flexcaptcha.textbased;
 
 import java.util.Base64;
 
-import de.forster.flexcaptcha.Captcha;
+import io.github.forster.flexcaptcha.Captcha;
 import lombok.Getter;
 import lombok.Setter;
 

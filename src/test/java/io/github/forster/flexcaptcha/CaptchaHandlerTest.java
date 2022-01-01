@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha;
+package io.github.forster.flexcaptcha;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;

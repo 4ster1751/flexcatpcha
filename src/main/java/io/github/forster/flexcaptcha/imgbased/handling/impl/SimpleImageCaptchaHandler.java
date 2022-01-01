@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.imgbased.handling.impl;
+package io.github.forster.flexcaptcha.imgbased.handling.impl;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -17,9 +17,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.forster.flexcaptcha.CipherHandler;
-import de.forster.flexcaptcha.imgbased.ImageCaptcha;
-import de.forster.flexcaptcha.imgbased.handling.ImageCaptchaHandler;
+import io.github.forster.flexcaptcha.CipherHandler;
+import io.github.forster.flexcaptcha.imgbased.ImageCaptcha;
+import io.github.forster.flexcaptcha.imgbased.handling.ImageCaptchaHandler;
 
 /**
  * Provides basic captcha handling in regards to generating a simplistic visual

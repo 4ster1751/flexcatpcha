@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.imgbased.handling.impl;
+package io.github.forster.flexcaptcha.imgbased.handling.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

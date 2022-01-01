@@ -1,11 +1,11 @@
-package de.forster.flexcaptcha.core;
+package io.github.forster.flexcaptcha.core;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import de.forster.flexcaptcha.Captcha;
-import de.forster.flexcaptcha.textbased.TextCaptcha;
+import io.github.forster.flexcaptcha.Captcha;
+import io.github.forster.flexcaptcha.textbased.TextCaptcha;
 
 /**
  * Tests {@link Captcha}

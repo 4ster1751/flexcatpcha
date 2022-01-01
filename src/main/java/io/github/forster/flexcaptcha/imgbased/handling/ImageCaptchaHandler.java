@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.imgbased.handling;
+package io.github.forster.flexcaptcha.imgbased.handling;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -10,9 +10,9 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.forster.flexcaptcha.CaptchaHandler;
-import de.forster.flexcaptcha.CipherHandler;
-import de.forster.flexcaptcha.imgbased.ImageCaptcha;
+import io.github.forster.flexcaptcha.CaptchaHandler;
+import io.github.forster.flexcaptcha.CipherHandler;
+import io.github.forster.flexcaptcha.imgbased.ImageCaptcha;
 
 public interface ImageCaptchaHandler extends CaptchaHandler {
 	

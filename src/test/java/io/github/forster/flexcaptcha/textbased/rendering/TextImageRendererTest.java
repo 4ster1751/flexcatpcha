@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.textbased.rendering;
+package io.github.forster.flexcaptcha.textbased.rendering;
 
 import static org.junit.Assert.assertTrue;
 

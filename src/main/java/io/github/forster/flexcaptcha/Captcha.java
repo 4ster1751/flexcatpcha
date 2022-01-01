@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha;
+package io.github.forster.flexcaptcha;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

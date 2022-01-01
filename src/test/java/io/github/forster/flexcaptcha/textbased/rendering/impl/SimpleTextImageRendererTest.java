@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.textbased.rendering.impl;
+package io.github.forster.flexcaptcha.textbased.rendering.impl;
 
 import static org.junit.Assert.assertTrue;
 
@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 import org.junit.Test;
 
-import de.forster.flexcaptcha.textbased.rendering.TextImageRendererTest;
+import io.github.forster.flexcaptcha.textbased.rendering.TextImageRendererTest;
 
 public class SimpleTextImageRendererTest extends TextImageRendererTest<SimpleTextImageRenderer>{
 

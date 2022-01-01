@@ -1,13 +1,13 @@
-package de.forster.flexcaptcha.textbased.textgen.impl;
+package io.github.forster.flexcaptcha.textbased.textgen.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Locale;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.forster.flexcaptcha.textbased.enums.Case;
+import io.github.forster.flexcaptcha.textbased.enums.Case;
 
 /**
  * Tests {@link SimpleCaptchaTextGenerator}

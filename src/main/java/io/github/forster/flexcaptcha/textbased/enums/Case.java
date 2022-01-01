@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.textbased.enums;
+package io.github.forster.flexcaptcha.textbased.enums;
 
 /**
  * Enum object representing the three different ways of using lettercases.

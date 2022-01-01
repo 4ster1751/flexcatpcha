@@ -1,6 +1,6 @@
-package de.forster.flexcaptcha.imgbased;
+package io.github.forster.flexcaptcha.imgbased;
 
-import de.forster.flexcaptcha.Captcha;
+import io.github.forster.flexcaptcha.Captcha;
 import lombok.Getter;
 import lombok.Setter;
 

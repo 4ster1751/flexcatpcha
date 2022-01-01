@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.textbased.rendering.impl;
+package io.github.forster.flexcaptcha.textbased.rendering.impl;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.jhlabs.image.TwirlFilter;
 
-import de.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
+import io.github.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

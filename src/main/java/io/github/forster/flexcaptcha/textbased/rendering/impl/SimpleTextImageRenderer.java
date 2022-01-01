@@ -1,4 +1,4 @@
-package de.forster.flexcaptcha.textbased.rendering.impl;
+package io.github.forster.flexcaptcha.textbased.rendering.impl;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -6,11 +6,12 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
+import io.github.forster.flexcaptcha.textbased.rendering.TextImageRenderer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -74,7 +75,7 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
 
 	/**
 	 * Draws distortions onto the given Graphics2D object in the shape of randomly
-	 * generated rectangles to help obscure the text in the captcha image
+	 * generated rectangles and dots to help obscure the text in the captcha image
 	 * 
 	 * @param height  pixel height of the image inside the graphics object
 	 * @param width   pixel width of the image inside the graphics object
@@ -88,6 +89,15 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
 			int X = (int) (Math.random() * width - L);
 			int Y = (int) (Math.random() * height - L);
 			graphic.draw3DRect(X, Y, L * 2, L * 2, true);
+		}
+		Color darkerBackgrnd = backgrndCol.darker();
+		graphic.setColor(darkerBackgrnd);
+		ThreadLocalRandom random = ThreadLocalRandom.current();
+		int dotCount = height*width/4;
+		for (int j = 0; j < dotCount; j++) {
+			int x = Math.abs(random.nextInt()) % width;
+		    int y = Math.abs(random.nextInt()) % height;
+		    graphic.drawLine(x, y, x, y);
 		}
 		return graphic;
 	}
