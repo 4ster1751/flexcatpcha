@@ -16,7 +16,8 @@ A minimalistic CAPTCHA generator and validator, with customizable rendering opti
     String saltSource = "Hello World!"; //A salt source for salting the hashes and encryption
     TextCaptcha captcha = handler.toCaptcha(s, ch, saltSource, pw, renderer , 100, 300); //putting it all together
 ```
-####Sample images:
+#### Sample images:
+
 ![5W3QRKCYMY](https://user-images.githubusercontent.com/96397624/148242974-931e21b9-de0c-4200-ad99-41c3e3918228.png)
 
 ![B6JJRT9XSD](https://user-images.githubusercontent.com/96397624/148242976-62a6e567-f2e0-43cf-87ac-43ea03aef6a9.png)
