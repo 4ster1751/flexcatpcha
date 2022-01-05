@@ -27,8 +27,14 @@ import io.github.yaforster.flexcaptcha.textbased.textgen.CaptchaTextGenerator;
  */
 public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 
+	/**
+	 * Log4J Logger
+	 */
 	Logger log = LogManager.getLogger(SimpleTextCaptchaHandler.class);
 
+	/**
+	 * The image format
+	 */
 	private static final String IMG_FORMAT = "JPEG";
 
 	/**

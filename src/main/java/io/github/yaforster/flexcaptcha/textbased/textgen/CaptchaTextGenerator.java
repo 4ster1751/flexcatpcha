@@ -4,6 +4,9 @@ import io.github.yaforster.flexcaptcha.textbased.enums.Case;
 
 public interface CaptchaTextGenerator {
 
+	/**
+	 * String containing every character that is allowed
+	 */
 	public String DEFAULT_CHARACTER_BASE = "abcdefghjkmpqrstuvwxy2345689";
 	
 	default public String getCharacterBase() {

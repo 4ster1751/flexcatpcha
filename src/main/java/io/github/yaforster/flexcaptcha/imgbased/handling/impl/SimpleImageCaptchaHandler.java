@@ -32,7 +32,13 @@ import io.github.yaforster.flexcaptcha.imgbased.handling.ImageCaptchaHandler;
 
 public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 
+	/**
+	 * Log4J Logger
+	 */
 	Logger log = LogManager.getLogger(SimpleImageCaptchaHandler.class);
+	/**
+	 * The image format
+	 */
 	private static final String IMG_FORMAT = "PNG";
 
 	/**

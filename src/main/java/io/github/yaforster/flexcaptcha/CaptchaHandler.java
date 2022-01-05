@@ -11,11 +11,30 @@ import java.util.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * @author Yannick Forster
+ *
+ *         This interface defines the basic functionality shared amongst all
+ *         Captcha handlers consisting of the adding of the handler reference to
+ *         the token itself as well as the validation method definition and
+ *         token creation implementation as well as the validation and
+ *         convertion of a salt object to byte arrays
+ *
+ */
 public interface CaptchaHandler {
 
+	/**
+	 * Log4J Logger
+	 */
 	Logger log = LogManager.getLogger(CaptchaHandler.class);
 	
+	/**
+	 * The algorithm used to hash
+	 */
 	String ALGORITHM_NAME = "SHA-256";
+	/**
+	 * The delimiter used to differentiate between the hashed portion of the token and the self reference of the handler
+	 */
 	String DELIMITER = "_";
 
 	/**
@@ -29,6 +48,7 @@ public interface CaptchaHandler {
 	 * and run its validation.
 	 * 
 	 * @param token token to be appended
+	 * @param cipherHandler the CipherHandler to be used for encryption and decryption
 	 * @param saltSource the salt source used for the encryption.
 	 * @param password    the password used to encrypt the implementation reference
 	 * @return appended token string

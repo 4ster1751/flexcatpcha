@@ -32,6 +32,9 @@ public class CleanTextImageRenderer implements TextImageRenderer {
 	 */
 	Color[] textCols = new Color[] { Color.blue };
 
+	/**
+	 * The name of the font used to draw the letters
+	 */
 	String fontName = "Verdana";
 
 	/**

@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>flexcaptcha</artifactId>
-	<groupId>io.github.forster</groupId>
+	<groupId>io.github.yaforster</groupId>
 	<name>Flexible Captcha</name>
 	<description>Simple Captcha generation and validation</description>
-	<version>1.0.0</version>
-	<url>https://github.com/4ster1751/flexcatpcha</url>
+	<version>1.0.1</version>
+	<url>https://github.com/yaforster/flexcatpcha</url>
 	<licenses>
 		<license>
 			<name>Apache License, Version 2.0</name>
@@ -20,7 +20,7 @@
 	</scm>
 	<developers>
 		<developer>
-			<id>4ster1751</id>
+			<id>yaforster</id>
 			<name>Yannick Forster</name>
 			<email>forstery1751@gmail.com</email>
 			<roles>
@@ -33,6 +33,7 @@
 		<main.basedir>${basedir}/../..</main.basedir>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
+		<jvm.options>--illegal-access=permit</jvm.options>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -68,9 +69,42 @@
 			<version>4.2.0</version>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<build>
 		<plugins>
+			<!--configure Maven to deploy to the OSSRH Nexus Repository Manager -->
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.8</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+					
+				</configuration>
+				<dependencies>
+					<!--
+				      TODO:
+				        Remove after OSSRH-66257, NEXUS-26993 are fixed,
+				        possibly via https://github.com/sonatype/nexus-maven-plugins/pull/91
+				    -->
+					<dependency>
+						<groupId>com.thoughtworks.xstream</groupId>
+						<artifactId>xstream</artifactId>
+						<version>1.4.15</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<!--get Source jar files generated -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -84,6 +118,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!--get Javadoc files generated -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -97,43 +132,21 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!--sign the components -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M5</version>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
-	
-	<profiles>
-		<profile>
-			<id>ci-cd</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>3.0.1</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-								<configuration>
-									<!-- Prevent gpg from using pinentry programs. Fixes: gpg: signing 
-										failed: Inappropriate ioctl for device -->
-									<gpgArguments>
-										<arg>--pinentry-mode</arg>
-										<arg>loopback</arg>
-									</gpgArguments>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>

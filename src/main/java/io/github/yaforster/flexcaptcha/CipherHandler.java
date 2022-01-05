@@ -34,10 +34,22 @@ import org.apache.logging.log4j.Logger;
  */
 public class CipherHandler {
 	
+	/**
+	 * Log4J Logger
+	 */
 	Logger log = LogManager.getLogger(CipherHandler.class);
 	
+	/**
+	 * The encryption algorithm
+	 */
 	static final String ALGORITHM = "PBKDF2WithHmacSHA256";
+	/**
+	 * The cipher algorithm
+	 */
 	static final String CIPERALGORITHM = "AES/CBC/PKCS5Padding";
+	/**
+	 * AES
+	 */
 	static final String AES = "AES";
 	
 	

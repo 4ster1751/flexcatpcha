@@ -24,19 +24,25 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 * given String as a source of all possible characters from which the captcha
 	 * string is to be generated with mixed case.
 	 * 
-	 * @param length          specifies the length
-	 * @param saltSource      Object used during creation of the captcha token to
-	 *                        ensure authenticity
-	 * @param password        the password used to encrypt the implementation
-	 *                        reference
-	 * @param characterSource String from which the random characters used during
-	 *                        creation of the captcha are picked
+	 * 
+	 * @param length        specifies the length
+	 * @param cipherHandler {@link CipherHandler} implementation for encryption and
+	 *                      decryption
+	 * @param saltSource    Object used during creation of the captcha token to
+	 *                      ensure authenticity
+	 * @param password      the password for encryption
+	 * @param textgenerator a {@link CaptchaTextGenerator} implementation
+	 * @param renderer      a {@link TextImageRenderer} implementation handling the
+	 *                      visualization of the text as image
+	 * @param height        the pixel height of the captcha image
+	 * @param width         the pixel width of the captcha image
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */
-	default public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource, String password,
-			CaptchaTextGenerator textgenerator, TextImageRenderer renderer, int height, int width) {
-		return generate(length, cipherHandler, saltSource, password, textgenerator, Case.MIXEDCASE, renderer, height, width);
+	default public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource,
+			String password, CaptchaTextGenerator textgenerator, TextImageRenderer renderer, int height, int width) {
+		return generate(length, cipherHandler, saltSource, password, textgenerator, Case.MIXEDCASE, renderer, height,
+				width);
 	}
 
 	/**
@@ -45,15 +51,19 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 * given String as a source of all possible characters from which the captcha
 	 * string is to be generated with the specified case.
 	 * 
-	 * @param length          specifies the length
-	 * @param saltSource      Object used during creation of the captcha token to
-	 *                        ensure authenticity
-	 * @param password        the password used to encrypt the implementation
-	 *                        reference
-	 * @param characterSource String from which the random characters used during
-	 *                        creation of the captcha are picked
-	 * @param charCase        Case enum specifying the case in which the captcha
-	 *                        text letters should be generated
+	 * @param length        specifies the length
+	 * @param cipherHandler {@link CipherHandler} implementation for encryption and
+	 *                      decryption
+	 * @param saltSource    Object used during creation of the captcha token to
+	 *                      ensure authenticity
+	 * @param password      the password for encryption
+	 * @param textgenerator a {@link CaptchaTextGenerator} implementation
+	 * @param renderer      a {@link TextImageRenderer} implementation handling the
+	 *                      visualization of the text as image
+	 * @param charCase      a {@link Case} enum defining what letter case is allowed
+	 *                      in the generation
+	 * @param height        the pixel height of the captcha image
+	 * @param width         the pixel width of the captcha image
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */

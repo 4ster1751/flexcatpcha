@@ -8,8 +8,22 @@ package io.github.yaforster.flexcaptcha.textbased.enums;
  */
 public enum Case {
 
-	UPPERCASE(0), LOWERCASE(1), MIXEDCASE(2);
+	/**
+	 * Uppercase letters only
+	 */
+	UPPERCASE(0),
+	/**
+	 *  Lowercase letters only
+	 */
+	LOWERCASE(1),
+	/**
+	 *  Both uppercase and lowercase letters
+	 */
+	MIXEDCASE(2);
 
+	/**
+	 * A number representing the available cases
+	 */
 	private int caseNum;
 
 	Case(int caseNum) {

@@ -16,6 +16,9 @@ import io.github.yaforster.flexcaptcha.imgbased.ImageCaptcha;
 
 public interface ImageCaptchaHandler extends CaptchaHandler {
 	
+	/**
+	 * Log4J Logger
+	 */
 	Logger log = LogManager.getLogger(ImageCaptchaHandler.class);
 
 	/**
