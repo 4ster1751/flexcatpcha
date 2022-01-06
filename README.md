@@ -52,5 +52,5 @@ A minimalistic CAPTCHA generator and validator, with customizable rendering opti
     <groupId>io.github.yaforster</groupId>
     <artifactId>flexcaptcha</artifactId>
     <version>1.0.1</version>
-</dependency>
-```
+</dependency>```
+
