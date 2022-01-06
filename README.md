@@ -45,4 +45,9 @@ A minimalistic CAPTCHA generator and validator, with customizable rendering opti
     ImageCaptcha captcha = handler.generate(gridWidth, ch, saltSource, password, solutionImages, fillImages);
 ```
 ## Dependency
-Coming soon
+<!-- https://mvnrepository.com/artifact/io.github.yaforster/flexcaptcha -->
+<dependency>
+    <groupId>io.github.yaforster</groupId>
+    <artifactId>flexcaptcha</artifactId>
+    <version>1.0.1</version>
+</dependency>
