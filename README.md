@@ -46,11 +46,10 @@ A minimalistic CAPTCHA generator and validator, with customizable rendering opti
 ```
 ## Dependency
 
-````
-<!-- https://mvnrepository.com/artifact/io.github.yaforster/flexcaptcha -->
+```
 <dependency>
     <groupId>io.github.yaforster</groupId>
     <artifactId>flexcaptcha</artifactId>
     <version>1.0.1</version>
-</dependency>```
-
+</dependency>
+```
