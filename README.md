@@ -54,4 +54,3 @@ A minimalistic CAPTCHA generator and validator, with customizable rendering opti
     <version>1.0.1</version>
 </dependency>
 ```
-
