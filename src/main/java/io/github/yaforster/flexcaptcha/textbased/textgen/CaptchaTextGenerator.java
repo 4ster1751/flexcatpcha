@@ -2,29 +2,33 @@ package io.github.yaforster.flexcaptcha.textbased.textgen;
 
 import io.github.yaforster.flexcaptcha.textbased.enums.Case;
 
+/**
+ * Interface for declaring methods used for to generate randomized Strings
+ * 
+ * @author Yannick Forster
+ *
+ */
 public interface CaptchaTextGenerator {
 
 	/**
-	 * String containing every character that is allowed
+	 * String containing every character that is allowed for the generation of
+	 * Strings. Excludes some characters by default that may be confusing when
+	 * rotated in a certain way.
 	 */
 	public String DEFAULT_CHARACTER_BASE = "abcdefghjkmpqrstuvwxy2345689";
-	
-	default public String getCharacterBase() {
-		return DEFAULT_CHARACTER_BASE;
-	}
 
 	/**
 	 * Generates a new randomized String of mixed case letters and numbers of the
 	 * given length
 	 * 
 	 * @param length the generated string is supposed to have
-	 * @return randomized String of mixed case letters and numbers of the
-	 * given length
+	 * @return randomized String of mixed case letters and numbers of the given
+	 *         length
 	 */
 	default public String generate(int length) {
 		return generate(length, DEFAULT_CHARACTER_BASE, Case.MIXEDCASE);
 	}
-	
+
 	/**
 	 * Generates a new randomized String of the specified length consisting of a
 	 * randomly selected set of characters from the given string
@@ -32,13 +36,13 @@ public interface CaptchaTextGenerator {
 	 * @param length        the generated string is supposed to have
 	 * @param characterbase String consisting of the set of letters from which the
 	 *                      method will randomly pick characters
-	 * @return randomized String of the specified length consisting of a
-	 * randomly selected set of characters from the given string
+	 * @return randomized String of the specified length consisting of a randomly
+	 *         selected set of characters from the given string
 	 */
 	default public String generate(int length, String characterbase) {
 		return generate(length, characterbase, Case.MIXEDCASE);
 	}
-	
+
 	/**
 	 * Generates a new randomized String of letters and numbers of the given length
 	 * and specified case
@@ -51,7 +55,7 @@ public interface CaptchaTextGenerator {
 	default public String generate(int length, Case charCase) {
 		return generate(length, DEFAULT_CHARACTER_BASE, charCase);
 	}
-	
+
 	/**
 	 * Generates a new randomized String of the specified length consisting of a
 	 * randomly selected set of characters from the given string, generated as

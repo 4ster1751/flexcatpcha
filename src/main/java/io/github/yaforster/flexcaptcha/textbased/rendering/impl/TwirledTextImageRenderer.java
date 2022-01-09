@@ -13,19 +13,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * Text image handler that adds a twirl effect to the rendered text captcha
+ * image
+ * 
+ * @author Yannick Forster
+ *
+ */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Accessors(chain=true)
-public class TwirledTextImageRenderer implements TextImageRenderer{
-	
+@Accessors(chain = true)
+public class TwirledTextImageRenderer implements TextImageRenderer {
+
 	/**
 	 * Set of possible colors of the letters in the captcha image
 	 */
-	Color[] textCols = new Color[] {Color.blue, Color.red, Color.darkGray, Color.magenta, Color.black};
+	Color[] textCols = new Color[] { Color.blue, Color.red, Color.darkGray, Color.magenta, Color.black };
 	/**
-	 * Radius integer used for the twirling effect. Higher numbers result in a stronger effect. 10 per default.
+	 * Radius integer used for the twirling effect. Higher numbers result in a
+	 * stronger effect. 10 per default.
 	 */
 	float twirlStrength = -0.3f;
 
@@ -45,14 +53,14 @@ public class TwirledTextImageRenderer implements TextImageRenderer{
 	 * @param width   pixel count of the width of the graphic
 	 * @param graphic the Graphics2D object containing the graphic in which the
 	 *                image is constructed
-	 * @return 
+	 * @return
 	 */
 	private BufferedImage applytwirl(BufferedImage image) {
 		TwirlFilter filter = new TwirlFilter();
 		ThreadLocalRandom random = ThreadLocalRandom.current();
 		float angle = getTwirlStrength();
-		if(random.nextBoolean()) {
-			angle=angle*(-1);
+		if (random.nextBoolean()) {
+			angle = angle * (-1);
 		}
 		filter.setAngle(angle);
 		return filter.filter(image, new BufferedImage(image.getWidth(), image.getHeight(), image.getType()));

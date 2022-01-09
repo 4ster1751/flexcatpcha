@@ -9,6 +9,9 @@ import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +25,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ImageLoader {
+	
+	/**
+	 * Log4J Logger
+	 */
+	Logger log = LogManager.getLogger(ImageLoader.class);
 
 	/**
 	 * The supported image file types. Will filter out all files that do not have
@@ -48,7 +56,7 @@ public class ImageLoader {
 			try {
 				return ImageIO.read(file);
 			} catch (IOException e) {
-				System.out.println("Error loading image:" + e.getMessage());
+				log.error("Error loading image:" + e.getMessage());
 				return null;
 			}
 		}).filter(img -> img != null).toArray(BufferedImage[]::new);

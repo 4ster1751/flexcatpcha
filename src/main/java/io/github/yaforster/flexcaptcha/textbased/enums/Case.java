@@ -1,11 +1,14 @@
 package io.github.yaforster.flexcaptcha.textbased.enums;
 
+import lombok.Getter;
+
 /**
  * Enum object representing the three different ways of using lettercases.
  * 
  * @author Yannick Forster
  *
  */
+@Getter
 public enum Case {
 
 	/**
@@ -28,10 +31,6 @@ public enum Case {
 
 	Case(int caseNum) {
 		this.caseNum = caseNum;
-	}
-
-	public int getNum() {
-		return caseNum;
 	}
 
 }

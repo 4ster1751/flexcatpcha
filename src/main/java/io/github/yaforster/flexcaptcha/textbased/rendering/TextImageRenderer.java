@@ -26,6 +26,8 @@ public interface TextImageRenderer {
 	/**
 	 * Picks a random color from the array of possible text colors
 	 * 
+	 * @param colors Color array from which to pick a random element.
+	 * 
 	 * @return Color object, picked randomly out of the textCols-Field array
 	 */
 	default Color pickRandomColor(Color[] colors) {

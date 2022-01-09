@@ -27,15 +27,16 @@ public interface CaptchaHandler {
 	 * Log4J Logger
 	 */
 	Logger log = LogManager.getLogger(CaptchaHandler.class);
-	
+
 	/**
 	 * The algorithm used to hash
 	 */
 	String ALGORITHM_NAME = "SHA-256";
 	/**
-	 * The delimiter used to differentiate between the hashed portion of the token and the self reference of the handler
+	 * The delimiter used to differentiate between the hashed portion of the token
+	 * and the self reference of the handler
 	 */
-	String DELIMITER = "_";
+	String DELIMITER = "###";
 
 	/**
 	 * Appends a given token with an encrypted self reference used for validation at
@@ -47,40 +48,48 @@ public interface CaptchaHandler {
 	 * be used to decrypt the token, instantiate the CaptchaHandler implementation
 	 * and run its validation.
 	 * 
-	 * @param token token to be appended
-	 * @param cipherHandler the CipherHandler to be used for encryption and decryption
-	 * @param saltSource the salt source used for the encryption.
-	 * @param password    the password used to encrypt the implementation reference
+	 * @param cipherHandler {@link CipherHandler} object used to handle the
+	 *                      encrypting of the self reference
+	 * @param token         token to be appended
+	 * @param saltSource    the salt source used for the encryption.
+	 * @param password      the password used to encrypt the implementation
+	 *                      reference
 	 * @return appended token string
 	 */
-	default String addSelfReference(CipherHandler cipherHandler, String token, Serializable saltSource, String password) {
-		byte[] ivBytes =  cipherHandler.generateIV().getIV();
-		byte[] encryptedBytes = cipherHandler.encryptString(this.getClass().getName().getBytes(), password, saltSource, ivBytes);
+	default String addSelfReference(CipherHandler cipherHandler, String token, Serializable saltSource,
+			String password) {
+		byte[] ivBytes = cipherHandler.generateIV().getIV();
+		byte[] encryptedBytes = cipherHandler.encryptString(this.getClass().getName().getBytes(), password, saltSource,
+				ivBytes);
 		String base64 = Base64.getEncoder().encodeToString(encryptedBytes);
-		return token+DELIMITER+base64;
+		return token + DELIMITER + base64;
 	}
 
 	/**
 	 * Validates the answer to the captcha based on the token and the salt object.
 	 * Returns true if the answer is correct and the token authentic
 	 * 
-	 * @param answer     the given solution to the captcha to be validated
-	 * @param token      the returned token originally created with the captcha
-	 * @param saltSource the salt source originally used to salt the hashed solution
-	 *                   to create the token. Will be used again to validate the
-	 *                   answer
+	 * @param answer        the given solution to the captcha to be validated
+	 * @param cipherHandler {@link CipherHandler} object used to handle the
+	 *                      decryption of the self reference
+	 * @param token         the returned token originally created with the captcha
+	 * @param saltSource    the salt source originally used to salt the hashed
+	 *                      solution to create the token. Will be used again to
+	 *                      validate the answer
+	 * @param password      The password string used for decryption
 	 * @return boolean whether or not the captcha is valid
 	 */
-	boolean validate(String answer, String token, Serializable saltSource);
-	
- 	/**
+	boolean validate(String answer, String token, CipherHandler cipherHandler, Serializable saltSource,
+			String password);
+
+	/**
 	 * Creates the token based on the captcha solution and the object to be used for
 	 * salting
 	 * 
 	 * @param sourceString captcha solution as string
-	 * @param saltSource  arbitrary object to be used to salt the solution hash for
-	 *                    added security and to allow for authenticating the given
-	 *                    answer
+	 * @param saltSource   arbitrary object to be used to salt the solution hash for
+	 *                     added security and to allow for authenticating the given
+	 *                     answer
 	 * @return String of the token
 	 */
 	default String makeToken(String sourceString, Serializable saltSource) {
@@ -119,6 +128,5 @@ public interface CaptchaHandler {
 			return null;
 		}
 	}
-
 
 }

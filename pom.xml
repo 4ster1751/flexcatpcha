@@ -5,7 +5,7 @@
 	<groupId>io.github.yaforster</groupId>
 	<name>Flexible Captcha</name>
 	<description>Simple Captcha generation and validation</description>
-	<version>1.0.1</version>
+	<version>1.1.0</version>
 	<url>https://github.com/yaforster/flexcaptcha</url>
 	<licenses>
 		<license>

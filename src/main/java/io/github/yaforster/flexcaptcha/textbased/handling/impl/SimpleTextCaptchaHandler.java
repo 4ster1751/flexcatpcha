@@ -1,11 +1,8 @@
 package io.github.yaforster.flexcaptcha.textbased.handling.impl;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-
-import javax.imageio.ImageIO;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -68,7 +65,7 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	 * token
 	 */
 	@Override
-	public boolean validate(String answer, String token, Serializable saltSource) {
+	public boolean validate(String answer, String token, CipherHandler cipherHandler, Serializable saltSource, String password) {
 		return token.split(DELIMITER)[0].equals(makeToken(answer, saltSource));
 	}
 
@@ -107,7 +104,7 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 			int height, int width, String captchaText) {
 		BufferedImage image = renderer.render(captchaText, height, width);
 		try {
-			byte[] imgData = convertImageToString(image);
+			byte[] imgData = convertImageToByteArray(image, IMG_FORMAT);
 			if (imgData != null) {
 				String token = makeToken(captchaText, saltSource);
 				token = addSelfReference(cipherHandler, token, saltSource, password);
@@ -119,25 +116,6 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 			return null;
 		}
 		return null;
-	}
-
-	/**
-	 * Converts a buffered image to a base64 String
-	 * 
-	 * @param image       Image of the captcha
-	 * @param captchaText
-	 * @return base64 String of the image
-	 * @throws IOException if writing the base64 string encountered an error
-	 */
-	private byte[] convertImageToString(BufferedImage image) throws IOException {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		try {
-			ImageIO.write(image, IMG_FORMAT, bos);
-			return bos.toByteArray();
-		} catch (final IOException e) {
-			log.error("Error converting the BufferedImage to byte array: " + e.getMessage());
-			return null;
-		}
 	}
 
 }

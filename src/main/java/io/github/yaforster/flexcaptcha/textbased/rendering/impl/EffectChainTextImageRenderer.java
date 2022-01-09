@@ -14,6 +14,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * Text Captcha rendering using a chain of Filters that will be applied to the generated image.
+ * 
+ * @author Yannick Forster
+ *
+ */
 @Getter
 @Setter
 @AllArgsConstructor

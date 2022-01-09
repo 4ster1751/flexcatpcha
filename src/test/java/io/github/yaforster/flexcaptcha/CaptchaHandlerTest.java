@@ -75,7 +75,7 @@ public class CaptchaHandlerTest {
 		return new CaptchaHandler() {
 
 			@Override
-			public boolean validate(String answer, String token, Serializable saltSource) {
+			public boolean validate(String answer, String token, CipherHandler cipherHandler, Serializable saltSource, String password) {
 				throw new NotImplementedException();
 			}
 		};

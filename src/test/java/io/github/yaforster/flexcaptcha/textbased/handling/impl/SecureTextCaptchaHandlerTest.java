@@ -2,34 +2,22 @@ package io.github.yaforster.flexcaptcha.textbased.handling.impl;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 
 import java.awt.Button;
 
-import javax.crypto.spec.IvParameterSpec;
-
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import io.github.yaforster.flexcaptcha.CipherHandler;
 import io.github.yaforster.flexcaptcha.textbased.TextCaptcha;
 import io.github.yaforster.flexcaptcha.textbased.rendering.impl.SimpleTextImageRenderer;
 import io.github.yaforster.flexcaptcha.textbased.textgen.impl.SimpleCaptchaTextGenerator;
 
-/**
- * Tests {@link SimpleTextCaptchaHandler}
- * 
- * @author Yannick Forster
- *
- */
+public class SecureTextCaptchaHandlerTest {
 
-public class SimpleTextCaptchaHandlerTest {
-
-	SimpleTextCaptchaHandler handler = new SimpleTextCaptchaHandler();
+	SecureTextCaptchaHandler handler = new SecureTextCaptchaHandler();
 	SimpleCaptchaTextGenerator generator = new SimpleCaptchaTextGenerator();
 	SimpleTextImageRenderer renderer = new SimpleTextImageRenderer();
-	CipherHandler cipherHandler =  getCHMock();
+	CipherHandler cipherHandler =  new CipherHandler();
 	Button dummySerializable = new Button();
 	String password = "ThisIsMyPassword!";
 
@@ -129,25 +117,6 @@ public class SimpleTextCaptchaHandlerTest {
 		assertThrows(IllegalArgumentException.class, () -> {
 			handler.toCaptcha("", cipherHandler,dummySerializable, password, new SimpleTextImageRenderer(), 60, 300);
 		});
-	}
-
-	@Test
-	public void testToCaptchaAndValidate() {
-		TextCaptcha captcha = handler.toCaptcha("TESTSTRING", cipherHandler,dummySerializable, password, new SimpleTextImageRenderer(), 60, 300);
-		assertTrue(captcha.getToken().length()>0);
-		assertTrue(captcha.getImgData() != null);
-		assertTrue(handler.validate("TESTSTRING", captcha.getToken(), cipherHandler, dummySerializable, password));
-	}
-	
-	private CipherHandler getCHMock() {
-		CipherHandler cipherHandler = Mockito.mock(CipherHandler.class);
-		Mockito.when(cipherHandler.generateIV())
-				.thenReturn(new IvParameterSpec(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 }));
-		Mockito.when(cipherHandler.decryptString(any(byte[].class), anyString(), any()))
-				.thenReturn(new byte[] { 1, 2, 3 });
-		Mockito.when(cipherHandler.encryptString(any(byte[].class), anyString(), any(), any(byte[].class)))
-				.thenReturn(new byte[] { 1, 2, 3 });
-		return cipherHandler;
 	}
 
 }

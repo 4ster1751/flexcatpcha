@@ -16,11 +16,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * Renders a text captcha image without visual distortions in the finished
+ * image.
+ * 
+ * @author Yannick Forster
+ *
+ */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Accessors(chain=true)
+@Accessors(chain = true)
 public class CleanTextImageRenderer implements TextImageRenderer {
 
 	/**

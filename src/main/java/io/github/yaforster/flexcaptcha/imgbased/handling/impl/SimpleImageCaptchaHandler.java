@@ -78,7 +78,7 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	 * Checks if the given answer is correct
 	 */
 	@Override
-	public boolean validate(String answer, String token, Serializable saltSource) {
+	public boolean validate(String answer, String token, CipherHandler cipherHandler, Serializable saltSource, String password) {
 		return token.split(DELIMITER)[0].equals(makeToken(answer, saltSource));
 	}
 

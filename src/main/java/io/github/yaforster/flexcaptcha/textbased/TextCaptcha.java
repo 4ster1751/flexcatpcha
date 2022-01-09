@@ -6,10 +6,25 @@ import io.github.yaforster.flexcaptcha.Captcha;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Object representing a text-based captcha output consisting of the image data
+ * of the visualized text to display and transport the actual captcha, and a
+ * token representing the solution
+ * 
+ * @author Yannick Forster
+ */
+
 @Getter
 @Setter
 public class TextCaptcha extends Captcha {
 
+	/**
+	 * Creates a new TextCaptcha object and adds the byte array containing the image
+	 * data and the token
+	 * 
+	 * @param imgData byte array for the image data
+	 * @param token   the token
+	 */
 	public TextCaptcha(byte[] imgData, String token) {
 		super(token);
 		this.imgData = imgData;
