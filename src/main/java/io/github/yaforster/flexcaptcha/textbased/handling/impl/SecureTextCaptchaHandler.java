@@ -16,7 +16,7 @@ import io.github.yaforster.flexcaptcha.textbased.rendering.TextImageRenderer;
 import io.github.yaforster.flexcaptcha.textbased.textgen.CaptchaTextGenerator;
 
 /**
- * Provides basic captcha handling in regards to generating a simplistic visual
+ * Provides basic captcha handling regarding the generation of a simplistic visual
  * representation of the text-based captcha string as well as encrypting the
  * token and salt object
  * 
@@ -37,23 +37,9 @@ public class SecureTextCaptchaHandler implements TextCaptchaHandler {
 
 	@Override
 	public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource, String password,
-			CaptchaTextGenerator textgenerator, Case charCase, TextImageRenderer renderer, int height, int width) {
-		if (renderer == null) {
-			throw new IllegalArgumentException("The renderer cannot be null.");
-		}
-		if (textgenerator == null) {
-			throw new IllegalArgumentException("The text generator cannot be null.");
-		}
-		if (length <= 0) {
-			throw new IllegalArgumentException("The length must be an integer larger than 0.");
-		}
-		if (height <= 2) {
-			throw new IllegalArgumentException("The height must be an integer larger than 2.");
-		}
-		if (width <= 0) {
-			throw new IllegalArgumentException("The width must be an integer larger than 0.");
-		}
-		String captchaText = textgenerator.generate(length, textgenerator.generate(length, charCase), charCase);
+			CaptchaTextGenerator textGenerator, Case charCase, TextImageRenderer renderer, int height, int width) {
+		checkInputs(length, textGenerator, renderer, height, width);
+		String captchaText = textGenerator.generate(length, textGenerator.generate(length, charCase), charCase);
 		return toCaptcha(captchaText, cipherHandler, saltSource, password, renderer, height, width);
 	}
 

@@ -40,21 +40,7 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	@Override
 	public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource, String password,
 			CaptchaTextGenerator textgenerator, Case charCase, TextImageRenderer renderer, int height, int width) {
-		if (renderer == null) {
-			throw new IllegalArgumentException("The renderer cannot be null.");
-		}
-		if (textgenerator == null) {
-			throw new IllegalArgumentException("The text generator cannot be null.");
-		}
-		if (length <= 0) {
-			throw new IllegalArgumentException("The length must be an integer larger than 0.");
-		}
-		if (height <= 2) {
-			throw new IllegalArgumentException("The height must be an integer larger than 2.");
-		}
-		if (width <= 0) {
-			throw new IllegalArgumentException("The width must be an integer larger than 0.");
-		}
+		checkInputs(length, textgenerator, renderer, height, width);
 		String captchaText = textgenerator.generate(length, textgenerator.generate(length, charCase), charCase);
 		return makeTextCaptcha(saltSource, cipherHandler, password, renderer, height, width, captchaText);
 	}
