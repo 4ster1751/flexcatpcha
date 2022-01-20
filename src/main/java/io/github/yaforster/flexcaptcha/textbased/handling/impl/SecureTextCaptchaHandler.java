@@ -37,22 +37,24 @@ public class SecureTextCaptchaHandler implements TextCaptchaHandler {
 
 	@Override
 	public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource, String password,
-			CaptchaTextGenerator textGenerator, Case charCase, TextImageRenderer renderer, int height, int width) {
+			CaptchaTextGenerator textGenerator, Case charCase, TextImageRenderer renderer, int height, int width, boolean addSelfReference) {
 		checkInputs(length, textGenerator, renderer, height, width);
 		String captchaText = textGenerator.generate(length, textGenerator.generate(length, charCase), charCase);
-		return toCaptcha(captchaText, cipherHandler, saltSource, password, renderer, height, width);
+		return toCaptcha(captchaText, cipherHandler, saltSource, password, renderer, height, width, addSelfReference);
 	}
 
 	@Override
 	public TextCaptcha toCaptcha(String captchaText, CipherHandler cipherHandler, Serializable saltSource,
-			String password, TextImageRenderer renderer, int height, int width) {
+			String password, TextImageRenderer renderer, int height, int width, boolean addSelfReference ) {
 		TextCaptcha captcha;
 		try {
 			BufferedImage image = renderer.render(captchaText, height, width);
 			byte[] imgData = convertImageToByteArray(image, IMG_FORMAT);
 			byte[] encryptedToken = cipherHandler.encryptString(captchaText.getBytes(), password, saltSource);
 			String tokenString = Base64.getEncoder().encodeToString(encryptedToken);
-			tokenString = addSelfReference(cipherHandler, tokenString, saltSource, password);
+			if(addSelfReference) {
+				tokenString = addSelfReference(cipherHandler, tokenString, saltSource, password);
+			}
 			captcha = new TextCaptcha(imgData, tokenString);
 			return captcha;
 		} catch (IOException e) {

@@ -1,19 +1,18 @@
 package io.github.yaforster.flexcaptcha.imgbased.handling.impl;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.NotDirectoryException;
+import java.util.Objects;
 import java.util.stream.Stream;
-
-import javax.imageio.ImageIO;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Helps bulk loading of image files from a given directory. File formats can be
@@ -52,15 +51,14 @@ public class ImageLoader {
 		}
 		FilenameFilter filter = createNewFileFilter();
 		File[] imgFiles = dir.listFiles(filter);
-		BufferedImage[] images = Stream.of(imgFiles).map(file -> {
+		return Stream.of(Objects.requireNonNull(imgFiles)).map(file -> {
 			try {
 				return ImageIO.read(file);
 			} catch (IOException e) {
 				log.error("Error loading image:" + e.getMessage());
 				return null;
 			}
-		}).filter(img -> img != null).toArray(BufferedImage[]::new);
-		return images;
+		}).filter(Objects::nonNull).toArray(BufferedImage[]::new);
 	}
 
 	/**
@@ -70,16 +68,13 @@ public class ImageLoader {
 	 * @return configured {@link FilenameFilter}
 	 */
 	private FilenameFilter createNewFileFilter() {
-		return new FilenameFilter() {
-			@Override
-			public boolean accept(final File dir, final String name) {
-				for (final String ext : EXTENSIONS) {
-					if (name.endsWith("." + ext)) {
-						return (true);
-					}
+		return (dir, name) -> {
+			for (final String ext : EXTENSIONS) {
+				if (name.endsWith("." + ext)) {
+					return (true);
 				}
-				return (false);
 			}
+			return (false);
 		};
 	}
 

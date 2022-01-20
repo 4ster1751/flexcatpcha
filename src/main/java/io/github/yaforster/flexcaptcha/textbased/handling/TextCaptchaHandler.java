@@ -45,9 +45,9 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 *         the token containing the hashed and salted solution
 	 */
 	default public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource,
-			String password, CaptchaTextGenerator textgenerator, TextImageRenderer renderer, int height, int width) {
+			String password, CaptchaTextGenerator textgenerator, TextImageRenderer renderer, int height, int width, boolean addSelfReference) {
 		return generate(length, cipherHandler, saltSource, password, textgenerator, Case.MIXEDCASE, renderer, height,
-				width);
+				width, addSelfReference);
 	}
 
 	/**
@@ -73,7 +73,7 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 *         the token containing the hashed and salted solution
 	 */
 	public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource, String password,
-			CaptchaTextGenerator textgenerator, Case charCase, TextImageRenderer renderer, int height, int width);
+			CaptchaTextGenerator textgenerator, Case charCase, TextImageRenderer renderer, int height, int width, boolean addSelfReference);
 
 	/**
 	 * Generates a captcha from a given string and salt object
@@ -94,7 +94,7 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 *         the token containing the hashed and salted solution
 	 */
 	public TextCaptcha toCaptcha(String captchaText, CipherHandler cipherHandler, Serializable saltSource,
-			String password, TextImageRenderer renderer, int height, int width);
+			String password, TextImageRenderer renderer, int height, int width, boolean addSelfReference);
 
 	/**
 	 * Converts a buffered image to a byte array

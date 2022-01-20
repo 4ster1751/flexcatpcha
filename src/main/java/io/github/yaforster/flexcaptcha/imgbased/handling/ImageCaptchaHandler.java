@@ -57,7 +57,7 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	 *         grid as array of byte arrays.
 	 */
 	default public ImageCaptcha generate(int gridWidth, CipherHandler cipherHandler, Serializable saltSource,
-			String password, BufferedImage[] solutionImages, BufferedImage[] fillImages) {
+			String password, BufferedImage[] solutionImages, BufferedImage[] fillImages, boolean addSelfReference) {
 		BufferedImage[] allImages = ArrayUtils.addAll(solutionImages, fillImages);
 		if (solutionImages == null || solutionImages.length == 0) {
 			throw new IllegalArgumentException("solutionImages can not be empty or null.");
@@ -68,7 +68,7 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 		int largestHeight = getLargestHeight(allImages);
 		int largestwidth = getLargestWidth(allImages);
 		return generate(gridWidth, cipherHandler, saltSource, password, solutionImages, fillImages, largestHeight,
-				largestwidth);
+				largestwidth, addSelfReference);
 	}
 
 	/**
@@ -100,7 +100,7 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	 *         grid as array of byte arrays.
 	 */
 	public ImageCaptcha generate(int gridWidth, CipherHandler cipherHandler, Serializable saltSource, String password,
-			BufferedImage[] solutionImages, BufferedImage[] fillImages, int imageHeight, int imageWidth);
+			BufferedImage[] solutionImages, BufferedImage[] fillImages, int imageHeight, int imageWidth, boolean addSelfReference);
 
 	/**
 	 * Gets the largest height out of all the {@link BufferedImage}s

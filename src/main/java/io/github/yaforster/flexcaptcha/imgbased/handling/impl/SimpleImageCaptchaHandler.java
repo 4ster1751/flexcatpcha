@@ -46,7 +46,7 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	 * from solutionImages and otherImages
 	 */
 	public ImageCaptcha generate(int gridWidth, CipherHandler cipherHandler, Serializable saltSource, String password,
-			BufferedImage[] solutionImages, BufferedImage[] fillImages, int height, int width) {
+			BufferedImage[] solutionImages, BufferedImage[] fillImages, int height, int width, boolean addSelfReference) {
 		if(solutionImages==null || solutionImages.length==0) {
 			throw new IllegalArgumentException("solutionImages can not be empty or null.");
 		}
@@ -71,7 +71,7 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 		int[] solutionIndices = Arrays.copyOfRange(gridIndices, 0, halfGrid);
 		int[] fillIndices = ArrayUtils.removeElements(gridIndices, solutionIndices);
 		return makeImageCaptcha(saltSource, cipherHandler, password, solutionImages, fillImages, gridData, solutionIndices,
-				fillIndices);
+				fillIndices, addSelfReference);
 	}
 
 	/**
@@ -123,13 +123,13 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	 * @return {@link ImageCaptcha} containing the finalized captcha
 	 */
 	private ImageCaptcha makeImageCaptcha(Serializable saltSource, CipherHandler cipherHandler, String password, BufferedImage[] solutionImages,
-			BufferedImage[] fillImages, byte[][] gridData, int[] solutionIndices, int[] fillIndices) {
+			BufferedImage[] fillImages, byte[][] gridData, int[] solutionIndices, int[] fillIndices, boolean addSelfReference) {
 		gridData = fillGridWithImages(gridData, solutionImages, solutionIndices);
 		gridData = fillGridWithImages(gridData, fillImages, fillIndices);
 		if (gridData == null || Stream.of(gridData).anyMatch(data -> data == null)) {
 			return null;
 		}
-		String token = generateToken(cipherHandler, saltSource, password, solutionIndices);
+		String token = generateToken(cipherHandler, saltSource, password, solutionIndices, addSelfReference);
 		return new ImageCaptcha(gridData, token);
 	}
 
@@ -174,11 +174,13 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	 * @param solutionIndices the correct indices in the captcha
 	 * @return String of the token
 	 */
-	private String generateToken(CipherHandler cipherHandler, Serializable saltSource, String password, int[] solutionIndices) {
+	private String generateToken(CipherHandler cipherHandler, Serializable saltSource, String password, int[] solutionIndices, boolean addSelfReference) {
 		Arrays.sort(solutionIndices);
 		String solution = Arrays.toString(solutionIndices).replaceAll("\\s+", "");
 		String token = makeToken(solution, saltSource);
-		token = addSelfReference(cipherHandler, token, saltSource, password);
+		if(addSelfReference) {
+			token = addSelfReference(cipherHandler, token, saltSource, password);
+		}
 		return token;
 	}
 

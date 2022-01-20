@@ -39,7 +39,7 @@ public class SimpleImageCaptchaHandlerTest{
 	@Test
 	public void testAllNull() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			handler.generate(0, cipherHandler, null, null, null, null, 0, 0);
+			handler.generate(0, cipherHandler, null, null, null, null, 0, 0, true);
 		});
 	}
 
@@ -47,7 +47,7 @@ public class SimpleImageCaptchaHandlerTest{
 	public void testGridWidth0_ShouldFail() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			handler.generate(0, cipherHandler, dummySerializable, password,
-					dummyArr, dummyArr2);
+					dummyArr, dummyArr2, true);
 		});
 	}
 
@@ -55,7 +55,7 @@ public class SimpleImageCaptchaHandlerTest{
 	public void testGridWidth1_ShouldFail() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			handler.generate(1, cipherHandler, dummySerializable, password,
-					dummyArr, dummyArr2);
+					dummyArr, dummyArr2, true);
 		});
 	}
 
@@ -65,7 +65,7 @@ public class SimpleImageCaptchaHandlerTest{
 		BufferedImage largeImage = new BufferedImage(10, 30, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage[] images = new BufferedImage[] { smallImage, largeImage };
 		ImageCaptcha captcha = handler.generate(2, cipherHandler, dummySerializable,
-				password, images, images, 30, 10);
+				password, images, images, 30, 10, true);
 		BufferedImage[] resizedImages = getResizedImages(captcha);
 		assertTrue(captcha.getToken().length()>0);
 		assertTrue(Stream.of(resizedImages).allMatch(img -> (img.getHeight() == 30 && img.getWidth() == 10)));
@@ -77,7 +77,7 @@ public class SimpleImageCaptchaHandlerTest{
 		BufferedImage largeImage = new BufferedImage(10, 30, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage[] images = new BufferedImage[] { smallImage, largeImage };
 		ImageCaptcha captcha = handler.generate(2, cipherHandler, dummySerializable,
-				password, images, images, 30, 30);
+				password, images, images, 30, 30, true);
 		BufferedImage[] resizedImages = getResizedImages(captcha);
 		assertTrue(captcha.getToken().length()>0);
 		assertTrue(Stream.of(resizedImages).allMatch(img -> (img.getHeight() == 30 && img.getWidth() == 30)));
@@ -89,7 +89,7 @@ public class SimpleImageCaptchaHandlerTest{
 		BufferedImage largeImage = new BufferedImage(10, 30, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage[] images = new BufferedImage[] { smallImage, largeImage };
 		ImageCaptcha captcha = handler.generate(2, cipherHandler, dummySerializable,
-				password, images, images, 10, 30);
+				password, images, images, 10, 30, true);
 		BufferedImage[] resizedImages = getResizedImages(captcha);
 		assertTrue(captcha.getToken().length()>0);
 		assertTrue(Stream.of(resizedImages).allMatch(img -> (img.getHeight() == 10 && img.getWidth() == 30)));

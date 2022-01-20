@@ -39,10 +39,10 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	 */
 	@Override
 	public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource, String password,
-			CaptchaTextGenerator textgenerator, Case charCase, TextImageRenderer renderer, int height, int width) {
+			CaptchaTextGenerator textgenerator, Case charCase, TextImageRenderer renderer, int height, int width, boolean addSelfReference) {
 		checkInputs(length, textgenerator, renderer, height, width);
 		String captchaText = textgenerator.generate(length, textgenerator.generate(length, charCase), charCase);
-		return makeTextCaptcha(saltSource, cipherHandler, password, renderer, height, width, captchaText);
+		return makeTextCaptcha(saltSource, cipherHandler, password, renderer, height, width, captchaText, addSelfReference);
 	}
 
 	/**
@@ -65,8 +65,8 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	 */
 	@Override
 	public TextCaptcha toCaptcha(String captchaText, CipherHandler cipherHandler, Serializable saltSource, String password,
-			TextImageRenderer renderer, int height, int width) {
-		return makeTextCaptcha(saltSource, cipherHandler, password, renderer, height, width, captchaText);
+			TextImageRenderer renderer, int height, int width, boolean addSelfReference) {
+		return makeTextCaptcha(saltSource, cipherHandler, password, renderer, height, width, captchaText, addSelfReference);
 	}
 
 	/**
@@ -87,13 +87,15 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	 * @return {@link TextCaptcha} containing the finalized captcha
 	 */
 	private TextCaptcha makeTextCaptcha(Serializable saltSource, CipherHandler cipherHandler, String password, TextImageRenderer renderer,
-			int height, int width, String captchaText) {
+			int height, int width, String captchaText, boolean addSelfReference) {
 		BufferedImage image = renderer.render(captchaText, height, width);
 		try {
 			byte[] imgData = convertImageToByteArray(image, IMG_FORMAT);
 			if (imgData != null) {
 				String token = makeToken(captchaText, saltSource);
-				token = addSelfReference(cipherHandler, token, saltSource, password);
+				if(addSelfReference) {
+					token = addSelfReference(cipherHandler, token, saltSource, password);
+				}
 				TextCaptcha captcha = new TextCaptcha(imgData, token);
 				return captcha;
 			}
