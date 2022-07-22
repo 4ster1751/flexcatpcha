@@ -5,7 +5,7 @@
 	<groupId>io.github.yaforster</groupId>
 	<name>Flexible Captcha</name>
 	<description>Simple Captcha generation and validation</description>
-	<version>1.2.0</version>
+	<version>1.2.2</version>
 	<url>https://github.com/yaforster/flexcaptcha</url>
 	<licenses>
 		<license>
@@ -69,6 +69,11 @@
 			<version>4.2.0</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+		    <groupId>com.aparapi</groupId>
+		    <artifactId>aparapi</artifactId>
+		    <version>3.0.0</version>
+		</dependency>
 
 	</dependencies>
 	<distributionManagement>
@@ -89,20 +94,7 @@
 					<serverId>ossrh</serverId>
 					<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
 					<autoReleaseAfterClose>true</autoReleaseAfterClose>
-					
 				</configuration>
-				<dependencies>
-					<!--
-				      TODO:
-				        Remove after OSSRH-66257, NEXUS-26993 are fixed,
-				        possibly via https://github.com/sonatype/nexus-maven-plugins/pull/91
-				    -->
-					<dependency>
-						<groupId>com.thoughtworks.xstream</groupId>
-						<artifactId>xstream</artifactId>
-						<version>1.4.19</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 			<!--get Source jar files generated -->
 			<plugin>

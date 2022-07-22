@@ -82,9 +82,9 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
 	 * @param graphic the Graphics2D object onto which the distortions are to be
 	 *                drawn
 	 */
-	private Graphics2D drawDistortions(int height, int width, Graphics2D graphic) {
+	protected Graphics2D drawDistortions(int height, int width, Graphics2D graphic) {
 		graphic.setColor(distortCol);
-		for (int i = 0; i < width / 6; i++) {
+		for (int i = 0; i < width / 64; i++) {
 			int L = (int) (Math.random() * height / 2.0);
 			int X = (int) (Math.random() * width - L);
 			int Y = (int) (Math.random() * height - L);
@@ -107,13 +107,9 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
 	 * object
 	 * 
 	 * @param captchaTextInput string containing the text to write
-	 * @param height           pixel count of the height of the graphic
-	 * @param width            pixel count of the width of the graphic
-	 * @param graphic          the Graphics2D object containing the graphic in which
-	 *                         the image is constructed
-	 * @return
+	 * @param image the image on which to draw the text
 	 */
-	private Graphics2D drawText(String captchaTextInput, BufferedImage image) {
+	protected Graphics2D drawText(String captchaTextInput, BufferedImage image) {
 		Graphics2D graphic = image.createGraphics();
 		Font textFont = new Font(fontName, Font.BOLD, (int) (image.getHeight() / 2.5));
 		graphic.setColor(pickRandomColor(textCols));
