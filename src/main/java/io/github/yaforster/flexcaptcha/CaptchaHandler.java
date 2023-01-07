@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * @author Yannick Forster
- *
  *         This interface defines the basic functionality shared amongst all
  *         Captcha handlers consisting of the adding of the handler reference to
  *         the token itself as well as the validation method definition and
@@ -77,7 +76,7 @@ public interface CaptchaHandler {
 	 *                      solution to create the token. Will be used again to
 	 *                      validate the answer
 	 * @param password      The password string used for decryption
-	 * @return boolean whether or not the captcha is valid
+	 * @return boolean whether the captcha is valid
 	 */
 	boolean validate(String answer, String token, CipherHandler cipherHandler, Serializable saltSource,
 			String password);
@@ -114,8 +113,8 @@ public interface CaptchaHandler {
 	 * @return byte array of the object
 	 */
 	default byte[] getSaltObjectBytes(Serializable saltSource) {
-		ByteArrayOutputStream baos = null;
-		ObjectOutputStream oos = null;
+		ByteArrayOutputStream baos;
+		ObjectOutputStream oos;
 		try {
 			baos = new ByteArrayOutputStream();
 			oos = new ObjectOutputStream(baos);
