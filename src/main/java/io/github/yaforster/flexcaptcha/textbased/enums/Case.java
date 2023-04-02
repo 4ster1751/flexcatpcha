@@ -27,7 +27,7 @@ public enum Case {
 	/**
 	 * A number representing the available cases
 	 */
-	private int caseNum;
+	private final int caseNum;
 
 	Case(int caseNum) {
 		this.caseNum = caseNum;

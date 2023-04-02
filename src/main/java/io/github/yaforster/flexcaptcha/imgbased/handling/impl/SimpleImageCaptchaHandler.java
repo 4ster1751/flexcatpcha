@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -35,7 +36,7 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	/**
 	 * Log4J Logger
 	 */
-	Logger log = LogManager.getLogger(SimpleImageCaptchaHandler.class);
+	final Logger log = LogManager.getLogger(SimpleImageCaptchaHandler.class);
 	/**
 	 * The image format
 	 */
@@ -65,7 +66,7 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 		solutionImages = resizeImages(solutionImages, height, width);
 		fillImages = resizeImages(fillImages, height, width);
 		byte[][] gridData = new byte[gridWidth * gridWidth][];
-		int halfGrid = Double.valueOf(Math.ceil(gridData.length / 2)).intValue();
+		int halfGrid = Double.valueOf(Math.ceil(gridData.length / 2f)).intValue();
 		int[] gridIndices = IntStream.range(0, gridData.length).boxed().mapToInt(i -> i).toArray();
 		ArrayUtils.shuffle(gridIndices);
 		int[] solutionIndices = Arrays.copyOfRange(gridIndices, 0, halfGrid);
@@ -91,15 +92,14 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 	 * @return array of resized {@link BufferedImage}s
 	 */
 	private BufferedImage[] resizeImages(BufferedImage[] allImages, int height, int width) {
-		BufferedImage[] resized = Stream.of(allImages).map(img -> {
-			Image imageObj = img.getScaledInstance(width, height, img.getType());
-			BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-			Graphics2D g2d = dimg.createGraphics();
-			g2d.drawImage(imageObj, 0, 0, null);
-			g2d.dispose();
-			return dimg;
-		}).toArray(BufferedImage[]::new);
-		return resized;
+        return Stream.of(allImages).map(img -> {
+            Image imageObj = img.getScaledInstance(width, height, img.getType());
+            BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = dimg.createGraphics();
+            g2d.drawImage(imageObj, 0, 0, null);
+            g2d.dispose();
+            return dimg;
+        }).toArray(BufferedImage[]::new);
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
 			BufferedImage[] fillImages, byte[][] gridData, int[] solutionIndices, int[] fillIndices, boolean addSelfReference) {
 		gridData = fillGridWithImages(gridData, solutionImages, solutionIndices);
 		gridData = fillGridWithImages(gridData, fillImages, fillIndices);
-		if (gridData == null || Stream.of(gridData).anyMatch(data -> data == null)) {
+		if (gridData == null || Stream.of(gridData).anyMatch(Objects::isNull)) {
 			return null;
 		}
 		String token = generateToken(cipherHandler, saltSource, password, solutionIndices, addSelfReference);

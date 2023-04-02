@@ -20,7 +20,7 @@ public class Validator {
 	/**
 	 * Log4J Logger
 	 */
-	Logger log = LogManager.getLogger(Validator.class);
+    final Logger log = LogManager.getLogger(Validator.class);
 
 	/**
 	 * Validates the given answer by comparing it to the token if hashed and salted

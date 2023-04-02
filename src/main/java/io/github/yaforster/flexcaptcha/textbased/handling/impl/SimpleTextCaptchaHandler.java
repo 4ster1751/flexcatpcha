@@ -1,7 +1,6 @@
 package io.github.yaforster.flexcaptcha.textbased.handling.impl;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.Serializable;
 
 import org.apache.logging.log4j.LogManager;
@@ -27,7 +26,7 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	/**
 	 * Log4J Logger
 	 */
-	Logger log = LogManager.getLogger(SimpleTextCaptchaHandler.class);
+	final Logger log = LogManager.getLogger(SimpleTextCaptchaHandler.class);
 
 	/**
 	 * The image format
@@ -89,19 +88,13 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	private TextCaptcha makeTextCaptcha(Serializable saltSource, CipherHandler cipherHandler, String password, TextImageRenderer renderer,
 			int height, int width, String captchaText, boolean addSelfReference) {
 		BufferedImage image = renderer.render(captchaText, height, width);
-		try {
-			byte[] imgData = convertImageToByteArray(image, IMG_FORMAT);
-			if (imgData != null) {
-				String token = makeToken(captchaText, saltSource);
-				if(addSelfReference) {
-					token = addSelfReference(cipherHandler, token, saltSource, password);
-				}
-				TextCaptcha captcha = new TextCaptcha(imgData, token);
-				return captcha;
+		byte[] imgData = convertImageToByteArray(image, IMG_FORMAT);
+		if (imgData != null) {
+			String token = makeToken(captchaText, saltSource);
+			if(addSelfReference) {
+				token = addSelfReference(cipherHandler, token, saltSource, password);
 			}
-		} catch (IOException e) {
-			log.error("Error creating the captcha object: " + e.getMessage());
-			return null;
+			return new TextCaptcha(imgData, token);
 		}
 		return null;
 	}

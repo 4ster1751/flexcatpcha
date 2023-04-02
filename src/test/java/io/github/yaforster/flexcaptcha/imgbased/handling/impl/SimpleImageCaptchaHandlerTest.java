@@ -29,38 +29,32 @@ import io.github.yaforster.flexcaptcha.imgbased.handling.ImageCaptchaHandler;
  */
 public class SimpleImageCaptchaHandlerTest{
 
-	ImageCaptchaHandler handler = new SimpleImageCaptchaHandler();
-	BufferedImage[] dummyArr = new BufferedImage[] { new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR) };
-	BufferedImage[] dummyArr2 = new BufferedImage[] { new BufferedImage(15, 15, BufferedImage.TYPE_4BYTE_ABGR) };
-	Button dummySerializable = new Button();
-	String password = "ThisIsMyPassword!";
-	CipherHandler cipherHandler = getCHMock();
+	final ImageCaptchaHandler handler = new SimpleImageCaptchaHandler();
+	final BufferedImage[] dummyArr = new BufferedImage[] { new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR) };
+	final BufferedImage[] dummyArr2 = new BufferedImage[] { new BufferedImage(15, 15, BufferedImage.TYPE_4BYTE_ABGR) };
+	final Button dummySerializable = new Button();
+	final String password = "ThisIsMyPassword!";
+	final CipherHandler cipherHandler = getCHMock();
 
 	@Test
 	public void testAllNull() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			handler.generate(0, cipherHandler, null, null, null, null, 0, 0, true);
-		});
+		assertThrows(IllegalArgumentException.class, () -> handler.generate(0, cipherHandler, null, null, null, null, 0, 0, true));
 	}
 
 	@Test
 	public void testGridWidth0_ShouldFail() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			handler.generate(0, cipherHandler, dummySerializable, password,
-					dummyArr, dummyArr2, true);
-		});
+		assertThrows(IllegalArgumentException.class, () -> handler.generate(0, cipherHandler, dummySerializable, password,
+				dummyArr, dummyArr2, true));
 	}
 
 	@Test
 	public void testGridWidth1_ShouldFail() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			handler.generate(1, cipherHandler, dummySerializable, password,
-					dummyArr, dummyArr2, true);
-		});
+		assertThrows(IllegalArgumentException.class, () -> handler.generate(1, cipherHandler, dummySerializable, password,
+				dummyArr, dummyArr2, true));
 	}
 
 	@Test
-	public void manualResizeTest30x10() throws IOException {
+	public void manualResizeTest30x10() {
 		BufferedImage smallImage = new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage largeImage = new BufferedImage(10, 30, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage[] images = new BufferedImage[] { smallImage, largeImage };
@@ -72,7 +66,7 @@ public class SimpleImageCaptchaHandlerTest{
 	}
 
 	@Test
-	public void manualResizeTest30x30() throws IOException {
+	public void manualResizeTest30x30() {
 		BufferedImage smallImage = new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage largeImage = new BufferedImage(10, 30, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage[] images = new BufferedImage[] { smallImage, largeImage };
@@ -84,7 +78,7 @@ public class SimpleImageCaptchaHandlerTest{
 	}
 
 	@Test
-	public void manualResizeTest10x30() throws IOException {
+	public void manualResizeTest10x30() {
 		BufferedImage smallImage = new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage largeImage = new BufferedImage(10, 30, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage[] images = new BufferedImage[] { smallImage, largeImage };
@@ -96,17 +90,15 @@ public class SimpleImageCaptchaHandlerTest{
 	}
 
 	private BufferedImage[] getResizedImages(ImageCaptcha captcha) {
-		BufferedImage[] resizedImages = Stream.of(captcha.getImgData()).map(data -> {
-			try {
-				ByteArrayInputStream stream = new ByteArrayInputStream(data);
-				BufferedImage resized = ImageIO.read(stream);
-				return resized;
-			} catch (IOException e) {
-				e.printStackTrace();
-				return null;
-			}
-		}).toArray(BufferedImage[]::new);
-		return resizedImages;
+        return Stream.of(captcha.getImgData()).map(data -> {
+            try {
+                ByteArrayInputStream stream = new ByteArrayInputStream(data);
+                return ImageIO.read(stream);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }).toArray(BufferedImage[]::new);
 	}
 	
 	private CipherHandler getCHMock() {

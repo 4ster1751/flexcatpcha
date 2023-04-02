@@ -56,7 +56,7 @@ public class CleanTextImageRenderer implements TextImageRenderer {
 		Graphics2D graphic = image.createGraphics();
 		graphic.setColor(backgrndCol);
 		graphic.fillRect(0, 0, width, height);
-		image = drawText(captchaTextInput, image);
+		drawText(captchaTextInput, image);
 		graphic.dispose();
 		return image;
 	}
@@ -115,10 +115,10 @@ public class CleanTextImageRenderer implements TextImageRenderer {
 		charGraphics.setColor(pickRandomColor(textCols));
 		charGraphics.setFont(textFont);
 		int charX = (int) (0.5 * charDim - 0.5 * charWidth);
-		charGraphics.drawString("" + charToDraw, charX,
-				(int) ((charDim - fontMetrics.getAscent()) / 2 + fontMetrics.getAscent()));
+		charGraphics.drawString(String.valueOf(charToDraw), charX,
+				(charDim - fontMetrics.getAscent()) / 2 + fontMetrics.getAscent());
 		float x = margin + spacePerChar * (index) - charDim / 2.0f;
-		int y = (int) ((image.getHeight() - charDim) / 2);
+		int y = (image.getHeight() - charDim) / 2;
 		image.createGraphics().drawImage(charImage, (int) x, y, charDim, charDim, null, null);
 		charGraphics.dispose();
 		return image;

@@ -1,5 +1,6 @@
 package io.github.yaforster.flexcaptcha.textbased.rendering;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.image.BufferedImage;
@@ -32,8 +33,8 @@ public abstract class TextImageRendererTest<T extends TextImageRenderer> {
 		int targetHeight = 100;
 		int widthHeight = 200;
 		BufferedImage image = renderer.render("TEST", targetHeight, widthHeight);
-		assertTrue(image.getHeight()==targetHeight);
-		assertTrue(image.getWidth()==widthHeight);
+        assertEquals(image.getHeight(), targetHeight);
+        assertEquals(image.getWidth(), widthHeight);
 	}
 
 }

@@ -32,12 +32,12 @@ import io.github.yaforster.flexcaptcha.imgbased.handling.impl.SimpleImageCaptcha
  */
 public class ImageCaptchaHandlerTest {
 
-	ImageCaptchaHandler handler = new SimpleImageCaptchaHandler();
-	BufferedImage[] dummyArr = new BufferedImage[] { new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR) };
-	BufferedImage[] dummyArr2 = new BufferedImage[] { new BufferedImage(15, 15, BufferedImage.TYPE_4BYTE_ABGR) };
-	Button dummySerializable = new Button();
-	String password = "ThisIsMyPassword!";
-	CipherHandler cipherHandler = getCHMock();
+	final ImageCaptchaHandler handler = new SimpleImageCaptchaHandler();
+	final BufferedImage[] dummyArr = new BufferedImage[] { new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR) };
+	final BufferedImage[] dummyArr2 = new BufferedImage[] { new BufferedImage(15, 15, BufferedImage.TYPE_4BYTE_ABGR) };
+	final Button dummySerializable = new Button();
+	final String password = "ThisIsMyPassword!";
+	final CipherHandler cipherHandler = getCHMock();
 
 	@Test
 	public void testWithDummyObjs_ShouldWork() {
@@ -71,48 +71,36 @@ public class ImageCaptchaHandlerTest {
 
 	@Test
 	public void testNullArrays() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			handler.generate(2, cipherHandler, null, password, null, null, true);
-		});
+		assertThrows(IllegalArgumentException.class, () -> handler.generate(2, cipherHandler, null, password, null, null, true));
 	}
 
 	@Test
 	public void testEmptyArrays() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			handler.generate(2, cipherHandler, null, password, new BufferedImage[] {}, new BufferedImage[] {}, true);
-		});
+		assertThrows(IllegalArgumentException.class, () -> handler.generate(2, cipherHandler, null, password, new BufferedImage[] {}, new BufferedImage[] {}, true));
 	}
 
 	@Test
 	public void testNullSolutionArray() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			handler.generate(2, cipherHandler, null, password, dummyArr, null, true);
-		});
+		assertThrows(IllegalArgumentException.class, () -> handler.generate(2, cipherHandler, null, password, dummyArr, null, true));
 	}
 
 	@Test
 	public void testEmptySolutionArray() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			handler.generate(2, cipherHandler, null, password, new BufferedImage[] {}, null, true);
-		});
+		assertThrows(IllegalArgumentException.class, () -> handler.generate(2, cipherHandler, null, password, new BufferedImage[] {}, null, true));
 	}
 
 	@Test
 	public void testNullFillArray() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			handler.generate(2, cipherHandler, null, password, null, dummyArr, true);
-		});
+		assertThrows(IllegalArgumentException.class, () -> handler.generate(2, cipherHandler, null, password, null, dummyArr, true));
 	}
 
 	@Test
 	public void testEmptyFillArray() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			handler.generate(2, cipherHandler, null, password, dummyArr, new BufferedImage[] {}, true);
-		});
+		assertThrows(IllegalArgumentException.class, () -> handler.generate(2, cipherHandler, null, password, dummyArr, new BufferedImage[] {}, true));
 	}
 
 	@Test
-	public void autoResizeTest30x30() throws IOException {
+	public void autoResizeTest30x30() {
 		BufferedImage smallImage = new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage largeImage = new BufferedImage(30, 30, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage[] images = new BufferedImage[] { smallImage, largeImage };
@@ -120,8 +108,7 @@ public class ImageCaptchaHandlerTest {
 		BufferedImage[] resizedImages = Stream.of(captcha.getImgData()).map(data -> {
 			try {
 				ByteArrayInputStream stream = new ByteArrayInputStream(data);
-				BufferedImage resized = ImageIO.read(stream);
-				return resized;
+                return ImageIO.read(stream);
 			} catch (IOException e) {
 				e.printStackTrace();
 				return null;
@@ -132,7 +119,7 @@ public class ImageCaptchaHandlerTest {
 	}
 
 	@Test
-	public void autoResizeTest30x10() throws IOException {
+	public void autoResizeTest30x10() {
 		BufferedImage smallImage = new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage largeImage = new BufferedImage(10, 30, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage[] images = new BufferedImage[] { smallImage, largeImage };
@@ -140,8 +127,7 @@ public class ImageCaptchaHandlerTest {
 		BufferedImage[] resizedImages = Stream.of(captcha.getImgData()).map(data -> {
 			try {
 				ByteArrayInputStream stream = new ByteArrayInputStream(data);
-				BufferedImage resized = ImageIO.read(stream);
-				return resized;
+                return ImageIO.read(stream);
 			} catch (IOException e) {
 				e.printStackTrace();
 				return null;
@@ -152,7 +138,7 @@ public class ImageCaptchaHandlerTest {
 	}
 
 	@Test
-	public void autoResizeTest10x30() throws IOException {
+	public void autoResizeTest10x30() {
 		BufferedImage smallImage = new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage largeImage = new BufferedImage(30, 10, BufferedImage.TYPE_3BYTE_BGR);
 		BufferedImage[] images = new BufferedImage[] { smallImage, largeImage };
@@ -160,8 +146,7 @@ public class ImageCaptchaHandlerTest {
 		BufferedImage[] resizedImages = Stream.of(captcha.getImgData()).map(data -> {
 			try {
 				ByteArrayInputStream stream = new ByteArrayInputStream(data);
-				BufferedImage resized = ImageIO.read(stream);
-				return resized;
+                return ImageIO.read(stream);
 			} catch (IOException e) {
 				e.printStackTrace();
 				return null;

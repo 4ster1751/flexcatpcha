@@ -1,7 +1,6 @@
 package io.github.yaforster.flexcaptcha.textbased.handling.impl;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Base64;
 
@@ -28,7 +27,7 @@ public class SecureTextCaptchaHandler implements TextCaptchaHandler {
 	/**
 	 * Log4J Logger
 	 */
-	Logger log = LogManager.getLogger(SimpleTextCaptchaHandler.class);
+	final Logger log = LogManager.getLogger(SimpleTextCaptchaHandler.class);
 
 	/**
 	 * The image format
@@ -47,20 +46,15 @@ public class SecureTextCaptchaHandler implements TextCaptchaHandler {
 	public TextCaptcha toCaptcha(String captchaText, CipherHandler cipherHandler, Serializable saltSource,
 			String password, TextImageRenderer renderer, int height, int width, boolean addSelfReference ) {
 		TextCaptcha captcha;
-		try {
-			BufferedImage image = renderer.render(captchaText, height, width);
-			byte[] imgData = convertImageToByteArray(image, IMG_FORMAT);
-			byte[] encryptedToken = cipherHandler.encryptString(captchaText.getBytes(), password, saltSource);
-			String tokenString = Base64.getEncoder().encodeToString(encryptedToken);
-			if(addSelfReference) {
-				tokenString = addSelfReference(cipherHandler, tokenString, saltSource, password);
-			}
-			captcha = new TextCaptcha(imgData, tokenString);
-			return captcha;
-		} catch (IOException e) {
-			log.error("Error creating the captcha object: " + e.getMessage());
-			return null;
+		BufferedImage image = renderer.render(captchaText, height, width);
+		byte[] imgData = convertImageToByteArray(image, IMG_FORMAT);
+		byte[] encryptedToken = cipherHandler.encryptString(captchaText.getBytes(), password, saltSource);
+		String tokenString = Base64.getEncoder().encodeToString(encryptedToken);
+		if(addSelfReference) {
+			tokenString = addSelfReference(cipherHandler, tokenString, saltSource, password);
 		}
+		captcha = new TextCaptcha(imgData, tokenString);
+		return captcha;
 	}
 
 	@Override

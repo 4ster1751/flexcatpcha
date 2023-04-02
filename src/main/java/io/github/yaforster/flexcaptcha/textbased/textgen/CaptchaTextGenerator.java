@@ -15,7 +15,7 @@ public interface CaptchaTextGenerator {
 	 * Strings. Excludes some characters by default that may be confusing when
 	 * rotated in a certain way.
 	 */
-	public String DEFAULT_CHARACTER_BASE = "abcdefghjkmpqrstuvwxy2345689";
+    String DEFAULT_CHARACTER_BASE = "abcdefghjkmpqrstuvwxy2345689";
 
 	/**
 	 * Generates a new randomized String of mixed case letters and numbers of the
@@ -25,7 +25,7 @@ public interface CaptchaTextGenerator {
 	 * @return randomized String of mixed case letters and numbers of the given
 	 *         length
 	 */
-	default public String generate(int length) {
+	default String generate(int length) {
 		return generate(length, DEFAULT_CHARACTER_BASE, Case.MIXEDCASE);
 	}
 
@@ -39,7 +39,7 @@ public interface CaptchaTextGenerator {
 	 * @return randomized String of the specified length consisting of a randomly
 	 *         selected set of characters from the given string
 	 */
-	default public String generate(int length, String characterbase) {
+	default String generate(int length, String characterbase) {
 		return generate(length, characterbase, Case.MIXEDCASE);
 	}
 
@@ -52,7 +52,7 @@ public interface CaptchaTextGenerator {
 	 * @return randomized String of letters and numbers of the given length and
 	 *         specified case
 	 */
-	default public String generate(int length, Case charCase) {
+	default String generate(int length, Case charCase) {
 		return generate(length, DEFAULT_CHARACTER_BASE, charCase);
 	}
 

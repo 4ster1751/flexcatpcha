@@ -56,8 +56,8 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	 * @return {@link ImageCaptcha} object containing the hashed solution and the
 	 *         grid as array of byte arrays.
 	 */
-	default public ImageCaptcha generate(int gridWidth, CipherHandler cipherHandler, Serializable saltSource,
-			String password, BufferedImage[] solutionImages, BufferedImage[] fillImages, boolean addSelfReference) {
+	default ImageCaptcha generate(int gridWidth, CipherHandler cipherHandler, Serializable saltSource,
+								  String password, BufferedImage[] solutionImages, BufferedImage[] fillImages, boolean addSelfReference) {
 		BufferedImage[] allImages = ArrayUtils.addAll(solutionImages, fillImages);
 		if (solutionImages == null || solutionImages.length == 0) {
 			throw new IllegalArgumentException("solutionImages can not be empty or null.");
@@ -99,7 +99,7 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	 * @return {@link ImageCaptcha} object containing the hashed solution and the
 	 *         grid as array of byte arrays.
 	 */
-	public ImageCaptcha generate(int gridWidth, CipherHandler cipherHandler, Serializable saltSource, String password,
+	ImageCaptcha generate(int gridWidth, CipherHandler cipherHandler, Serializable saltSource, String password,
 			BufferedImage[] solutionImages, BufferedImage[] fillImages, int imageHeight, int imageWidth, boolean addSelfReference);
 
 	/**
@@ -111,12 +111,9 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	private int getLargestHeight(BufferedImage[] allImages) {
 		Optional<BufferedImage> greatestHeight = Stream.of(allImages)
 				.max(Comparator.comparing(BufferedImage::getHeight));
-		if (greatestHeight.isPresent()) {
-			return greatestHeight.get().getHeight();
-		}
+        return greatestHeight.map(BufferedImage::getHeight).orElseGet(() -> allImages[0].getHeight());
 		/* Fallback in case comparing the images does not work. */
-		return allImages[0].getHeight();
-	}
+    }
 
 	/**
 	 * Gets the largest width out of all the {@link BufferedImage}s
@@ -126,11 +123,8 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	 */
 	private int getLargestWidth(BufferedImage[] allImages) {
 		Optional<BufferedImage> greatestWidth = Stream.of(allImages).max(Comparator.comparing(BufferedImage::getWidth));
-		if (greatestWidth.isPresent()) {
-			return greatestWidth.get().getWidth();
-		}
+        return greatestWidth.map(BufferedImage::getWidth).orElseGet(() -> allImages[0].getWidth());
 		/* Fallback in case comparing the images does not work. */
-		return allImages[0].getWidth();
-	}
+    }
 
 }

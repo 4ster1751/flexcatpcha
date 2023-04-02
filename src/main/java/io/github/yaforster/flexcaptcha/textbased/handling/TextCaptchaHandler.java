@@ -44,8 +44,8 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */
-	default public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource,
-			String password, CaptchaTextGenerator textgenerator, TextImageRenderer renderer, int height, int width, boolean addSelfReference) {
+	default TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource,
+								 String password, CaptchaTextGenerator textgenerator, TextImageRenderer renderer, int height, int width, boolean addSelfReference) {
 		return generate(length, cipherHandler, saltSource, password, textgenerator, Case.MIXEDCASE, renderer, height,
 				width, addSelfReference);
 	}
@@ -72,7 +72,7 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */
-	public TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource, String password,
+	TextCaptcha generate(int length, CipherHandler cipherHandler, Serializable saltSource, String password,
 			CaptchaTextGenerator textgenerator, Case charCase, TextImageRenderer renderer, int height, int width, boolean addSelfReference);
 
 	/**
@@ -93,7 +93,7 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 * @return Captcha object containing the image data of the visual captcha and
 	 *         the token containing the hashed and salted solution
 	 */
-	public TextCaptcha toCaptcha(String captchaText, CipherHandler cipherHandler, Serializable saltSource,
+	TextCaptcha toCaptcha(String captchaText, CipherHandler cipherHandler, Serializable saltSource,
 			String password, TextImageRenderer renderer, int height, int width, boolean addSelfReference);
 
 	/**
@@ -102,9 +102,8 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 * @param image     Image of the captcha
 	 * @param imgFormat the image format in which the raw image data is written
 	 * @return byte array of the image
-	 * @throws IOException if writing the base64 string encountered an error
 	 */
-	default byte[] convertImageToByteArray(BufferedImage image, String imgFormat) throws IOException {
+	default byte[] convertImageToByteArray(BufferedImage image, String imgFormat) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		try {
 			ImageIO.write(image, imgFormat, bos);

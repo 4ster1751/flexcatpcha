@@ -1,6 +1,6 @@
 package io.github.yaforster.flexcaptcha;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -8,7 +8,6 @@ import java.awt.Button;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.Arrays;
 
 import javax.crypto.spec.IvParameterSpec;
@@ -27,16 +26,16 @@ import org.mockito.Mockito;
  */
 public class CaptchaHandlerTest {
 
-	CipherHandler cipherHandler = getCHMock();
-	String password = "ThisIsMyPassword";
-	Button dummyObj = new Button();
-	CaptchaHandler captchaHandler = makeCaptchaHandler(); 
+	final CipherHandler cipherHandler = getCHMock();
+	final String password = "ThisIsMyPassword";
+	final Button dummyObj = new Button();
+	final CaptchaHandler captchaHandler = makeCaptchaHandler();
 
 	@Test
 	public void testAddSelfReference() {
 		String token = captchaHandler.addSelfReference(cipherHandler, "sometoken", dummyObj, password);
 		String selfReferenceBase64 = token.split(CaptchaHandler.DELIMITER)[1];
-		assertTrue(selfReferenceBase64.equals("AQID"));
+        assertEquals("AQID", selfReferenceBase64);
 	}
 
 	@Test
@@ -49,7 +48,7 @@ public class CaptchaHandlerTest {
 			oos.close();
 			byte[] testbytes = baos.toByteArray();
 			byte[] methodTestBytes = captchaHandler.getSaltObjectBytes(dummyObj);
-			assertTrue(Arrays.equals(testbytes, methodTestBytes));
+            assertArrayEquals(testbytes, methodTestBytes);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,12 +71,8 @@ public class CaptchaHandlerTest {
 	}
 	
 	private CaptchaHandler makeCaptchaHandler() {
-		return new CaptchaHandler() {
-
-			@Override
-			public boolean validate(String answer, String token, CipherHandler cipherHandler, Serializable saltSource, String password) {
-				throw new NotImplementedException();
-			}
+		return (answer, token, cipherHandler, saltSource, password) -> {
+			throw new NotImplementedException();
 		};
 	}
 

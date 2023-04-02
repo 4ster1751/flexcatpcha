@@ -152,7 +152,7 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
 		int fontHeight = fontMetrics.getHeight();
 		int charWidth = fontMetrics.charWidth(charToDraw);
 		int charDim = Math.max(maxAdvance, fontHeight);
-		int halfCharDim = (int) (charDim / 2);
+		int halfCharDim = charDim / 2;
 		BufferedImage charImage = new BufferedImage(charDim, charDim, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D charGraphics = charImage.createGraphics();
 		charGraphics.translate(halfCharDim, halfCharDim);
@@ -162,10 +162,10 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
 		charGraphics.setColor(pickRandomColor(textCols));
 		charGraphics.setFont(textFont);
 		int charX = (int) (0.5 * charDim - 0.5 * charWidth);
-		charGraphics.drawString("" + charToDraw, charX,
-				(int) ((charDim - fontMetrics.getAscent()) / 2 + fontMetrics.getAscent()));
+		charGraphics.drawString(String.valueOf(charToDraw), charX,
+				(charDim - fontMetrics.getAscent()) / 2 + fontMetrics.getAscent());
 		float x = margin + spacePerChar * (index) - charDim / 2.0f;
-		int y = (int) ((image.getHeight() - charDim) / 2);
+		int y = (image.getHeight() - charDim) / 2;
 		image.createGraphics().drawImage(charImage, (int) x, y, charDim, charDim, null, null);
 		charGraphics.dispose();
 	}

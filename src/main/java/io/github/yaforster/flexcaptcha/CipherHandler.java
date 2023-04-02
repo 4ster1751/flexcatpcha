@@ -37,7 +37,7 @@ public class CipherHandler {
 	/**
 	 * Log4J Logger
 	 */
-	Logger log = LogManager.getLogger(CipherHandler.class);
+	final Logger log = LogManager.getLogger(CipherHandler.class);
 	
 	/**
 	 * The encryption algorithm
@@ -92,8 +92,7 @@ public class CipherHandler {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
 			outputStream.write( ivBytes );
 			outputStream.write( cipherBytes );
-			byte[] finalTokenBytes = outputStream.toByteArray( );
-			return finalTokenBytes;
+			return outputStream.toByteArray( );
 		} catch (IOException e) {
 			log.fatal("Fatal error producing byte array data of the salt source object: " + e.getLocalizedMessage());
 		} catch (NoSuchAlgorithmException e) {
@@ -125,8 +124,7 @@ public class CipherHandler {
 			byte[] ivBytes = Arrays.copyOfRange( input  , 0, 16);
 			Cipher cipher = getCipher(password, saltSource, Cipher.DECRYPT_MODE, ivBytes);
 			byte[] cipherBytes = Arrays.copyOfRange( input  , 16, input.length);
-		    byte[] inputBytes = cipher.doFinal(cipherBytes);
-		    return inputBytes;
+			return cipher.doFinal(cipherBytes);
 		} catch (IOException e) {
 			log.fatal("Fatal error producing byte array data of the salt source object: " + e.getLocalizedMessage());
 		} catch (NoSuchAlgorithmException e) {
@@ -155,12 +153,10 @@ public class CipherHandler {
 	 * @throws InvalidKeySpecException
 	 * @throws InvalidKeyException
 	 * @throws InvalidAlgorithmParameterException
-	 * @throws IllegalBlockSizeException
-	 * @throws BadPaddingException
 	 */
 	private Cipher getCipher(String password, Serializable saltSource, int mode, byte[] ivBytes)
 			throws NoSuchAlgorithmException, NoSuchPaddingException, IOException, InvalidKeySpecException,
-			InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+			InvalidKeyException, InvalidAlgorithmParameterException {
 		IvParameterSpec iv = new IvParameterSpec(ivBytes);
 		SecretKeyFactory factory = SecretKeyFactory.getInstance(ALGORITHM);
 		Cipher cipher = Cipher.getInstance(CIPERALGORITHM);
@@ -181,7 +177,7 @@ public class CipherHandler {
 	private byte[] getSaltBytes(Serializable saltSource) throws IOException {
 		byte[] saltBytes;
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutputStream out = null;
+		ObjectOutputStream out;
 		out = new ObjectOutputStream(bos);   
 		out.writeObject(saltSource);
 		out.flush();

@@ -35,13 +35,13 @@ public class EffectChainTextImageRenderer implements TextImageRenderer {
 	/**
 	 * List of operations that will be applied to the image during rendering.
 	 */
-	List<AbstractBufferedImageOp> bufferedOps = new ArrayList<AbstractBufferedImageOp>();
+	List<AbstractBufferedImageOp> bufferedOps = new ArrayList<>();
 	
 	@Override
 	public BufferedImage render(final String captchaTextInput, int height, int width) {
 		BufferedImage image = new SimpleTextImageRenderer().render(captchaTextInput, height, width);
 		if(!bufferedOps.isEmpty()) {
-			image = applyFilters(image);
+			applyFilters(image);
 		}
 		return image;
 	}
