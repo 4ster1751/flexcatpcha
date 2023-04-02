@@ -50,6 +50,6 @@ A minimalistic CAPTCHA generator and validator, with customizable rendering opti
 <dependency>
     <groupId>io.github.yaforster</groupId>
     <artifactId>flexcaptcha</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.4</version>
 </dependency>
 ```
