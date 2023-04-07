@@ -34,7 +34,6 @@ public class SecureTextCaptchaHandler implements TextCaptchaHandler {
 		return toCaptcha(captchaText, cipherHandler, saltSource, password, renderer, height, width, addSelfReference);
 	}
 
-	@Override
 	public TextCaptcha toCaptcha(String captchaText, CipherHandler cipherHandler, Serializable saltSource,
 			String password, TextImageRenderer renderer, int height, int width, boolean addSelfReference ) {
 		TextCaptcha captcha;

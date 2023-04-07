@@ -54,7 +54,6 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	 * beforehand, as opposed to have it randomly generated.
 	 * 
 	 */
-	@Override
 	public TextCaptcha toCaptcha(String captchaText, CipherHandler cipherHandler, Serializable saltSource, String password,
 			TextImageRenderer renderer, int height, int width, boolean addSelfReference) {
 		return makeTextCaptcha(saltSource, cipherHandler, password, renderer, height, width, captchaText, addSelfReference);

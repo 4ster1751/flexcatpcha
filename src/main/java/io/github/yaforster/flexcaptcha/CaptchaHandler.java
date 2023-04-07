@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  *         This interface defines the basic functionality shared amongst all
  *         Captcha handlers consisting of the adding of the handler reference to
  *         the token itself as well as the validation method definition and
- *         token creation implementation as well as the validation and
+ *         token creation implementation, the validation and
  *         convertion of a salt object to byte arrays
  *
  */
