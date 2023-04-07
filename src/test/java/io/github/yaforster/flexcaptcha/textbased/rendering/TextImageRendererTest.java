@@ -1,39 +1,37 @@
 package io.github.yaforster.flexcaptcha.textbased.rendering;
 
-import static org.junit.Assert.assertEquals;
-
-import java.awt.image.BufferedImage;
-
+import lombok.Getter;
 import org.junit.Before;
 import org.junit.Test;
 
-import lombok.Getter;
+import java.awt.image.BufferedImage;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests {@link TextImageRenderer} interface
- * 
- * @author Yannick Forster
  *
+ * @author Yannick Forster
  */
 @Getter
 public abstract class TextImageRendererTest<T extends TextImageRenderer> {
-	
-	private T renderer;
+
+    private T renderer;
 
     protected abstract T createRenderer();
 
-    @Before 
+    @Before
     public void setUp() {
         renderer = createRenderer();
     }
 
     @Test
     public void render() {
-		int targetHeight = 100;
-		int widthHeight = 200;
-		BufferedImage image = renderer.render("TEST", targetHeight, widthHeight);
+        int targetHeight = 100;
+        int widthHeight = 200;
+        BufferedImage image = renderer.render("TEST", targetHeight, widthHeight);
         assertEquals(image.getHeight(), targetHeight);
         assertEquals(image.getWidth(), widthHeight);
-	}
+    }
 
 }
