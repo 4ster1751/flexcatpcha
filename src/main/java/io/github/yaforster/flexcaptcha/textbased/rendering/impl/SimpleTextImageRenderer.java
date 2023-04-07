@@ -19,13 +19,16 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
+ * Example implementation.
+ * <p>
  * Implements a rendering logic taking in an input string to generate a
- * visualization of said string and return it in an base64 string representation
+ * visualization of said string and return it in a base64 string representation
  * for easier transportation
  * 
  * @author Yannick Forster
  *
  */
+@SuppressWarnings("DuplicatedCode")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -76,13 +79,13 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
 	/**
 	 * Draws distortions onto the given Graphics2D object in the shape of randomly
 	 * generated rectangles and dots to help obscure the text in the captcha image
-	 * 
+	 *
 	 * @param height  pixel height of the image inside the graphics object
 	 * @param width   pixel width of the image inside the graphics object
 	 * @param graphic the Graphics2D object onto which the distortions are to be
 	 *                drawn
 	 */
-	protected Graphics2D drawDistortions(int height, int width, Graphics2D graphic) {
+	protected void drawDistortions(int height, int width, Graphics2D graphic) {
 		graphic.setColor(distortCol);
 		for (int i = 0; i < width / 64; i++) {
 			int L = (int) (Math.random() * height / 2.0);
@@ -99,17 +102,16 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
 		    int y = Math.abs(random.nextInt()) % height;
 		    graphic.drawLine(x, y, x, y);
 		}
-		return graphic;
 	}
 
 	/**
 	 * prepares the writing of the given captcha text onto the specified Graphics2d
 	 * object
-	 * 
+	 *
 	 * @param captchaTextInput string containing the text to write
-	 * @param image the image on which to draw the text
+	 * @param image            the image on which to draw the text
 	 */
-	protected Graphics2D drawText(String captchaTextInput, BufferedImage image) {
+	protected void drawText(String captchaTextInput, BufferedImage image) {
 		Graphics2D graphic = image.createGraphics();
 		Font textFont = new Font(fontName, Font.BOLD, (int) (image.getHeight() / 2.5));
 		graphic.setColor(pickRandomColor(textCols));
@@ -123,28 +125,21 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
 			char charToDraw = captchaTextInput.charAt(i);
 			drawCharacter(image, textFont, fontMetrics, margin, spacePerChar, i, charToDraw);
 		});
-		return graphic;
 	}
 
 	/**
 	 * Measures the font and draws each character of the given string to the
 	 * Graphics2D object at a randomized angle.
 	 * 
-	 * @param graphic      the Graphics2D object containing the graphic in which the
-	 *                     image is constructed
 	 * @param textFont     Font object containing the font in which the characters
 	 *                     are to be drawn
 	 * @param fontMetrics  fontmetrics object used to measure the characters in the
 	 *                     string
-	 * @param height       pixel count of the height of the graphic
-	 * @param maxAdvance   measured approximate maxAdvance width
-	 * @param fontHeight   measured standard height of the font
 	 * @param margin       calculated based on the width to define an approximate
 	 *                     margin between each letter
 	 * @param spacePerChar the space that the entire string will approximately
 	 *                     require
 	 * @param index        running index of the character in the source string
-	 * @param sourceString the source string
 	 */
 	private void drawCharacter(BufferedImage image, Font textFont, FontMetrics fontMetrics, int margin,
 			float spacePerChar, Integer index, char charToDraw) {

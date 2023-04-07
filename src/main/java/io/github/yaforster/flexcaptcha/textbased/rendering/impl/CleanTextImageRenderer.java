@@ -17,12 +17,15 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
+ * Example implementation.
+ * <p>
  * Renders a text captcha image without visual distortions in the finished
  * image.
  * 
  * @author Yannick Forster
  *
  */
+@SuppressWarnings("DuplicatedCode")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -64,12 +67,11 @@ public class CleanTextImageRenderer implements TextImageRenderer {
 	/**
 	 * prepares the writing of the given captcha text onto the specified Graphics2d
 	 * object
-	 * 
+	 *
 	 * @param captchaTextInput string containing the text to write
 	 * @param image            the image on which to draw
-	 * @return the {@link BufferedImage} image written to
 	 */
-	private BufferedImage drawText(String captchaTextInput, BufferedImage image) {
+	private void drawText(String captchaTextInput, BufferedImage image) {
 		Graphics2D graphic = image.createGraphics();
 		Font textFont = new Font(fontName, Font.BOLD, (int) (image.getHeight() / 2.5));
 		graphic.setColor(pickRandomColor(textCols));
@@ -83,14 +85,13 @@ public class CleanTextImageRenderer implements TextImageRenderer {
 			char charToDraw = captchaTextInput.charAt(i);
 			drawCharacter(image, textFont, fontMetrics, margin, spacePerChar, i, charToDraw);
 		});
-		return image;
 	}
 
 	/**
 	 * Measures the font and draws each character of the given string to the
 	 * Graphics2D object at a randomized angle.
-	 * 
-	 * @param graphic      the Graphics2D object containing the graphic in which the
+	 *
+	 * @param image      the Graphics2D object containing the graphic in which the
 	 *                     image is constructed
 	 * @param textFont     Font object containing the font in which the characters
 	 *                     are to be drawn
@@ -102,10 +103,9 @@ public class CleanTextImageRenderer implements TextImageRenderer {
 	 *                     require
 	 * @param index        running index of the character in the source string
 	 * @param charToDraw   the character to draw
-	 * @return the {@link BufferedImage} image written to
 	 */
-	private BufferedImage drawCharacter(BufferedImage image, Font textFont, FontMetrics fontMetrics, int margin,
-			float spacePerChar, Integer index, char charToDraw) {
+	private void drawCharacter(BufferedImage image, Font textFont, FontMetrics fontMetrics, int margin,
+							   float spacePerChar, Integer index, char charToDraw) {
 		int maxAdvance = fontMetrics.getMaxAdvance();
 		int fontHeight = fontMetrics.getHeight();
 		int charWidth = fontMetrics.charWidth(charToDraw);
@@ -121,6 +121,5 @@ public class CleanTextImageRenderer implements TextImageRenderer {
 		int y = (image.getHeight() - charDim) / 2;
 		image.createGraphics().drawImage(charImage, (int) x, y, charDim, charDim, null, null);
 		charGraphics.dispose();
-		return image;
 	}
 }

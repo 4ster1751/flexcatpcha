@@ -12,7 +12,7 @@ import lombok.Setter;
 
 /**
  * @author Yannick Forster
- * 
+ * <p>
  *         This class is used to provide logic to generate or accept a String
  *         representing the image content and the solution for the Captcha for
  *         further processing
@@ -45,7 +45,7 @@ public class SimpleCaptchaTextGenerator implements CaptchaTextGenerator {
 	/**
 	 * Constructs the output String by repeatedly copying a single character from
 	 * the characterbase-String at a random point until the specified length is
-	 * reached. The case-enum controls whether or not the case of the letters. Mixed
+	 * reached. The case-enum controls whether the case of the letters. Mixed
 	 * case will randomize the case of each character every time it is picked from
 	 * the source string
 	 * 

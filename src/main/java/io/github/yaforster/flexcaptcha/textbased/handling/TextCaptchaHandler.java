@@ -28,7 +28,7 @@ public interface TextCaptchaHandler extends CaptchaHandler {
 	 * with the given object for checking authenticity during verification. Uses the
 	 * given String as a source of all possible characters from which the captcha
 	 * string is to be generated with mixed case.
-	 * 
+	 * <p>
 	 * 
 	 * @param length        specifies the length
 	 * @param cipherHandler {@link CipherHandler} implementation for encryption and

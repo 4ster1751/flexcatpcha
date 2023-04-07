@@ -3,9 +3,6 @@ package io.github.yaforster.flexcaptcha.textbased.handling.impl;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import io.github.yaforster.flexcaptcha.CipherHandler;
 import io.github.yaforster.flexcaptcha.textbased.TextCaptcha;
 import io.github.yaforster.flexcaptcha.textbased.enums.Case;
@@ -14,7 +11,7 @@ import io.github.yaforster.flexcaptcha.textbased.rendering.TextImageRenderer;
 import io.github.yaforster.flexcaptcha.textbased.textgen.CaptchaTextGenerator;
 
 /**
- * Provides basic captcha handling in regards to generating a simplistic visual
+ * Provides basic captcha handling regarding generation of a simplistic visual
  * representation of the text-based captcha string as well as hashing the token
  * and salt object
  * 
@@ -22,11 +19,6 @@ import io.github.yaforster.flexcaptcha.textbased.textgen.CaptchaTextGenerator;
  *
  */
 public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
-
-	/**
-	 * Log4J Logger
-	 */
-	final Logger log = LogManager.getLogger(SimpleTextCaptchaHandler.class);
 
 	/**
 	 * The image format
@@ -45,7 +37,7 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
 	}
 
 	/**
-	 * Validates whether or not the answer to the given captcha is correct. To do
+	 * Validates whether the answer to the given captcha is correct. To do
 	 * this, the answer and the salt source are combined and checked against the
 	 * token
 	 */

@@ -8,7 +8,6 @@ import java.awt.Button;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.Arrays;
 
 import javax.crypto.spec.IvParameterSpec;
 
@@ -19,7 +18,7 @@ import org.mockito.Mockito;
 /**
  * Tests default methods of the {@link CaptchaHandler} interface using an
  * arbitrary implementation
- * 
+ * <p>
  * 
  * @author Yannick Forster
  *

@@ -4,9 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Base64;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import io.github.yaforster.flexcaptcha.CipherHandler;
 import io.github.yaforster.flexcaptcha.textbased.TextCaptcha;
 import io.github.yaforster.flexcaptcha.textbased.enums.Case;
@@ -24,12 +21,7 @@ import io.github.yaforster.flexcaptcha.textbased.textgen.CaptchaTextGenerator;
  */
 public class SecureTextCaptchaHandler implements TextCaptchaHandler {
 
-	/**
-	 * Log4J Logger
-	 */
-	final Logger log = LogManager.getLogger(SimpleTextCaptchaHandler.class);
-
-	/**
+    /**
 	 * The image format
 	 */
 	private static final String IMG_FORMAT = "JPEG";

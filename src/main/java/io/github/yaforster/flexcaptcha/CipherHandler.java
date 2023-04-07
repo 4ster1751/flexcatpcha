@@ -144,16 +144,10 @@ public class CipherHandler {
 	 * 
 	 * @param password   the password used for encryption
 	 * @param saltSource a Serializable object used as salt
-	 * @param mode       specifies whether or not the cipher will encrypt or decrypt
+	 * @param mode       specifies whether the cipher will encrypt or decrypt
 	 * @param ivBytes    the initialization vector
 	 * @return configured Cipher object
-	 * @throws NoSuchAlgorithmException
-	 * @throws NoSuchPaddingException
-	 * @throws IOException
-	 * @throws InvalidKeySpecException
-	 * @throws InvalidKeyException
-	 * @throws InvalidAlgorithmParameterException
-	 */
+     */
 	private Cipher getCipher(String password, Serializable saltSource, int mode, byte[] ivBytes)
 			throws NoSuchAlgorithmException, NoSuchPaddingException, IOException, InvalidKeySpecException,
 			InvalidKeyException, InvalidAlgorithmParameterException {
@@ -172,8 +166,7 @@ public class CipherHandler {
 	 * 
 	 * @param saltSource object to be used as salt
 	 * @return byte array of the given object
-	 * @throws IOException
-	 */
+     */
 	private byte[] getSaltBytes(Serializable saltSource) throws IOException {
 		byte[] saltBytes;
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();

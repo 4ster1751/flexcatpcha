@@ -46,8 +46,7 @@ public class EffectChainTextImageRenderer implements TextImageRenderer {
 		return image;
 	}
 
-	private BufferedImage applyFilters(BufferedImage image) {
+	private void applyFilters(BufferedImage image) {
 		bufferedOps.forEach(op -> op.filter(image, image));
-		return image;
 	}
 }

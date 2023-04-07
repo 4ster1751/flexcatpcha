@@ -23,7 +23,7 @@ import io.github.yaforster.flexcaptcha.imgbased.ImageCaptcha;
 import io.github.yaforster.flexcaptcha.imgbased.handling.ImageCaptchaHandler;
 
 /**
- * Provides basic captcha handling in regards to generating a simplistic visual
+ * Provides basic captcha handling regarding generation of a simplistic visual
  * representation of the image-based captcha string as well as hashing the token
  * and salt object
  * 

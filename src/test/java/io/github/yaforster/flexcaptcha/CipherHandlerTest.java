@@ -1,7 +1,6 @@
 package io.github.yaforster.flexcaptcha;
 
 import java.awt.Button;
-import java.util.Arrays;
 
 import org.junit.Test;
 

@@ -7,8 +7,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import io.github.yaforster.flexcaptcha.CaptchaHandler;
 import io.github.yaforster.flexcaptcha.CipherHandler;
@@ -23,11 +21,6 @@ import io.github.yaforster.flexcaptcha.imgbased.ImageCaptcha;
  *
  */
 public interface ImageCaptchaHandler extends CaptchaHandler {
-
-	/**
-	 * Log4J Logger
-	 */
-	Logger log = LogManager.getLogger(ImageCaptchaHandler.class);
 
 	/**
 	 * /** Generates an image-based captcha, forming a square-shaped grid with the
@@ -111,7 +104,7 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	private int getLargestHeight(BufferedImage[] allImages) {
 		Optional<BufferedImage> greatestHeight = Stream.of(allImages)
 				.max(Comparator.comparing(BufferedImage::getHeight));
-        return greatestHeight.map(BufferedImage::getHeight).orElseGet(() -> allImages[0].getHeight());
+        return greatestHeight.map(BufferedImage::getHeight).orElse(Optional.of(allImages[0].getWidth()).orElse(100));
 		/* Fallback in case comparing the images does not work. */
     }
 
@@ -123,7 +116,7 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
 	 */
 	private int getLargestWidth(BufferedImage[] allImages) {
 		Optional<BufferedImage> greatestWidth = Stream.of(allImages).max(Comparator.comparing(BufferedImage::getWidth));
-        return greatestWidth.map(BufferedImage::getWidth).orElseGet(() -> allImages[0].getWidth());
+        return greatestWidth.map(BufferedImage::getWidth).orElse(Optional.of(allImages[0].getWidth()).orElse(100));
 		/* Fallback in case comparing the images does not work. */
     }
 

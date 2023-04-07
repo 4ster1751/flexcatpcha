@@ -48,12 +48,7 @@ public class TwirledTextImageRenderer implements TextImageRenderer {
 	/**
 	 * Applies a twisting effect of the entire graphic originating in the center of
 	 * the image
-	 * 
-	 * @param height  pixel count of the height of the graphic
-	 * @param width   pixel count of the width of the graphic
-	 * @param graphic the Graphics2D object containing the graphic in which the
-	 *                image is constructed
-	 * @return
+	 *
 	 */
 	private BufferedImage applytwirl(BufferedImage image) {
 		TwirlFilter filter = new TwirlFilter();
