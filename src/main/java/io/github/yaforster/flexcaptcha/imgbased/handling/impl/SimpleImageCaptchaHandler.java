@@ -67,11 +67,6 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
         ArrayUtils.shuffle(gridIndices);
         int[] solutionIndices = Arrays.copyOfRange(gridIndices, 0, halfGrid);
         Arrays.sort(solutionIndices);
-        System.out.print("The array: [ ");
-        for (int i = 0; i < solutionIndices.length; i++) {
-            System.out.print(" " + solutionIndices[i] + " ");
-        }
-        System.out.println("]");
         int[] fillIndices = ArrayUtils.removeElements(gridIndices, solutionIndices);
         return makeImageCaptcha(saltSource, cipherHandler, password, solutionImages, fillImages, gridData, solutionIndices,
                 fillIndices, addSelfReference);
