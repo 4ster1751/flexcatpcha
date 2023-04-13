@@ -66,6 +66,12 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
         int[] gridIndices = IntStream.range(0, gridData.length).boxed().mapToInt(i -> i).toArray();
         ArrayUtils.shuffle(gridIndices);
         int[] solutionIndices = Arrays.copyOfRange(gridIndices, 0, halfGrid);
+        Arrays.sort(solutionIndices);
+        System.out.print("The array: [ ");
+        for (int i = 0; i < solutionIndices.length; i++) {
+            System.out.print(" " + solutionIndices[i] + " ");
+        }
+        System.out.println("]");
         int[] fillIndices = ArrayUtils.removeElements(gridIndices, solutionIndices);
         return makeImageCaptcha(saltSource, cipherHandler, password, solutionImages, fillImages, gridData, solutionIndices,
                 fillIndices, addSelfReference);
@@ -175,7 +181,7 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
         String solution = Arrays.toString(solutionIndices).replaceAll("\\s+", "");
         String token = makeToken(solution, saltSource);
         if (addSelfReference) {
-            token = addSelfReference(cipherHandler, token, saltSource, password);
+            token += addSelfReference(cipherHandler, saltSource, password);
         }
         return token;
     }

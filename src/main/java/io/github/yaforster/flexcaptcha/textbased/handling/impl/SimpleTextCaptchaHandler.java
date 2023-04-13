@@ -6,9 +6,12 @@ import io.github.yaforster.flexcaptcha.textbased.enums.Case;
 import io.github.yaforster.flexcaptcha.textbased.handling.TextCaptchaHandler;
 import io.github.yaforster.flexcaptcha.textbased.rendering.TextImageRenderer;
 import io.github.yaforster.flexcaptcha.textbased.textgen.CaptchaTextGenerator;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Provides basic captcha handling regarding generation of a simplistic visual
@@ -77,15 +80,22 @@ public class SimpleTextCaptchaHandler implements TextCaptchaHandler {
     private TextCaptcha makeTextCaptcha(Serializable saltSource, CipherHandler cipherHandler, String password, TextImageRenderer renderer,
                                         int height, int width, String captchaText, boolean addSelfReference) {
         BufferedImage image = renderer.render(captchaText, height, width);
-        byte[] imgData = convertImageToByteArray(image, IMG_FORMAT);
-        if (imgData != null) {
-            String token = makeToken(captchaText, saltSource);
+        TextCaptcha captcha = null;
+        try {
+            byte[] imgData = convertImageToByteArray(image, IMG_FORMAT);
+            CompletableFuture<String> selfreference = CompletableFuture.completedFuture(StringUtils.EMPTY);
             if (addSelfReference) {
-                token = addSelfReference(cipherHandler, token, saltSource, password);
+                selfreference = CompletableFuture.supplyAsync(() -> addSelfReference(cipherHandler, saltSource, password));
             }
-            return new TextCaptcha(imgData, token);
+            CompletableFuture<String> token = CompletableFuture.supplyAsync(() -> makeToken(captchaText, saltSource));
+            captcha = new TextCaptcha(imgData, token.get() + selfreference.get());
+        } catch (InterruptedException e) {
+            log.fatal("Thread interruption during captcha generation: " + e.getLocalizedMessage());
+
+        } catch (ExecutionException e) {
+            log.fatal("Fatal error during captcha generation: " + e.getLocalizedMessage());
         }
-        return null;
+        return captcha;
     }
 
 }

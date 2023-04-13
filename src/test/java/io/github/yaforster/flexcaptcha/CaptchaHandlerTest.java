@@ -31,8 +31,8 @@ public class CaptchaHandlerTest {
 
     @Test
     public void testAddSelfReference() {
-        String token = captchaHandler.addSelfReference(cipherHandler, "sometoken", dummyObj, password);
-        String selfReferenceBase64 = token.split(CaptchaHandler.DELIMITER)[1];
+        String selfReference = captchaHandler.addSelfReference(cipherHandler, dummyObj, password);
+        String selfReferenceBase64 = selfReference.split(CaptchaHandler.DELIMITER)[1];
         assertEquals("AQID", selfReferenceBase64);
     }
 

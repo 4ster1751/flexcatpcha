@@ -6,10 +6,13 @@ import io.github.yaforster.flexcaptcha.textbased.enums.Case;
 import io.github.yaforster.flexcaptcha.textbased.handling.TextCaptchaHandler;
 import io.github.yaforster.flexcaptcha.textbased.rendering.TextImageRenderer;
 import io.github.yaforster.flexcaptcha.textbased.textgen.CaptchaTextGenerator;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Base64;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Provides basic captcha handling regarding the generation of a simplistic visual
@@ -35,15 +38,23 @@ public class SecureTextCaptchaHandler implements TextCaptchaHandler {
 
     public TextCaptcha toCaptcha(String captchaText, CipherHandler cipherHandler, Serializable saltSource,
                                  String password, TextImageRenderer renderer, int height, int width, boolean addSelfReference) {
-        TextCaptcha captcha;
+        TextCaptcha captcha = null;
         BufferedImage image = renderer.render(captchaText, height, width);
-        byte[] imgData = convertImageToByteArray(image, IMG_FORMAT);
-        byte[] encryptedToken = cipherHandler.encryptString(captchaText.getBytes(), password, saltSource);
-        String tokenString = Base64.getEncoder().encodeToString(encryptedToken);
-        if (addSelfReference) {
-            tokenString = addSelfReference(cipherHandler, tokenString, saltSource, password);
+        try {
+            byte[] imgData = convertImageToByteArray(image, IMG_FORMAT);
+            CompletableFuture<String> selfreference = CompletableFuture.completedFuture(StringUtils.EMPTY);
+            if (addSelfReference) {
+                selfreference = CompletableFuture.supplyAsync(() -> addSelfReference(cipherHandler, saltSource, password));
+            }
+            CompletableFuture<byte[]> encryptedToken = CompletableFuture.supplyAsync(() -> cipherHandler.encryptString(captchaText.getBytes(), password, saltSource));
+            String tokenString = Base64.getEncoder().encodeToString(encryptedToken.get());
+            captcha = new TextCaptcha(imgData, tokenString + selfreference.get());
+        } catch (InterruptedException e) {
+            log.fatal("Thread interruption during captcha generation: " + e.getLocalizedMessage());
+
+        } catch (ExecutionException e) {
+            log.fatal("Fatal error during captcha generation: " + e.getLocalizedMessage());
         }
-        captcha = new TextCaptcha(imgData, tokenString);
         return captcha;
     }
 

@@ -48,19 +48,18 @@ public interface CaptchaHandler {
      *
      * @param cipherHandler {@link CipherHandler} object used to handle the
      *                      encrypting of the self reference
-     * @param token         token to be appended
      * @param saltSource    the salt source used for the encryption.
      * @param password      the password used to encrypt the implementation
      *                      reference
      * @return appended token string
      */
-    default String addSelfReference(CipherHandler cipherHandler, String token, Serializable saltSource,
+    default String addSelfReference(CipherHandler cipherHandler, Serializable saltSource,
                                     String password) {
         byte[] ivBytes = cipherHandler.generateIV().getIV();
         byte[] encryptedBytes = cipherHandler.encryptString(this.getClass().getName().getBytes(), password, saltSource,
                 ivBytes);
         String base64 = Base64.getEncoder().encodeToString(encryptedBytes);
-        return token + DELIMITER + base64;
+        return DELIMITER + base64;
     }
 
     /**
