@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * @author mavor
+ * @author Yannick Forster
  */
 @RequiredArgsConstructor
 public class BackgroundPictureTextImageRenderer extends SimpleTextImageRenderer implements TextImageRenderer {
