@@ -36,7 +36,7 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
     /**
      * Log4J Logger
      */
-    final Logger log = LogManager.getLogger(SimpleImageCaptchaHandler.class);
+    private final Logger log = LogManager.getLogger(SimpleImageCaptchaHandler.class);
 
     /**
      * Generates the image captcha. Randomizes a grid layout with the images taken

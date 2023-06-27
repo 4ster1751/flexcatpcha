@@ -31,16 +31,16 @@ public class CleanTextImageRenderer implements TextImageRenderer {
     /**
      * Color of the Captcha Background
      */
-    Color backgrndCol = Color.white;
+    private Color backgrndCol = Color.white;
     /**
      * Set of possible colors of the letters in the captcha image
      */
-    Color[] textCols = new Color[]{Color.blue};
+    private Color[] textCols = new Color[]{Color.blue};
 
     /**
      * The name of the font used to draw the letters
      */
-    String fontName = "Verdana";
+    private String fontName = "Verdana";
 
     /**
      * Renders a captcha image of specified height and widght of the given string

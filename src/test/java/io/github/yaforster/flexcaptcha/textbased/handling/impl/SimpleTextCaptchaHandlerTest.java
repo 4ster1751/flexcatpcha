@@ -23,12 +23,12 @@ import static org.mockito.ArgumentMatchers.anyString;
 
 public class SimpleTextCaptchaHandlerTest {
 
-    final SimpleTextCaptchaHandler handler = new SimpleTextCaptchaHandler();
-    final SimpleCaptchaTextGenerator generator = new SimpleCaptchaTextGenerator();
-    final SimpleTextImageRenderer renderer = new SimpleTextImageRenderer();
-    final CipherHandler cipherHandler = getCHMock();
-    final Button dummySerializable = new Button();
-    final String password = "ThisIsMyPassword!";
+    private final SimpleTextCaptchaHandler handler = new SimpleTextCaptchaHandler();
+    private final SimpleCaptchaTextGenerator generator = new SimpleCaptchaTextGenerator();
+    private final SimpleTextImageRenderer renderer = new SimpleTextImageRenderer();
+    private final CipherHandler cipherHandler = getCHMock();
+    private final Button dummySerializable = new Button();
+    private final String password = "ThisIsMyPassword!";
 
     @Test
     public void testGenerateGeneric() {

@@ -28,12 +28,12 @@ public class EffectChainTextImageRenderer implements TextImageRenderer {
     /**
      * Set of possible colors of the letters in the captcha image
      */
-    Color[] textCols = new Color[]{Color.blue, Color.red, Color.darkGray, Color.magenta, Color.black};
+    private Color[] textCols = new Color[]{Color.blue, Color.red, Color.darkGray, Color.magenta, Color.black};
 
     /**
      * List of operations that will be applied to the image during rendering.
      */
-    List<AbstractBufferedImageOp> bufferedOps = new ArrayList<>();
+    private List<AbstractBufferedImageOp> bufferedOps = new ArrayList<>();
 
     @Override
     public BufferedImage render(final String captchaTextInput, int height, int width) {

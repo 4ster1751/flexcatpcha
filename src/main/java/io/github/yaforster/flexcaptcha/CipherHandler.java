@@ -42,7 +42,7 @@ public class CipherHandler {
     /**
      * Log4J Logger
      */
-    final Logger log = LogManager.getLogger(CipherHandler.class);
+    private final Logger log = LogManager.getLogger(CipherHandler.class);
 
     /**
      * Encrypts a given String with a password and a salt source. To encrypt it, an

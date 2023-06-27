@@ -27,7 +27,7 @@ public class ImageLoader {
     /**
      * Log4J Logger
      */
-    Logger log = LogManager.getLogger(ImageLoader.class);
+    private Logger log = LogManager.getLogger(ImageLoader.class);
 
     /**
      * The supported image file types. Will filter out all files that do not have

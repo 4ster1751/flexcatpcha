@@ -8,18 +8,18 @@ import static org.junit.Assert.*;
 
 public class CipherHandlerTest {
 
-    final CipherHandler ch = new CipherHandler();
-    final byte[] inputBytes = "TestString".getBytes();
-    final String password = "ThisIsMyPassword";
-    final Button dummyObj = new Button();
-    final byte[] ivBytes = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+    private final CipherHandler ch = new CipherHandler();
+    private final byte[] inputBytes = "TestString".getBytes();
+    private final String password = "ThisIsMyPassword";
+    private final Button dummyObj = new Button();
+    private final byte[] ivBytes = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
 
-    final byte[] encrExpected = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, -32, 13, -33, -117, 18,
+    private final byte[] encrExpected = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, -32, 13, -33, -117, 18,
             92, 6, 17, -66, -63, -118, 122, -18, 119, -57, -13};
-    final byte[] decrExpected = new byte[]{84, 101, 115, 116, 83, 116, 114, 105, 110, 103};
-    final byte[] encrNoSaltSourceExpected = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, -80, -47, -48,
+    private final byte[] decrExpected = new byte[]{84, 101, 115, 116, 83, 116, 114, 105, 110, 103};
+    private final byte[] encrNoSaltSourceExpected = new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, -80, -47, -48,
             81, 125, 62, 101, 85, -9, 21, -103, -91, 94, 95, 80, 88};
-    final byte[] decrNoSaltSourceExpected = new byte[]{84, 101, 115, 116, 83, 116, 114, 105, 110, 103};
+    private final byte[] decrNoSaltSourceExpected = new byte[]{84, 101, 115, 116, 83, 116, 114, 105, 110, 103};
 
     @Test
     public void testEncryptString_ShouldWork() {

@@ -26,12 +26,12 @@ import static org.mockito.ArgumentMatchers.anyString;
  */
 public class SimpleImageCaptchaHandlerTest {
 
-    final ImageCaptchaHandler handler = new SimpleImageCaptchaHandler();
-    final BufferedImage[] dummyArr = new BufferedImage[]{new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR)};
-    final BufferedImage[] dummyArr2 = new BufferedImage[]{new BufferedImage(15, 15, BufferedImage.TYPE_4BYTE_ABGR)};
-    final Button dummySerializable = new Button();
-    final String password = "ThisIsMyPassword!";
-    final CipherHandler cipherHandler = getCHMock();
+    private final ImageCaptchaHandler handler = new SimpleImageCaptchaHandler();
+    private final BufferedImage[] dummyArr = new BufferedImage[]{new BufferedImage(10, 10, BufferedImage.TYPE_3BYTE_BGR)};
+    private final BufferedImage[] dummyArr2 = new BufferedImage[]{new BufferedImage(15, 15, BufferedImage.TYPE_4BYTE_ABGR)};
+    private final Button dummySerializable = new Button();
+    private final String password = "ThisIsMyPassword!";
+    private final CipherHandler cipherHandler = getCHMock();
 
     @Test
     public void testAllNull() {

@@ -34,24 +34,24 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
     /**
      * Color of the Captcha Background
      */
-    Color backgrndCol = Color.white;
+    private Color backgrndCol = Color.white;
     /**
      * Set of possible colors of the letters in the captcha image
      */
-    Color[] textCols = new Color[]{Color.blue};
+    private Color[] textCols = new Color[]{Color.blue};
     /**
      * Color of distortions in the image
      */
-    Color distortCol = Color.white;
+    private Color distortCol = Color.white;
     /**
      * Defines the maximum angle that can be used to rotate a single character in
      * the captcha
      */
-    double maxrotateAngle = 0.45;
+    private double maxrotateAngle = 0.45;
     /**
      * String name of the font to be used when writing characters to the image
      */
-    String fontName = "Verdana";
+    private String fontName = "Verdana";
 
     /**
      * Renders a captcha image of specified height and widght of the given string

@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 public class BackgroundPictureTextImageRenderer extends SimpleTextImageRenderer implements TextImageRenderer {
 
     @NonNull
-    BufferedImage backgroundimg;
+    private BufferedImage backgroundimg;
 
     @Override
     public BufferedImage render(final String captchaTextInput, int height, int width) {
@@ -24,7 +24,7 @@ public class BackgroundPictureTextImageRenderer extends SimpleTextImageRenderer 
         }
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphic = image.createGraphics();
-        graphic.setColor(backgrndCol);
+        graphic.setColor(getBackgrndCol());
         graphic.drawImage(backgroundimg, null, 0, 0);
         drawDistortions(height, width, graphic);
         drawText(captchaTextInput, image);

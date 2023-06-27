@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 public class SimpleCaptchaTextGeneratorTest {
     static final int TESTSTRINGLENGTH10 = 10;
     static final int TESTSTRINGLENGTH5 = 5;
-    SimpleCaptchaTextGenerator generator;
+    private SimpleCaptchaTextGenerator generator;
 
     @Before
     public void init() {

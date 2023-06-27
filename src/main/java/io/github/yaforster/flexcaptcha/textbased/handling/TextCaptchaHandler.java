@@ -26,19 +26,20 @@ public interface TextCaptchaHandler extends CaptchaHandler {
      * with the given object for checking authenticity during verification. Uses the
      * given String as a source of all possible characters from which the captcha
      * string is to be generated with mixed case.
-     * <p>
      *
-     * @param length        specifies the length
-     * @param cipherHandler {@link CipherHandler} implementation for encryption and
-     *                      decryption
-     * @param saltSource    Object used during creation of the captcha token to
-     *                      ensure authenticity
-     * @param password      the password for encryption
-     * @param textgenerator a {@link CaptchaTextGenerator} implementation
-     * @param renderer      a {@link TextImageRenderer} implementation handling the
-     *                      visualization of the text as image
-     * @param height        the pixel height of the captcha image
-     * @param width         the pixel width of the captcha image
+     * @param length           specifies the length
+     * @param cipherHandler    {@link CipherHandler} implementation for encryption and
+     *                         decryption
+     * @param saltSource       Object used during creation of the captcha token to
+     *                         ensure authenticity
+     * @param password         the password for encryption
+     * @param textgenerator    a {@link CaptchaTextGenerator} implementation
+     * @param renderer         a {@link TextImageRenderer} implementation handling the
+     *                         visualization of the text as image
+     * @param height           the pixel height of the captcha image
+     * @param width            the pixel width of the captcha image
+     * @param addSelfReference boolean to control whether the reference to the encrypting
+     *                         class should be included in the encrypted value
      * @return Captcha object containing the image data of the visual captcha and
      * the token containing the hashed and salted solution
      */
@@ -54,19 +55,21 @@ public interface TextCaptchaHandler extends CaptchaHandler {
      * given String as a source of all possible characters from which the captcha
      * string is to be generated with the specified case.
      *
-     * @param length        specifies the length
-     * @param cipherHandler {@link CipherHandler} implementation for encryption and
-     *                      decryption
-     * @param saltSource    Object used during creation of the captcha token to
-     *                      ensure authenticity
-     * @param password      the password for encryption
-     * @param textgenerator a {@link CaptchaTextGenerator} implementation
-     * @param renderer      a {@link TextImageRenderer} implementation handling the
-     *                      visualization of the text as image
-     * @param charCase      a {@link Case} enum defining what letter case is allowed
-     *                      in the generation
-     * @param height        the pixel height of the captcha image
-     * @param width         the pixel width of the captcha image
+     * @param length           specifies the length
+     * @param cipherHandler    {@link CipherHandler} implementation for encryption and
+     *                         decryption
+     * @param saltSource       Object used during creation of the captcha token to
+     *                         ensure authenticity
+     * @param password         the password for encryption
+     * @param textgenerator    a {@link CaptchaTextGenerator} implementation
+     * @param renderer         a {@link TextImageRenderer} implementation handling the
+     *                         visualization of the text as image
+     * @param charCase         a {@link Case} enum defining what letter case is allowed
+     *                         in the generation
+     * @param height           the pixel height of the captcha image
+     * @param width            the pixel width of the captcha image
+     * @param addSelfReference boolean to control whether the reference to the encrypting
+     *                         class should be included in the encrypted value
      * @return Captcha object containing the image data of the visual captcha and
      * the token containing the hashed and salted solution
      */
@@ -76,18 +79,20 @@ public interface TextCaptchaHandler extends CaptchaHandler {
     /**
      * Generates a captcha from a given string and salt object
      *
-     * @param captchaText   predefined string from which the image and the token are
-     *                      generated
-     * @param cipherHandler {@link CipherHandler} implementation for encryption and
-     *                      decryption
-     * @param saltSource    Object used during creation of the captcha token to
-     *                      ensure authenticity
-     * @param password      the password used to encrypt the implementation
-     *                      reference
-     * @param renderer      a {@link TextImageRenderer} implementation handling the
-     *                      visualization of the text as image
-     * @param height        the pixel height of the captcha image
-     * @param width         the pixel width of the captcha image
+     * @param captchaText      predefined string from which the image and the token are
+     *                         generated
+     * @param cipherHandler    {@link CipherHandler} implementation for encryption and
+     *                         decryption
+     * @param saltSource       Object used during creation of the captcha token to
+     *                         ensure authenticity
+     * @param password         the password used to encrypt the implementation
+     *                         reference
+     * @param renderer         a {@link TextImageRenderer} implementation handling the
+     *                         visualization of the text as image
+     * @param height           the pixel height of the captcha image
+     * @param width            the pixel width of the captcha image
+     * @param addSelfReference boolean to control whether the reference to the encrypting
+     *                         class should be included in the encrypted value
      * @return Captcha object containing the image data of the visual captcha and
      * the token containing the hashed and salted solution
      */

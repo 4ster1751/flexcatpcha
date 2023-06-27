@@ -30,20 +30,22 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
      * otherImages) and uses those values to resize every image to achieve uniform
      * dimensions.
      *
-     * @param gridWidth      The width of the grid of images. The grid is square
-     *                       shaped, so a size of 3 will result in 9 cells making up
-     *                       a grid of 3x3.
-     * @param cipherHandler  {@link CipherHandler} object used to handle the
-     *                       encryption of the token itself and the self reference
-     *                       part inside the token
-     * @param saltSource     A {@link Serializable} used to salt the token.
-     * @param password       the password used to encrypt the implementation
-     *                       reference
-     * @param solutionImages Array of {@link BufferedImage}s used as the correct
-     *                       images in the grid
-     * @param fillImages     Array of {@link BufferedImage}s used as the wrong
-     *                       images in the grid, filling the grid at every position
-     *                       not containing an image from the solutionImages array.
+     * @param gridWidth        The width of the grid of images. The grid is square
+     *                         shaped, so a size of 3 will result in 9 cells making up
+     *                         a grid of 3x3.
+     * @param cipherHandler    {@link CipherHandler} object used to handle the
+     *                         encryption of the token itself and the self reference
+     *                         part inside the token
+     * @param saltSource       A {@link Serializable} used to salt the token.
+     * @param password         the password used to encrypt the implementation
+     *                         reference
+     * @param solutionImages   Array of {@link BufferedImage}s used as the correct
+     *                         images in the grid
+     * @param fillImages       Array of {@link BufferedImage}s used as the wrong
+     *                         images in the grid, filling the grid at every position
+     *                         not containing an image from the solutionImages array.
+     * @param addSelfReference boolean to control whether the reference to the encrypting
+     *                         class should be included in the encrypted value
      * @return {@link ImageCaptcha} object containing the hashed solution and the
      * grid as array of byte arrays.
      */
@@ -69,24 +71,26 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
      * positions of the images that were taken from the solutionImages-Array while
      * all other positions are filled with other images.
      *
-     * @param gridWidth      The width of the grid of images. The grid is square
-     *                       shaped, so a size of 3 will result in 9 cells making up
-     *                       a grid of 3x3.
-     * @param cipherHandler  {@link CipherHandler} object used to handle the
-     *                       encryption of the token itself and the self reference
-     *                       part inside the token
-     * @param saltSource     A {@link Serializable} used to salt the token.
-     * @param password       the password used to encrypt the implementation
-     *                       reference
-     * @param solutionImages Array of {@link BufferedImage}s used as the correct
-     *                       images in the grid
-     * @param fillImages     Array of {@link BufferedImage}s used as the wrong
-     *                       images in the grid, filling the grid at every position
-     *                       not containing an image from the solutionImages array.
-     * @param imageHeight    the height to which every image is resized to fit the
-     *                       grid
-     * @param imageWidth     the width to which every image is resized to fit the
-     *                       grid
+     * @param gridWidth        The width of the grid of images. The grid is square
+     *                         shaped, so a size of 3 will result in 9 cells making up
+     *                         a grid of 3x3.
+     * @param cipherHandler    {@link CipherHandler} object used to handle the
+     *                         encryption of the token itself and the self reference
+     *                         part inside the token
+     * @param saltSource       A {@link Serializable} used to salt the token.
+     * @param password         the password used to encrypt the implementation
+     *                         reference
+     * @param solutionImages   Array of {@link BufferedImage}s used as the correct
+     *                         images in the grid
+     * @param fillImages       Array of {@link BufferedImage}s used as the wrong
+     *                         images in the grid, filling the grid at every position
+     *                         not containing an image from the solutionImages array.
+     * @param imageHeight      the height to which every image is resized to fit the
+     *                         grid
+     * @param imageWidth       the width to which every image is resized to fit the
+     *                         grid
+     * @param addSelfReference boolean to control whether the reference to the encrypting
+     *                         class should be included in the encrypted value
      * @return {@link ImageCaptcha} object containing the hashed solution and the
      * grid as array of byte arrays.
      */

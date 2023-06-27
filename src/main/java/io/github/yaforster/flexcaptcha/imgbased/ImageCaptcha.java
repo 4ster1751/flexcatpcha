@@ -18,7 +18,7 @@ public class ImageCaptcha extends Captcha {
     /**
      * array of byte arrays of the images of the captcha
      */
-    byte[][] imgData;
+    private byte[][] imgData;
 
     /**
      * Creates a new image captcha object and sets its array of image data and the

@@ -28,12 +28,12 @@ public class TwirledTextImageRenderer implements TextImageRenderer {
     /**
      * Set of possible colors of the letters in the captcha image
      */
-    Color[] textCols = new Color[]{Color.blue, Color.red, Color.darkGray, Color.magenta, Color.black};
+    private Color[] textCols = new Color[]{Color.blue, Color.red, Color.darkGray, Color.magenta, Color.black};
     /**
      * Radius integer used for the twirling effect. Higher numbers result in a
      * stronger effect. 10 per default.
      */
-    float twirlStrength = -0.3f;
+    private float twirlStrength = -0.3f;
 
     @Override
     public BufferedImage render(final String captchaTextInput, int height, int width) {
@@ -50,7 +50,7 @@ public class TwirledTextImageRenderer implements TextImageRenderer {
     private BufferedImage applytwirl(BufferedImage image) {
         TwirlFilter filter = new TwirlFilter();
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        float angle = getTwirlStrength();
+        float angle = twirlStrength;
         if (random.nextBoolean()) {
             angle = angle * (-1);
         }

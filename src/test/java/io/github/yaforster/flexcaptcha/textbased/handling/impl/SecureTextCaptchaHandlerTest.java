@@ -13,12 +13,12 @@ import static org.junit.Assert.*;
 
 public class SecureTextCaptchaHandlerTest {
 
-    final SecureTextCaptchaHandler handler = new SecureTextCaptchaHandler();
-    final SimpleCaptchaTextGenerator generator = new SimpleCaptchaTextGenerator();
-    final SimpleTextImageRenderer renderer = new SimpleTextImageRenderer();
-    final CipherHandler cipherHandler = new CipherHandler();
-    final Button dummySerializable = new Button();
-    final String password = "ThisIsMyPassword!";
+    private final SecureTextCaptchaHandler handler = new SecureTextCaptchaHandler();
+    private final SimpleCaptchaTextGenerator generator = new SimpleCaptchaTextGenerator();
+    private final SimpleTextImageRenderer renderer = new SimpleTextImageRenderer();
+    private final CipherHandler cipherHandler = new CipherHandler();
+    private final Button dummySerializable = new Button();
+    private final String password = "ThisIsMyPassword!";
 
     @Test
     public void testGenerateGeneric() {

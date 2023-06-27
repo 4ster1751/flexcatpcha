@@ -24,10 +24,10 @@ import static org.mockito.ArgumentMatchers.anyString;
  */
 public class CaptchaHandlerTest {
 
-    final CipherHandler cipherHandler = getCHMock();
-    final String password = "ThisIsMyPassword";
-    final Button dummyObj = new Button();
-    final CaptchaHandler captchaHandler = makeCaptchaHandler();
+    private final CipherHandler cipherHandler = getCHMock();
+    private final String password = "ThisIsMyPassword";
+    private final Button dummyObj = new Button();
+    private final CaptchaHandler captchaHandler = makeCaptchaHandler();
 
     @Test
     public void testAddSelfReference() {
