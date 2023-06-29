@@ -16,6 +16,7 @@ import java.util.Base64;
  * @author Yannick Forster
  */
 public class Validator {
+    public static final Object[] INITARGS = {};
     /**
      * Log4J Logger
      */
@@ -44,9 +45,9 @@ public class Validator {
             String decryptedName = new String(cipherHandler.decryptString(splitStringBytes, password, saltSource));
             Class<?> handler = Class.forName(decryptedName);
             Constructor<?> constructor = handler.getConstructor();
-            CaptchaHandler instanceOfMyClass = (CaptchaHandler) constructor.newInstance(new Object[]{});
-            return instanceOfMyClass.validate(input, token.split(CaptchaHandler.DELIMITER)[0], cipherHandler,
-                    saltSource, password);
+            CaptchaHandler instanceOfMyClass = (CaptchaHandler) constructor.newInstance(INITARGS);
+            return Boolean.valueOf(instanceOfMyClass.validate(input, token.split(CaptchaHandler.DELIMITER)[0], cipherHandler,
+                    saltSource, password));
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
                  | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             log.fatal(

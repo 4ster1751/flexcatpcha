@@ -32,7 +32,7 @@ public class TextCaptcha extends Captcha {
      */
     public TextCaptcha(byte[] imgData, String token) {
         super(token);
-        this.imgData = imgData;
+        this.imgData = imgData.clone();
     }
 
     /**
@@ -40,7 +40,7 @@ public class TextCaptcha extends Captcha {
      *
      * @return String of the base64-encoded imgData byte-array
      */
-    public String getImgDataAsBase64() {
+    public final String getImgDataAsBase64() {
         if (imgData == null) {
             throw new IllegalStateException("Cannot convert empty image data to string.");
         }

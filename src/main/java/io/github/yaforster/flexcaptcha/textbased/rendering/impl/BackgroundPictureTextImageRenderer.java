@@ -18,7 +18,7 @@ public class BackgroundPictureTextImageRenderer extends SimpleTextImageRenderer 
     private BufferedImage backgroundimg;
 
     @Override
-    public BufferedImage render(final String captchaTextInput, int height, int width) {
+    public final BufferedImage render(final String captchaTextInput, int height, int width) {
         if (StringUtils.isEmpty(captchaTextInput)) {
             throw new IllegalArgumentException("The specified captcha string is empty.");
         }

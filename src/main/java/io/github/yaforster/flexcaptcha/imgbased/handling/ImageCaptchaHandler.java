@@ -106,7 +106,7 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
     private int getLargestHeight(BufferedImage[] allImages) {
         Optional<BufferedImage> greatestHeight = Stream.of(allImages)
                 .max(Comparator.comparing(BufferedImage::getHeight));
-        return greatestHeight.map(BufferedImage::getHeight).orElse(Optional.of(allImages[0].getWidth()).orElse(100));
+        return greatestHeight.map(BufferedImage::getHeight).orElse(Optional.of(Integer.valueOf(allImages[0].getWidth())).orElse(Integer.valueOf(100))).intValue();
         /* Fallback in case comparing the images does not work. */
     }
 
@@ -118,7 +118,7 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
      */
     private int getLargestWidth(BufferedImage[] allImages) {
         Optional<BufferedImage> greatestWidth = Stream.of(allImages).max(Comparator.comparing(BufferedImage::getWidth));
-        return greatestWidth.map(BufferedImage::getWidth).orElse(Optional.of(allImages[0].getWidth()).orElse(100));
+        return greatestWidth.map(BufferedImage::getWidth).orElse(Optional.of(Integer.valueOf(allImages[0].getWidth())).orElse(Integer.valueOf(100))).intValue();
         /* Fallback in case comparing the images does not work. */
     }
 

@@ -63,8 +63,11 @@ public class SecureTextCaptchaHandler implements TextCaptchaHandler {
                             String password) {
         byte[] decoded = Base64.getDecoder().decode(token);
         byte[] decryptedToken = cipherHandler.decryptString(decoded, password, saltSource);
-        return answer.equals(new String(decryptedToken));
-
+        if (decryptedToken != null) {
+            return answer.equals(new String(decryptedToken));
+        } else {
+            return false;
+        }
     }
 
 }

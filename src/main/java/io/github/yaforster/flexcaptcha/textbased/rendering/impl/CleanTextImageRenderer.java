@@ -74,10 +74,10 @@ public class CleanTextImageRenderer implements TextImageRenderer {
         FontMetrics fontMetrics = graphic.getFontMetrics();
         int margin = image.getWidth() / 16;
         int chars = captchaTextInput.length();
-        float spaceForLetters = -margin * 2 + image.getWidth();
+        float spaceForLetters = (-margin << 1) + image.getWidth();
         float spacePerChar = spaceForLetters / (chars - 1.0f);
         IntStream.range(0, chars).boxed().forEachOrdered(i -> {
-            char charToDraw = captchaTextInput.charAt(i);
+            char charToDraw = captchaTextInput.charAt(i.intValue());
             drawCharacter(image, textFont, fontMetrics, margin, spacePerChar, i, charToDraw);
         });
     }
@@ -112,7 +112,7 @@ public class CleanTextImageRenderer implements TextImageRenderer {
         int charX = (int) (0.5 * charDim - 0.5 * charWidth);
         charGraphics.drawString(String.valueOf(charToDraw), charX,
                 (charDim - fontMetrics.getAscent()) / 2 + fontMetrics.getAscent());
-        float x = margin + spacePerChar * (index) - charDim / 2.0f;
+        float x = margin + spacePerChar * (index.floatValue()) - charDim / 2.0f;
         int y = (image.getHeight() - charDim) / 2;
         image.createGraphics().drawImage(charImage, (int) x, y, charDim, charDim, null, null);
         charGraphics.dispose();

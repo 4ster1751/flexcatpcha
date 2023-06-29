@@ -56,7 +56,7 @@ public class SimpleCaptchaTextGenerator implements CaptchaTextGenerator {
      * selected set of characters from the given string
      */
     private String getRandomLetters(int length, String characterbase, Case charCase) {
-        StringBuffer charbuf = new StringBuffer();
+        StringBuffer charbuf = new StringBuffer(0);
         IntStream.range(0, length).forEach(i -> {
             char c = pickRandomChar(characterbase);
             c = setCase(charCase, c);

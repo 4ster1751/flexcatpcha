@@ -1,4 +1,4 @@
-package io.github.yaforster.flexcaptcha.imgbased.handling.impl;
+package io.github.yaforster.flexcaptcha.imgbased;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -43,7 +43,7 @@ public class ImageLoader {
      * @return Array of {@link BufferedImage}s loaded from the directory
      * @throws NotDirectoryException if the specified Path is no directory.
      */
-    public BufferedImage[] getImagesfromPath(String dirPath) throws NotDirectoryException {
+    public final BufferedImage[] getImagesfromPath(String dirPath) throws NotDirectoryException {
         File dir = new File(dirPath);
         if (!dir.isDirectory()) {
             throw new NotDirectoryException(dirPath);

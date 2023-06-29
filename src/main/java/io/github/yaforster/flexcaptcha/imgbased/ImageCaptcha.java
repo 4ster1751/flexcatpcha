@@ -29,6 +29,6 @@ public class ImageCaptcha extends Captcha {
      */
     public ImageCaptcha(byte[][] imgData, String token) {
         super(token);
-        this.imgData = imgData;
+        this.imgData = imgData.clone();
     }
 }
