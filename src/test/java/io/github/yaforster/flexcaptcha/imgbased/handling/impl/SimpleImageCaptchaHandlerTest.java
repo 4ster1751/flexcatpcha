@@ -88,8 +88,7 @@ public class SimpleImageCaptchaHandlerTest {
 
     private BufferedImage[] getResizedImages(ImageCaptcha captcha) {
         return Stream.of(captcha.getImgData()).map(data -> {
-            try {
-                ByteArrayInputStream stream = new ByteArrayInputStream(data);
+            try (ByteArrayInputStream stream = new ByteArrayInputStream(data)) {
                 return ImageIO.read(stream);
             } catch (IOException e) {
                 e.printStackTrace();

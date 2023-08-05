@@ -45,6 +45,56 @@ public class CipherHandler {
     private final Logger log = LogManager.getLogger(CipherHandler.class);
 
     /**
+     * Gets the byte array of the salt source object
+     *
+     * @param saltSource object to be used as salt
+     * @return byte array of the given object
+     */
+    private static byte[] getSaltBytes(Serializable saltSource) throws IOException {
+        byte[] saltBytes;
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); ObjectOutputStream out = new ObjectOutputStream(bos)) {
+            out.writeObject(saltSource);
+            saltBytes = bos.toByteArray();
+            return saltBytes;
+        }
+    }
+
+    /**
+     * generates a new initialization vector as randomized 16 bytes and returns it
+     * as {@link IvParameterSpec}
+     *
+     * @return randomized {@link IvParameterSpec}
+     */
+    public IvParameterSpec generateIV() {
+        byte[] iv = new byte[16];
+        new SecureRandom().nextBytes(iv);
+        return new IvParameterSpec(iv);
+    }
+
+    /**
+     * Generates and configures the {@link Cipher} object used for encryption and
+     * decryption.
+     *
+     * @param password   the password used for encryption
+     * @param saltSource a Serializable object used as salt
+     * @param mode       specifies whether the cipher will encrypt or decrypt
+     * @param ivBytes    the initialization vector
+     * @return configured Cipher object
+     */
+    private Cipher getCipher(String password, Serializable saltSource, int mode, byte[] ivBytes)
+            throws NoSuchAlgorithmException, NoSuchPaddingException, IOException, InvalidKeySpecException,
+            InvalidKeyException, InvalidAlgorithmParameterException {
+        IvParameterSpec iv = new IvParameterSpec(ivBytes);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance(ALGORITHM);
+        Cipher cipher = Cipher.getInstance(CIPERALGORITHM);
+        byte[] saltBytes = getSaltBytes(saltSource);
+        KeySpec ks = new PBEKeySpec(password.toCharArray(), saltBytes, 65536, 256);
+        SecretKey key = new SecretKeySpec(factory.generateSecret(ks).getEncoded(), AES);
+        cipher.init(mode, key, iv);
+        return cipher;
+    }
+
+    /**
      * Encrypts a given String with a password and a salt source. To encrypt it, an
      * initialization vector is generated and used to encrypt the string. The
      * initialization vector is then put in front of the encrypted byte array for
@@ -77,10 +127,9 @@ public class CipherHandler {
         if (StringUtils.isEmpty(password)) {
             throw new IllegalArgumentException("The supplied password is empty or null. Encryption can not proceed.");
         }
-        try {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             Cipher cipher = getCipher(password, saltSource, Cipher.ENCRYPT_MODE, ivBytes);
             byte[] cipherBytes = cipher.doFinal(input);
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             outputStream.write(ivBytes);
             outputStream.write(cipherBytes);
             return outputStream.toByteArray();
@@ -127,58 +176,6 @@ public class CipherHandler {
             log.fatal("Fatal error during token decryption: " + e.getLocalizedMessage());
         }
         return null;
-    }
-
-    /**
-     * Generates and configures the {@link Cipher} object used for encryption and
-     * decryption.
-     *
-     * @param password   the password used for encryption
-     * @param saltSource a Serializable object used as salt
-     * @param mode       specifies whether the cipher will encrypt or decrypt
-     * @param ivBytes    the initialization vector
-     * @return configured Cipher object
-     */
-    private Cipher getCipher(String password, Serializable saltSource, int mode, byte[] ivBytes)
-            throws NoSuchAlgorithmException, NoSuchPaddingException, IOException, InvalidKeySpecException,
-            InvalidKeyException, InvalidAlgorithmParameterException {
-        IvParameterSpec iv = new IvParameterSpec(ivBytes);
-        SecretKeyFactory factory = SecretKeyFactory.getInstance(ALGORITHM);
-        Cipher cipher = Cipher.getInstance(CIPERALGORITHM);
-        byte[] saltBytes = getSaltBytes(saltSource);
-        KeySpec ks = new PBEKeySpec(password.toCharArray(), saltBytes, 65536, 256);
-        SecretKey key = new SecretKeySpec(factory.generateSecret(ks).getEncoded(), AES);
-        cipher.init(mode, key, iv);
-        return cipher;
-    }
-
-    /**
-     * Gets the byte array of the salt source object
-     *
-     * @param saltSource object to be used as salt
-     * @return byte array of the given object
-     */
-    private byte[] getSaltBytes(Serializable saltSource) throws IOException {
-        byte[] saltBytes;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out;
-        out = new ObjectOutputStream(bos);
-        out.writeObject(saltSource);
-        out.flush();
-        saltBytes = bos.toByteArray();
-        return saltBytes;
-    }
-
-    /**
-     * generates a new initialization vector as randomized 16 bytes and returns it
-     * as {@link IvParameterSpec}
-     *
-     * @return randomized {@link IvParameterSpec}
-     */
-    public final IvParameterSpec generateIV() {
-        byte[] iv = new byte[16];
-        new SecureRandom().nextBytes(iv);
-        return new IvParameterSpec(iv);
     }
 
 }

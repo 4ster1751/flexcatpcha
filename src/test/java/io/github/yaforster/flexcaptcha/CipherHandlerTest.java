@@ -90,7 +90,7 @@ public class CipherHandlerTest {
 
     @Test
     public void testGenerateIV_ShouldWork() {
-        byte[] iv = ch.generateIV().getIV();
+        byte[] iv = new CipherHandler().generateIV().getIV();
         assertEquals(16, iv.length);
     }
 

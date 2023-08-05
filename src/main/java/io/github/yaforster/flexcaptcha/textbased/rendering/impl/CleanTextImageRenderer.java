@@ -77,7 +77,7 @@ public class CleanTextImageRenderer implements TextImageRenderer {
         float spaceForLetters = (-margin << 1) + image.getWidth();
         float spacePerChar = spaceForLetters / (chars - 1.0f);
         IntStream.range(0, chars).boxed().forEachOrdered(i -> {
-            char charToDraw = captchaTextInput.charAt(i.intValue());
+            char charToDraw = captchaTextInput.charAt(i);
             drawCharacter(image, textFont, fontMetrics, margin, spacePerChar, i, charToDraw);
         });
     }

@@ -111,11 +111,8 @@ public interface CaptchaHandler {
      * @return byte array of the object
      */
     default byte[] getSaltObjectBytes(Serializable saltSource) {
-        ByteArrayOutputStream baos;
-        ObjectOutputStream oos;
-        try {
-            baos = new ByteArrayOutputStream();
-            oos = new ObjectOutputStream(baos);
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(baos)) {
             oos.writeObject(saltSource);
             baos.close();
             oos.close();

@@ -39,6 +39,25 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
     private final Logger log = LogManager.getLogger(SimpleImageCaptchaHandler.class);
 
     /**
+     * Resizes all images to the height and width specified
+     *
+     * @param allImages The {@link BufferedImage}s to resize
+     * @param height    the target height to resize
+     * @param width     the target width to resize
+     * @return array of resized {@link BufferedImage}s
+     */
+    private static BufferedImage[] resizeImages(BufferedImage[] allImages, int height, int width) {
+        return Stream.of(allImages).map(img -> {
+            Image imageObj = img.getScaledInstance(width, height, img.getType());
+            BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = dimg.createGraphics();
+            g2d.drawImage(imageObj, 0, 0, null);
+            g2d.dispose();
+            return dimg;
+        }).toArray(BufferedImage[]::new);
+    }
+
+    /**
      * Generates the image captcha. Randomizes a grid layout with the images taken
      * from solutionImages and otherImages
      */
@@ -63,7 +82,7 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
         fillImages = resizeImages(fillImages, height, width);
         byte[][] gridData = new byte[gridWidth * gridWidth][];
         int halfGrid = Double.valueOf(Math.ceil(gridData.length / 2f)).intValue();
-        int[] gridIndices = IntStream.range(0, gridData.length).boxed().mapToInt(i -> i).toArray();
+        int[] gridIndices = IntStream.range(0, gridData.length).boxed().mapToInt(Integer::intValue).toArray();
         ArrayUtils.shuffle(gridIndices);
         int[] solutionIndices = Arrays.copyOfRange(gridIndices, 0, halfGrid);
         Arrays.sort(solutionIndices);
@@ -78,25 +97,6 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
     @Override
     public boolean validate(String answer, String token, CipherHandler cipherHandler, Serializable saltSource, String password) {
         return token.split(DELIMITER)[0].equals(makeToken(answer, saltSource));
-    }
-
-    /**
-     * Resizes all images to the height and width specified
-     *
-     * @param allImages The {@link BufferedImage}s to resize
-     * @param height    the target height to resize
-     * @param width     the target width to resize
-     * @return array of resized {@link BufferedImage}s
-     */
-    private BufferedImage[] resizeImages(BufferedImage[] allImages, int height, int width) {
-        return Stream.of(allImages).map(img -> {
-            Image imageObj = img.getScaledInstance(width, height, img.getType());
-            BufferedImage dimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2d = dimg.createGraphics();
-            g2d.drawImage(imageObj, 0, 0, null);
-            g2d.dispose();
-            return dimg;
-        }).toArray(BufferedImage[]::new);
     }
 
     /**
@@ -145,10 +145,9 @@ public class SimpleImageCaptchaHandler implements ImageCaptchaHandler {
     private byte[][] fillGridWithImages(byte[][] gridData, BufferedImage[] imagesToAdd, int[] indicesToFill) {
         if (gridData != null) {
             IntStream.of(indicesToFill).forEach(i -> {
-                try {
+                try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
                     int rndIndex = ThreadLocalRandom.current().nextInt(imagesToAdd.length);
                     BufferedImage solutionImg = imagesToAdd[rndIndex];
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     ImageIO.write(solutionImg, IMG_FORMAT, bos);
                     byte[] bytes = bos.toByteArray();
                     gridData[i] = bytes;

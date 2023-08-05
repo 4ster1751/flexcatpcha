@@ -27,6 +27,7 @@ import static org.mockito.ArgumentMatchers.anyString;
  *
  * @author Yannick Forster
  */
+@SuppressWarnings("ZeroLengthArrayAllocation")
 public class ImageCaptchaHandlerTest {
 
     private final ImageCaptchaHandler handler = new SimpleImageCaptchaHandler();
@@ -103,8 +104,7 @@ public class ImageCaptchaHandlerTest {
         BufferedImage[] images = new BufferedImage[]{smallImage, largeImage};
         ImageCaptcha captcha = handler.generate(2, cipherHandler, dummySerializable, password, images, images, true);
         BufferedImage[] resizedImages = Stream.of(captcha.getImgData()).map(data -> {
-            try {
-                ByteArrayInputStream stream = new ByteArrayInputStream(data);
+            try (ByteArrayInputStream stream = new ByteArrayInputStream(data)) {
                 return ImageIO.read(stream);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -122,8 +122,7 @@ public class ImageCaptchaHandlerTest {
         BufferedImage[] images = new BufferedImage[]{smallImage, largeImage};
         ImageCaptcha captcha = handler.generate(2, cipherHandler, dummySerializable, password, images, images, true);
         BufferedImage[] resizedImages = Stream.of(captcha.getImgData()).map(data -> {
-            try {
-                ByteArrayInputStream stream = new ByteArrayInputStream(data);
+            try (ByteArrayInputStream stream = new ByteArrayInputStream(data)) {
                 return ImageIO.read(stream);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -141,8 +140,7 @@ public class ImageCaptchaHandlerTest {
         BufferedImage[] images = new BufferedImage[]{smallImage, largeImage};
         ImageCaptcha captcha = handler.generate(2, cipherHandler, dummySerializable, password, images, images, true);
         BufferedImage[] resizedImages = Stream.of(captcha.getImgData()).map(data -> {
-            try {
-                ByteArrayInputStream stream = new ByteArrayInputStream(data);
+            try (ByteArrayInputStream stream = new ByteArrayInputStream(data)) {
                 return ImageIO.read(stream);
             } catch (IOException e) {
                 e.printStackTrace();

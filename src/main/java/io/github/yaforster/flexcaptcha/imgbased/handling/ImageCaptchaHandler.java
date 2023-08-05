@@ -21,6 +21,31 @@ import java.util.stream.Stream;
 public interface ImageCaptchaHandler extends CaptchaHandler {
 
     /**
+     * Gets the largest height out of all the {@link BufferedImage}s
+     *
+     * @param allImages array of {@link BufferedImage}s to check
+     * @return int the height of the image with the largest height
+     */
+    private static int getLargestHeight(BufferedImage[] allImages) {
+        Optional<BufferedImage> greatestHeight = Stream.of(allImages)
+                .max(Comparator.comparing(BufferedImage::getHeight));
+        return greatestHeight.map(BufferedImage::getHeight).orElse(Optional.of(allImages[0].getWidth()).orElse(100));
+        /* Fallback in case comparing the images does not work. */
+    }
+
+    /**
+     * Gets the largest width out of all the {@link BufferedImage}s
+     *
+     * @param allImages array of {@link BufferedImage}s to check
+     * @return int the width of the image with the largest width
+     */
+    private static int getLargestWidth(BufferedImage[] allImages) {
+        Optional<BufferedImage> greatestWidth = Stream.of(allImages).max(Comparator.comparing(BufferedImage::getWidth));
+        return greatestWidth.map(BufferedImage::getWidth).orElse(Optional.of(allImages[0].getWidth()).orElse(100));
+        /* Fallback in case comparing the images does not work. */
+    }
+
+    /**
      * /** Generates an image-based captcha, forming a square-shaped grid with the
      * height being the same as the grid width. The captcha will contain the byte
      * data of the pictures in the grid, with the token being formed from the
@@ -96,30 +121,5 @@ public interface ImageCaptchaHandler extends CaptchaHandler {
      */
     ImageCaptcha generate(int gridWidth, CipherHandler cipherHandler, Serializable saltSource, String password,
                           BufferedImage[] solutionImages, BufferedImage[] fillImages, int imageHeight, int imageWidth, boolean addSelfReference);
-
-    /**
-     * Gets the largest height out of all the {@link BufferedImage}s
-     *
-     * @param allImages array of {@link BufferedImage}s to check
-     * @return int the height of the image with the largest height
-     */
-    private int getLargestHeight(BufferedImage[] allImages) {
-        Optional<BufferedImage> greatestHeight = Stream.of(allImages)
-                .max(Comparator.comparing(BufferedImage::getHeight));
-        return greatestHeight.map(BufferedImage::getHeight).orElse(Optional.of(Integer.valueOf(allImages[0].getWidth())).orElse(Integer.valueOf(100))).intValue();
-        /* Fallback in case comparing the images does not work. */
-    }
-
-    /**
-     * Gets the largest width out of all the {@link BufferedImage}s
-     *
-     * @param allImages array of {@link BufferedImage}s to check
-     * @return int the width of the image with the largest width
-     */
-    private int getLargestWidth(BufferedImage[] allImages) {
-        Optional<BufferedImage> greatestWidth = Stream.of(allImages).max(Comparator.comparing(BufferedImage::getWidth));
-        return greatestWidth.map(BufferedImage::getWidth).orElse(Optional.of(Integer.valueOf(allImages[0].getWidth())).orElse(Integer.valueOf(100))).intValue();
-        /* Fallback in case comparing the images does not work. */
-    }
 
 }

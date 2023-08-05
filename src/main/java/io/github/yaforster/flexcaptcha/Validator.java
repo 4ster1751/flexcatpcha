@@ -1,5 +1,6 @@
 package io.github.yaforster.flexcaptcha;
 
+import lombok.NonNull;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,25 +38,28 @@ public class Validator {
      * @return {@link Boolean} of the validation result. null if the validation
      * encountered a problem.
      */
-    public Boolean validateInput(String input, CipherHandler cipherHandler, String token, Serializable saltSource,
-                                 String password) {
+    public Boolean validateInput(@NonNull final String input, @NonNull final CipherHandler cipherHandler, @NonNull final String token, @NonNull final Serializable saltSource,
+                                 @NonNull final String password) {
         try {
             String splitString = token.split(CaptchaHandler.DELIMITER)[1];
             byte[] splitStringBytes = Base64.getDecoder().decode(splitString);
-            String decryptedName = new String(cipherHandler.decryptString(splitStringBytes, password, saltSource));
-            Class<?> handler = Class.forName(decryptedName);
-            Constructor<?> constructor = handler.getConstructor();
-            CaptchaHandler instanceOfMyClass = (CaptchaHandler) constructor.newInstance(INITARGS);
-            return Boolean.valueOf(instanceOfMyClass.validate(input, token.split(CaptchaHandler.DELIMITER)[0], cipherHandler,
-                    saltSource, password));
+            byte[] decryptedBytes = cipherHandler.decryptString(splitStringBytes, password, saltSource);
+            if (decryptedBytes != null) {
+                String decryptedName = new String(decryptedBytes);
+                Class<?> handler = Class.forName(decryptedName);
+                Constructor<?> constructor = handler.getConstructor();
+                CaptchaHandler instanceOfMyClass = (CaptchaHandler) constructor.newInstance(INITARGS);
+                return instanceOfMyClass.validate(input, token.split(CaptchaHandler.DELIMITER)[0], cipherHandler,
+                        saltSource, password);
+            }
         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
                  | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             log.fatal(
                     "Could not instantiate CaptchaHandler implementation from decrypted token. Validation can not proceed.");
             e.printStackTrace();
-            return null;
-        }
 
+        }
+        return null;
     }
 
 }

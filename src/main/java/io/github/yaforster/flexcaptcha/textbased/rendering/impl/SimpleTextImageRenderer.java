@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.security.SecureRandom;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
@@ -82,10 +83,11 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
      */
     protected void drawDistortions(int height, int width, Graphics2D graphic) {
         graphic.setColor(distortCol);
+        SecureRandom rnd = new SecureRandom();
         for (int i = 0; i < width / 64; i++) {
-            int L = (int) (Math.random() * height / 2.0);
-            int X = (int) (Math.random() * width - L);
-            int Y = (int) (Math.random() * height - L);
+            int L = (int) (rnd.nextDouble() * height / 2.0);
+            int X = (int) (rnd.nextDouble() * width - L);
+            int Y = (int) (rnd.nextDouble() * height - L);
             graphic.draw3DRect(X, Y, L << 1, L << 1, true);
         }
         Color darkerBackgrnd = backgrndCol.darker();
@@ -117,7 +119,7 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
         float spaceForLetters = (-margin << 1) + image.getWidth();
         float spacePerChar = spaceForLetters / (chars - 1.0f);
         IntStream.range(0, chars).boxed().forEachOrdered(i -> {
-            char charToDraw = captchaTextInput.charAt(i.intValue());
+            char charToDraw = captchaTextInput.charAt(i);
             drawCharacter(image, textFont, fontMetrics, margin, spacePerChar, i, charToDraw);
         });
     }
@@ -146,7 +148,7 @@ public class SimpleTextImageRenderer implements TextImageRenderer {
         BufferedImage charImage = new BufferedImage(charDim, charDim, BufferedImage.TYPE_INT_ARGB);
         Graphics2D charGraphics = charImage.createGraphics();
         charGraphics.translate(halfCharDim, halfCharDim);
-        double angle = (Math.random() - 0.5) * maxrotateAngle;
+        double angle = (new SecureRandom().nextDouble() - 0.5) * maxrotateAngle;
         charGraphics.transform(AffineTransform.getRotateInstance(angle));
         charGraphics.translate(-halfCharDim, -halfCharDim);
         charGraphics.setColor(pickRandomColor(textCols));

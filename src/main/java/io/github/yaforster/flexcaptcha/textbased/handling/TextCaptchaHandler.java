@@ -107,8 +107,7 @@ public interface TextCaptchaHandler extends CaptchaHandler {
      * @return byte array of the image
      */
     default byte[] convertImageToByteArray(BufferedImage image, String imgFormat) {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             ImageIO.write(image, imgFormat, bos);
             return bos.toByteArray();
         } catch (final IOException e) {

@@ -38,9 +38,8 @@ public class CaptchaHandlerTest {
 
     @Test
     public void testGetSaltObjectBytes() {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos);
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(baos)) {
             oos.writeObject(dummyObj);
             baos.close();
             oos.close();
