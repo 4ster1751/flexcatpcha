@@ -35,7 +35,7 @@ public class CaptchaRenderer extends AbstractCaptchaRenderer {
     /**
      * Defines the maximum angle that can be used to rotate a single character in the captcha
      */
-    private final Double maxrotateAngle;
+    private final Double maximumLetterRotationAngle;
     /**
      * String name of the font to be used when writing characters to the image
      */
@@ -55,16 +55,14 @@ public class CaptchaRenderer extends AbstractCaptchaRenderer {
 
     @Builder
     public CaptchaRenderer(int pictureHeight, int pictureWidth, List<Color> availableTextColors, String imgFileFormat
-            , Double maxrotateAngle, String fontName, List<AbstractBufferedImageOp> imageOperationsList,
+            , Double maximumLetterRotationAngle, String fontName, List<AbstractBufferedImageOp> imageOperationsList,
                            AbstractCaptchaImageBackground imageBackground, NoiseSettings noiseSettings) {
         super(getPictureHeightOrDefault(pictureHeight), getPictureWidthOrDefault(pictureWidth),
-                (availableTextColors == null || availableTextColors.isEmpty()) ?
-                        Collections.singletonList(Color.BLACK) : availableTextColors,
-                StringUtils.isBlank(imgFileFormat) ? DEFAULT_IMAGE_FORMAT : imgFileFormat);
-        this.maxrotateAngle = Optional.ofNullable(maxrotateAngle).orElse(DEFAULT_MAX_LETTER_ROTATION_ANGLE);
-        this.fontName = StringUtils.isBlank(fontName) ? DEFAULT_FONT : fontName;
-        this.imageOperationsList = Optional.ofNullable(imageOperationsList).orElse(Collections.emptyList());
-        this.imageBackground = Optional.ofNullable(imageBackground).orElse(DEFAULT_BACKGROUND);
+                getAvailableTextColorsOrDefault(availableTextColors), getImageFileFormatOrDefault(imgFileFormat));
+        this.maximumLetterRotationAngle = getMaximumLetterRotationAngleOrDefault(maximumLetterRotationAngle);
+        this.fontName = getFontNameOrDefault(fontName);
+        this.imageOperationsList = getImageOperationsListOrDefault(imageOperationsList);
+        this.imageBackground = getImageBackgroundOrDefault(imageBackground);
         this.noiseSettings = getNoiseSettingsOrDefault(noiseSettings);
     }
 
@@ -80,6 +78,31 @@ public class CaptchaRenderer extends AbstractCaptchaRenderer {
      */
     private static int getPictureWidthOrDefault(int pictureWidth) {
         return pictureWidth != 0 ? pictureWidth : DEFAULT_PICTURE_WIDTH;
+    }
+
+    private static List<Color> getAvailableTextColorsOrDefault(List<Color> availableTextColors) {
+        return (availableTextColors == null || availableTextColors.isEmpty()) ?
+                Collections.singletonList(Color.BLACK) : availableTextColors;
+    }
+
+    private static String getImageFileFormatOrDefault(String imgFileFormat) {
+        return StringUtils.isBlank(imgFileFormat) ? DEFAULT_IMAGE_FORMAT : imgFileFormat;
+    }
+
+    private static Double getMaximumLetterRotationAngleOrDefault(Double maxrotateAngle) {
+        return Optional.ofNullable(maxrotateAngle).orElse(DEFAULT_MAX_LETTER_ROTATION_ANGLE);
+    }
+
+    private static String getFontNameOrDefault(String fontName) {
+        return StringUtils.isBlank(fontName) ? DEFAULT_FONT : fontName;
+    }
+
+    private static List<AbstractBufferedImageOp> getImageOperationsListOrDefault(List<AbstractBufferedImageOp> imageOperationsList) {
+        return Optional.ofNullable(imageOperationsList).orElse(Collections.emptyList());
+    }
+
+    private static AbstractCaptchaImageBackground getImageBackgroundOrDefault(AbstractCaptchaImageBackground imageBackground) {
+        return Optional.ofNullable(imageBackground).orElse(DEFAULT_BACKGROUND);
     }
 
     /**
@@ -254,7 +277,7 @@ public class CaptchaRenderer extends AbstractCaptchaRenderer {
     }
 
     private double getRandomAngleWithinMaximumBounds() {
-        return (new SecureRandom().nextDouble() - 0.5) * maxrotateAngle;
+        return (new SecureRandom().nextDouble() - 0.5) * maximumLetterRotationAngle;
     }
 
 

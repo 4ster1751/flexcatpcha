@@ -21,9 +21,16 @@ public class CaptchaCipher extends AbstractCaptchaCipher {
     @Builder
     private CaptchaCipher(CipherSettings cipherSettings, String encryptionPassword,
                           ExpirationTimeSettings expirationTimeSettings) {
-        super(Optional.ofNullable(cipherSettings)
-                .orElse(CipherSettings.getDefaultCipherSettings()), Optional.ofNullable(encryptionPassword)
-                .orElse(StringUtils.EMPTY), expirationTimeSettings);
+        super(getCipherSettingsOrDefault(cipherSettings), getEncryptionPasswordOrDefault(encryptionPassword),
+                expirationTimeSettings);
+    }
+
+    private static CipherSettings getCipherSettingsOrDefault(CipherSettings cipherSettings) {
+        return Optional.ofNullable(cipherSettings).orElse(CipherSettings.getDefaultCipherSettings());
+    }
+
+    private static String getEncryptionPasswordOrDefault(String encryptionPassword) {
+        return Optional.ofNullable(encryptionPassword).orElse(StringUtils.EMPTY);
     }
 
     @Override
