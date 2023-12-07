@@ -4,7 +4,7 @@
     <Configuration status="DEBUG">
         <Appenders>
             <Console name="Console" target="SYSTEM_OUT"/>
-            <File name="FlexCaptcha" fileName="flexcaptcha.log"/>
+            <File fileName="flexcaptcha.log" name="FlexCaptcha"/>
         </Appenders>
         <Loggers>
             <Root level="debug">
