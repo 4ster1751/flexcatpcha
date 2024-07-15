@@ -23,6 +23,7 @@ through [https://github.com/ajmas/JH-Labs-Java-Image-Filters](https://github.com
         Captcha captcha=generator.generate(solution,salt);
 ```
 A Captcha generated this way is very basic and not obscured:
+
 ![captcha_default](https://github.com/user-attachments/assets/4f900f55-7a40-477a-8b7d-ec73f10ac343)
 
 With the predefined builders, captcha image generation can be further modified to obscure the image, set colors, font, image file format, background and captcha character colors:
@@ -33,7 +34,9 @@ AbstractCaptchaRenderer renderer = CaptchaRenderer.builder()
                 .build();
 ```
 Outputs:
+
 ![captcha_basic](https://github.com/user-attachments/assets/0a843e0d-1bb6-40e6-86ef-28f39c2930ce)
+
 
 Alternatively, an arbitrary chain of effects can be used to further manipulate the rendered image:
 
@@ -60,7 +63,9 @@ TwirlFilter filter = new TwirlFilter();
         Captcha captcha = generator.generate(solution, salt);
 ```
 Resulting in:
+
 ![captcha_customized](https://github.com/user-attachments/assets/cc66d21f-c310-4afc-97f3-87daf19b940e)
+
 
 ```
 <dependency>
